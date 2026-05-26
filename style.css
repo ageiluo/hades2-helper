@@ -1018,7 +1018,6 @@ select:focus, select:hover {
   padding: 15px;
   border-radius: 16px;
   border: 1px solid var(--border-color);
-  aspect-ratio: 1;
 }
 
 .arcana-card-item {
