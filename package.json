@@ -1,0 +1,16 @@
+{
+  "name": "hades2-helper",
+  "version": "1.0.0",
+  "description": "黑帝斯2 冥府構築助手 (Hades II Build Assistant)",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx -y serve ./"
+  },
+  "keywords": [
+    "hades2",
+    "build-planner",
+    "helper"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}

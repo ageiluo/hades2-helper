@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《黑帝斯2》冥府構築助手 - Hades II Build Assistant</title>
+  <meta name="description" content="專為《黑帝斯2》玩家設計的互動式神恩構築模擬、雙重與傳奇神恩解鎖前置路徑檢索、冥府奧秘牌搭配規劃器。支持「源頭」雙重狀態詛咒判定，助你輕鬆搭配最強冥府Build。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <!-- 頂部標題區 -->
+    <header>
+      <div class="logo-container">
+        <h1 id="app-main-title">Hades II Build Assistant</h1>
+        <div class="subtitle">黑帝斯2 冥府構築助手</div>
+      </div>
+    </header>
+
+    <!-- 導覽標籤頁 -->
+    <nav class="tabs-navigation" role="tablist">
+      <button class="tab-btn active" id="tab-btn-planner" role="tab" aria-selected="true" aria-controls="panel-planner">
+        🔮 構築規劃器
+      </button>
+      <button class="tab-btn" id="tab-btn-database" role="tab" aria-selected="false" aria-controls="panel-database">
+        📖 神恩百科 & 解鎖路徑
+      </button>
+      <button class="tab-btn" id="tab-btn-arcana" role="tab" aria-selected="false" aria-controls="panel-arcana">
+        🎴 奧秘牌配置器
+      </button>
+      <button class="tab-btn" id="tab-btn-guides" role="tab" aria-selected="false" aria-controls="panel-guides">
+        🏆 神級流派推薦
+      </button>
+    </nav>
+
+    <!-- ==========================================
+         TAB 1: 構築規劃器 Panel
+         ========================================== -->
+    <main class="tab-panel active" id="panel-planner" role="tabpanel" aria-labelledby="tab-btn-planner">
+      <div class="planner-grid">
+        
+        <!-- 左側：槽位裝配區 -->
+        <div class="panel">
+          <div class="panel-title">
+            <span>🛡️ 裝配核心配置</span>
+            <button class="filter-btn" id="btn-reset-planner" style="font-size: 0.8rem; padding: 4px 10px;">重置全部</button>
+          </div>
+          
+          <div class="slots-container">
+            <!-- 武器與基底選擇 -->
+            <div class="weapon-select-row">
+              <div class="form-group">
+                <label for="select-weapon">選擇武器</label>
+                <select id="select-weapon">
+                  <option value="witch_staff">巫師之杖 (Witch's Staff)</option>
+                  <option value="sister_blades">姊妹雙刀 (Sister Blades)</option>
+                  <option value="umbral_flames">暗影之火 (Umbral Flames)</option>
+                  <option value="moonstone_axe">月長石巨斧 (Moonstone Axe)</option>
+                  <option value="argent_skull">白銀骷髏 (Argent Skull)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="select-aspect">選擇武器基底</label>
+                <select id="select-aspect">
+                  <option value="melinoe">梅莉諾雅基底 (Aspect of Melinoë)</option>
+                  <option value="artemis">阿爾忒彌斯基底 (Aspect of Artemis)</option>
+                  <option value="charon">卡戎基底 (Aspect of Charon)</option>
+                  <option value="medea">美狄亞基底 (Aspect of Medea)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- 五個核心神恩裝配槽位 -->
+            <div class="boon-slot" id="slot-Attack" data-slot="Attack">
+              <div class="slot-icon-label">
+                <span class="slot-name">Attack</span>
+                <span class="slot-type-zh">普通攻擊</span>
+              </div>
+              <div class="slot-content-area" id="slot-Attack-content">
+                <span class="slot-empty-text">點擊裝配普通攻擊神恩...</span>
+              </div>
+            </div>
+
+            <div class="boon-slot" id="slot-Special" data-slot="Special">
+              <div class="slot-icon-label">
+                <span class="slot-name">Special</span>
+                <span class="slot-type-zh">特技攻擊</span>
+              </div>
+              <div class="slot-content-area" id="slot-Special-content">
+                <span class="slot-empty-text">點擊裝配特技攻擊神恩...</span>
+              </div>
+            </div>
+
+            <div class="boon-slot" id="slot-Cast" data-slot="Cast">
+              <div class="slot-icon-label">
+                <span class="slot-name">Cast</span>
+                <span class="slot-type-zh">法陣技能</span>
+              </div>
+              <div class="slot-content-area" id="slot-Cast-content">
+                <span class="slot-empty-text">點擊裝配法陣技能神恩...</span>
+              </div>
+            </div>
+
+            <div class="boon-slot" id="slot-Dash" data-slot="Dash">
+              <div class="slot-icon-label">
+                <span class="slot-name">Dash</span>
+                <span class="slot-type-zh">奔刺技能</span>
+              </div>
+              <div class="slot-content-area" id="slot-Dash-content">
+                <span class="slot-empty-text">點擊裝配奔刺技能神恩...</span>
+              </div>
+            </div>
+
+            <div class="boon-slot" id="slot-Gain" data-slot="Gain">
+              <div class="slot-icon-label">
+                <span class="slot-name">Gain</span>
+                <span class="slot-type-zh">法力回復</span>
+              </div>
+              <div class="slot-content-area" id="slot-Gain-content">
+                <span class="slot-empty-text">點擊裝配法力回復神恩...</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 右側：狀態詛咒與增傷判定 -->
+        <div class="synergy-panel">
+          <!-- 關鍵的「源頭」雙重詛咒判定器 -->
+          <div class="origination-indicator" id="origination-box">
+            <div class="origination-header">
+              <span class="origination-badge">奧秘 XVIII. 源頭</span>
+              <span class="origination-title">雙重詛咒增傷判定</span>
+            </div>
+            <div class="origination-header" style="margin-top: 10px;">
+              <h2 id="origination-status-label" style="color: var(--text-muted); font-size: 1.6rem; letter-spacing: 2px;">未激活</h2>
+            </div>
+            <p class="origination-desc" id="origination-desc-text">
+              在裝配的核心神恩中，需要提供【至少兩種不同的狀態詛咒】，即可激活奧秘牌「源頭」獲得 +50% 的爆發全傷加成！
+            </p>
+          </div>
+
+          <!-- 當前已擁有的狀態詛咒 -->
+          <div class="panel">
+            <div class="panel-title">⚡ 當前狀態詛咒清單</div>
+            <div class="curses-list" id="active-curses-grid">
+              <!-- 狀態詛咒會在此動態點亮 -->
+              <div class="curse-badge" data-curse="Blitz" style="--curse-color: #ecd544;">
+                <div class="curse-label">雷擊 (Blitz)</div>
+                <div class="curse-god">宙斯</div>
+              </div>
+              <div class="curse-badge" data-curse="Hitch" style="--curse-color: #bd66ff;">
+                <div class="curse-label">牽引 (Hitch)</div>
+                <div class="curse-god">赫拉</div>
+              </div>
+              <div class="curse-badge" data-curse="Slip" style="--curse-color: #45a3ff;">
+                <div class="curse-label">滑行 (Slip)</div>
+                <div class="curse-god">波賽頓</div>
+              </div>
+              <div class="curse-badge" data-curse="Daze" style="--curse-color: #ffca58;">
+                <div class="curse-label">眩暈 (Daze)</div>
+                <div class="curse-god">阿波羅</div>
+              </div>
+              <div class="curse-badge" data-curse="Weak" style="--curse-color: #ff7da4;">
+                <div class="curse-label">衰弱 (Weak)</div>
+                <div class="curse-god">阿芙蘿黛蒂</div>
+              </div>
+              <div class="curse-badge" data-curse="Scorch" style="--curse-color: #ff592a;">
+                <div class="curse-label">燒傷 (Scorch)</div>
+                <div class="curse-god">赫斯提亞</div>
+              </div>
+              <div class="curse-badge" data-curse="Freeze" style="--curse-color: #a2fdf2;">
+                <div class="curse-label">凍結 (Freeze)</div>
+                <div class="curse-god">德密特</div>
+              </div>
+              <div class="curse-badge" data-curse="Vent" style="--curse-color: #d27d2d;">
+                <div class="curse-label">排氣 (Vent)</div>
+                <div class="curse-god">赫菲斯托斯</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 解鎖神恩預警 -->
+          <div class="panel">
+            <div class="panel-title">🔗 傳奇與雙重神恩解鎖檢測</div>
+            <div class="build-synergies-list" id="planner-synergies-list">
+              <!-- 動態顯示哪些傳奇或雙重神恩的前置條件已被點亮 -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ==========================================
+         TAB 2: 神恩百科 Panel
+         ========================================== -->
+    <section class="tab-panel" id="panel-database" role="tabpanel" aria-labelledby="tab-btn-database">
+      
+      <!-- 頂部高亮路徑解鎖面板 (預設隱藏，點擊雙重或傳奇神恩時滑出) -->
+      <div class="path-finder-panel" id="boon-path-finder">
+        <div class="path-finder-header">
+          <div class="path-title-group">
+            <span class="boon-card-badge duo" id="path-type-badge">Duo</span>
+            <span class="path-title" id="path-boon-name">黃金法則</span>
+          </div>
+          <button class="path-close-btn" id="btn-close-path" aria-label="關閉路徑面板">✕</button>
+        </div>
+        
+        <div class="path-main-content">
+          <!-- 步驟前置 -->
+          <div class="path-flowchart">
+            <div class="flowchart-step">
+              <div class="step-title" id="path-step1-title">神明 A 前置神恩需求</div>
+              <div class="step-options-list" id="path-step1-options">
+                <!-- 核心神恩選項 -->
+              </div>
+            </div>
+            <div class="flowchart-step" id="path-step2-box">
+              <div class="step-title" id="path-step2-title">神明 B 前置神恩需求</div>
+              <div class="step-options-list" id="path-step2-options">
+                <!-- 核心神恩選項 -->
+              </div>
+            </div>
+          </div>
+
+          <!-- 達成狀態 -->
+          <div class="path-status-panel">
+            <div>
+              <div class="path-status-gauge-container">
+                <div class="path-status-gauge" id="path-progress-gauge">
+                  <div class="path-status-gauge-inner">
+                    <span class="path-percent" id="path-percent-num">0%</span>
+                    <span class="path-percent-label">解鎖進度</span>
+                  </div>
+                </div>
+              </div>
+              <h3 style="color: var(--gold); margin-bottom: 12px;">前置條件解鎖路徑</h3>
+              <p class="path-summary-desc" id="path-desc-text">
+                請在左邊勾選您在局內已經選取到的神恩。系統會動態為您評估是否已經符合在後續房間中刷出此強力雙重神恩的資格！
+              </p>
+            </div>
+            <button class="path-solver-action-btn" id="btn-apply-path-to-planner">一鍵套用前置到構築規劃器</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 神恩數據檢索板塊 -->
+      <div class="boons-layout">
+        <!-- 左側：神明篩選選單 -->
+        <aside class="god-menu" id="god-filter-menu" role="tablist" aria-label="篩選神明">
+          <!-- 動態生成神明選項 -->
+        </aside>
+
+        <!-- 右側：搜尋與神恩卡片列表 -->
+        <div class="boons-main-area">
+          <div class="search-bar-container">
+            <input type="text" class="search-input" id="input-boon-search" placeholder="輸入關鍵字搜尋神恩（例如：擊退、燒傷、法陣、Omega...）">
+          </div>
+          
+          <div class="filter-slots-container" id="boon-slot-filters">
+            <button class="filter-btn active" data-slot="All">全部類型</button>
+            <button class="filter-btn" data-slot="Attack">普通攻擊</button>
+            <button class="filter-btn" data-slot="Special">特技攻擊</button>
+            <button class="filter-btn" data-slot="Cast">法陣技能</button>
+            <button class="filter-btn" data-slot="Dash">奔刺技能</button>
+            <button class="filter-btn" data-slot="Gain">法力回復</button>
+            <button class="filter-btn" data-slot="Passive">被動/其他</button>
+            <button class="filter-btn" data-slot="Duo">雙重神恩</button>
+            <button class="filter-btn" data-slot="Legendary">傳奇神恩</button>
+          </div>
+
+          <div class="boons-grid" id="boons-display-grid">
+            <!-- 神恩卡片動態載入區 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 3: 奧秘牌配置 Panel
+         ========================================== -->
+    <section class="tab-panel" id="panel-arcana" role="tabpanel" aria-labelledby="tab-btn-arcana">
+      <div class="arcana-layout">
+        
+        <!-- 左側：5x5 石板 -->
+        <div class="panel arcana-board-container">
+          <div class="panel-title" style="width: 100%;">
+            <span>🎴 冥府奧秘牌石板 (5x5)</span>
+            <button class="filter-btn" id="btn-reset-arcana" style="font-size: 0.8rem; padding: 4px 10px;">清空配置</button>
+          </div>
+          
+          <div class="arcana-board" id="arcana-interactive-board">
+            <!-- 25張牌動態渲染 -->
+          </div>
+        </div>
+
+        <!-- 右側：統計與卡牌詳情 -->
+        <div class="arcana-stats">
+          <!-- 心力消耗量錶 -->
+          <div class="panel">
+            <div class="grasp-header">
+              <span class="grasp-title">🧠 心力（Grasp）負載</span>
+              <div class="grasp-value-container">
+                <span class="grasp-current" id="grasp-current-num">0</span>
+                <span class="grasp-max">/ 30</span>
+              </div>
+            </div>
+            
+            <div class="grasp-progress-bar-bg">
+              <div class="grasp-progress-bar" id="grasp-meter"></div>
+            </div>
+            
+            <div class="grasp-warning-text" id="grasp-warning">
+              ⚠️ 警告：心力負載已超出上限 (30)！請取消激活部分奧秘牌以適配角色心力。
+            </div>
+          </div>
+
+          <!-- 卡片說明詳情 -->
+          <div class="card-details-panel">
+            <div class="card-details-empty" id="card-detail-placeholder">
+              滑標移入或點擊任何奧秘牌，即可查看卡牌編號、名稱、心力消耗與神秘效果。
+            </div>
+            
+            <div class="card-details-content" id="card-detail-body">
+              <div class="card-details-header">
+                <span class="card-details-name" id="card-detail-name">I. 魔女</span>
+                <span class="card-details-cost" id="card-detail-cost">消耗：1</span>
+              </div>
+              <p class="card-details-desc" id="card-detail-desc">
+                引導招式時，周圍的時間流速變慢。
+              </p>
+            </div>
+          </div>
+
+          <!-- 已啟用卡牌匯總 -->
+          <div class="active-cards-list-panel">
+            <div class="active-cards-title">🌟 已啟用的奧秘牌效果</div>
+            <div class="active-cards-list" id="activated-cards-list">
+              <div class="slot-empty-text" id="active-cards-empty">當前未啟用任何奧秘牌。</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 4: 構築流派推薦 Panel
+         ========================================== -->
+    <section class="tab-panel" id="panel-guides" role="tabpanel" aria-labelledby="tab-btn-guides">
+      <div class="presets-grid" id="presets-container">
+        <!-- 動態渲染流派預設卡片 -->
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ==========================================
+       Boon 選擇浮層 (Modal)
+       ========================================== -->
+  <div class="modal-overlay" id="boon-select-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-title">選擇神恩</h2>
+        <button class="modal-close" id="btn-close-modal" aria-label="關閉選擇彈窗">✕</button>
+      </div>
+      
+      <div class="modal-filter-bar">
+        <input type="text" class="modal-search" id="modal-search-input" placeholder="關鍵字搜尋...">
+        <select class="modal-god-select" id="modal-god-filter">
+          <option value="All">所有神明</option>
+          <option value="zeus">宙斯</option>
+          <option value="hera">赫拉</option>
+          <option value="poseidon">波賽頓</option>
+          <option value="apollo">阿波羅</option>
+          <option value="aphrodite">阿芙蘿黛蒂</option>
+          <option value="hestia">赫斯提亞</option>
+          <option value="demeter">德密特</option>
+          <option value="hephaestus">赫菲斯托斯</option>
+        </select>
+      </div>
+
+      <div class="modal-list-container" id="modal-boons-list">
+        <!-- 神恩裝配選項動態渲染 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 引入底層數據與核心邏輯 JS -->
+  <script src="arcana_data.js"></script>
+  <script src="boons_data.js"></script>
+  <script src="guide_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

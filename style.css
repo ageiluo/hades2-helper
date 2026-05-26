@@ -1,0 +1,1528 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Outfit:wght@300;400;600;800&display=swap');
+
+/* --- 全域變數與主題設定 --- */
+:root {
+  --font-title: 'Cinzel', serif;
+  --font-body: 'Outfit', sans-serif;
+
+  /* 冥府暗黑色彩系統 */
+  --bg-dark: #08090c;
+  --bg-panel: #11141a;
+  --bg-panel-secondary: #171c26;
+  --border-color: rgba(212, 175, 55, 0.15);
+  --border-color-active: rgba(212, 175, 55, 0.6);
+  
+  /* 品牌標識色 */
+  --gold: #d4af37;
+  --gold-glow: rgba(212, 175, 55, 0.4);
+  --green-glow: #18f299;
+  --red-glow: #ff4a4a;
+  --text-main: #f3f5f8;
+  --text-muted: #8d98a9;
+  --hitch-color: #bd66ff;
+  --blitz-color: #ecd544;
+  
+  /* 漸變色 */
+  --grad-hades: linear-gradient(135deg, #111b15 0%, #100b1a 100%);
+  --grad-gold: linear-gradient(135deg, #fce074 0%, #ab8424 100%);
+  --grad-panel: linear-gradient(180deg, #161b22 0%, #0e1217 100%);
+  
+  /* 陰影特效 */
+  --shadow-neon: 0 0 15px rgba(212, 175, 55, 0.25);
+  --shadow-active: 0 0 25px rgba(24, 242, 153, 0.35);
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* --- 基礎樣式 --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-dark);
+  background-image: var(--grad-hades);
+  background-attachment: fixed;
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* 現代化滾動條 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-panel-secondary);
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* --- 版面結構 --- */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* --- 頂部標題區 --- */
+header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 30px 20px;
+  background: linear-gradient(180deg, rgba(17, 20, 26, 0.8) 0%, rgba(8, 9, 12, 0) 100%);
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 0 0 30px 30px;
+  backdrop-filter: blur(10px);
+}
+
+.logo-container {
+  display: inline-block;
+  position: relative;
+}
+
+h1 {
+  font-family: var(--font-title);
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: 4px;
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* --- 導覽標籤頁 --- */
+.tabs-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: rgba(23, 28, 38, 0.6);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 12px 24px;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: var(--transition-smooth);
+  letter-spacing: 1px;
+}
+
+.tab-btn:hover {
+  color: var(--gold);
+  border-color: var(--border-color-active);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.15);
+  transform: translateY(-2px);
+}
+
+.tab-btn.active {
+  background: var(--gold);
+  color: var(--bg-dark);
+  font-weight: 800;
+  border-color: var(--gold);
+  box-shadow: var(--shadow-neon);
+}
+
+/* --- 標籤面板控制器 --- */
+.tab-panel {
+  display: none;
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 面板基礎結構 --- */
+.panel {
+  background: var(--grad-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  backdrop-filter: blur(12px);
+}
+
+.panel-title {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  color: var(--gold);
+  margin-bottom: 20px;
+  border-left: 4px solid var(--gold);
+  padding-left: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ==========================================================================
+   TAB 1: 構築規劃器 (Build Planner) 佈局
+   ========================================================================== */
+.planner-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 30px;
+}
+
+@media (max-width: 1024px) {
+  .planner-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 槽位裝配區 */
+.slots-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.weapon-select-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+select {
+  background: var(--bg-panel-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 12px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  outline: none;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+select:focus, select:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+}
+
+/* 核心神恩裝配槽 */
+.boon-slot {
+  display: flex;
+  align-items: center;
+  background: rgba(23, 28, 38, 0.4);
+  border: 1px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.boon-slot:hover {
+  border-style: solid;
+  border-color: var(--border-color-active);
+  background: rgba(23, 28, 38, 0.8);
+  transform: translateX(4px);
+}
+
+.boon-slot.filled {
+  border-style: solid;
+  background: linear-gradient(90deg, rgba(23, 28, 38, 0.9) 0%, rgba(20, 30, 25, 0.3) 100%);
+  border-left-width: 6px;
+}
+
+.slot-icon-label {
+  display: flex;
+  flex-direction: column;
+  min-width: 100px;
+}
+
+.slot-name {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.slot-type-zh {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.slot-content-area {
+  flex-grow: 1;
+  padding-left: 20px;
+}
+
+.slot-empty-text {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+.slot-boon-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.slot-boon-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.slot-boon-name {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--gold);
+}
+
+.slot-boon-god {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 800;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid var(--border-color);
+  text-transform: uppercase;
+}
+
+.slot-boon-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.slot-clear-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: var(--transition-smooth);
+  z-index: 2;
+}
+
+.slot-clear-btn:hover {
+  color: #ff4a4a;
+  background: rgba(255, 74, 74, 0.15);
+}
+
+/* 狀態詛咒與源頭判定區 */
+.synergy-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.origination-indicator {
+  background: rgba(17, 20, 26, 0.9);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.origination-indicator.active {
+  border-color: var(--green-glow);
+  box-shadow: var(--shadow-active);
+  background: linear-gradient(135deg, rgba(8, 25, 18, 0.9) 0%, rgba(17, 20, 26, 0.9) 100%);
+}
+
+.origination-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.origination-badge {
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: #2a313d;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  border: 1px solid var(--border-color);
+}
+
+.origination-indicator.active .origination-badge {
+  background: var(--green-glow);
+  color: var(--bg-dark);
+  border-color: var(--green-glow);
+  box-shadow: 0 0 10px rgba(24, 242, 153, 0.5);
+}
+
+.origination-title {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  color: var(--text-muted);
+}
+
+.origination-indicator.active .origination-title {
+  color: var(--green-glow);
+  text-shadow: 0 0 10px rgba(24, 242, 153, 0.3);
+}
+
+.origination-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+/* 狀態詛咒網格 */
+.curses-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.curse-badge {
+  background: rgba(17, 20, 26, 0.6);
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  opacity: 0.4;
+  transition: var(--transition-smooth);
+}
+
+.curse-badge.active {
+  opacity: 1;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  border-color: var(--curse-color, var(--gold));
+  background: linear-gradient(180deg, rgba(23, 28, 38, 0.8) 0%, rgba(10, 12, 17, 0.9) 100%);
+}
+
+.curse-label {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+.curse-god {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* 雙重/傳奇神恩解鎖檢測器 */
+.build-synergies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.synergy-item {
+  display: flex;
+  align-items: center;
+  background: rgba(23, 28, 38, 0.3);
+  border: 1px solid var(--border-color);
+  padding: 12px 18px;
+  border-radius: 8px;
+  gap: 15px;
+}
+
+.synergy-item.active {
+  border-color: var(--gold);
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.1) 0%, rgba(23, 28, 38, 0.3) 100%);
+}
+
+.synergy-status-icon {
+  font-size: 1.4rem;
+  color: var(--text-muted);
+}
+
+.synergy-item.active .synergy-status-icon {
+  color: var(--gold);
+}
+
+.synergy-item-info {
+  flex-grow: 1;
+}
+
+.synergy-item-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text-main);
+}
+
+.synergy-item.active .synergy-item-name {
+  color: var(--gold);
+}
+
+.synergy-item-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.synergy-progress-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3c4454;
+}
+
+.progress-dot.active {
+  background: var(--gold);
+  box-shadow: 0 0 5px var(--gold);
+}
+
+/* ==========================================================================
+   TAB 2: 神恩百科與前置解鎖 佈局
+   ========================================================================== */
+.boons-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 30px;
+}
+
+@media (max-width: 800px) {
+  .boons-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 左側神明選單 */
+.god-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (max-width: 800px) {
+  .god-menu {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+}
+
+.god-menu-btn {
+  background: rgba(23, 28, 38, 0.5);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 14px 20px;
+  text-align: left;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 800px) {
+  .god-menu-btn {
+    white-space: nowrap;
+    padding: 10px 16px;
+  }
+}
+
+.god-menu-btn:hover {
+  color: var(--text-main);
+  border-color: var(--border-color-active);
+  transform: translateX(4px);
+}
+
+@media (max-width: 800px) {
+  .god-menu-btn:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.god-menu-btn.active {
+  color: var(--text-main);
+  border-color: var(--god-color);
+  box-shadow: 0 0 15px var(--god-glow-color);
+  background: linear-gradient(90deg, rgba(23, 28, 38, 0.9) 0%, rgba(10, 12, 17, 0.5) 100%);
+  border-left-width: 5px;
+}
+
+.god-menu-curse {
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--text-muted);
+}
+
+/* 右側神恩列表 */
+.boons-main-area {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.search-bar-container {
+  display: flex;
+  gap: 15px;
+}
+
+.search-input {
+  flex-grow: 1;
+  background: var(--bg-panel-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  outline: none;
+  transition: var(--transition-smooth);
+}
+
+.search-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
+.filter-slots-container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: var(--transition-smooth);
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background: var(--gold);
+  color: var(--bg-dark);
+  border-color: var(--gold);
+}
+
+/* 神恩展示卡片網格 */
+.boons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.boon-card {
+  background: rgba(17, 20, 26, 0.85);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.boon-card:hover {
+  border-color: var(--god-color, var(--gold));
+  box-shadow: 0 5px 20px var(--god-glow-color, rgba(212, 175, 55, 0.15));
+  transform: translateY(-4px);
+}
+
+.boon-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.boon-card-title {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--text-main);
+}
+
+.boon-card:hover .boon-card-title {
+  color: var(--god-color, var(--gold));
+}
+
+.boon-card-slot {
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+.boon-card-english {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: -8px;
+  margin-bottom: 12px;
+}
+
+.boon-card-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  flex-grow: 1;
+}
+
+.boon-card-footer {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.boon-card-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.boon-card-badge {
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 800;
+}
+
+.boon-card-badge.duo {
+  background: linear-gradient(135deg, #fce074 0%, #ab8424 100%);
+  color: var(--bg-dark);
+}
+
+.boon-card-badge.legendary {
+  background: #ff592a;
+  color: white;
+}
+
+/* 雙重/傳奇神恩解鎖路徑解鎖面板 (Path Finder Overlay) */
+.path-finder-panel {
+  background: linear-gradient(180deg, #181d26 0%, #111419 100%);
+  border: 2px solid var(--gold);
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+  margin-bottom: 30px;
+  display: none;
+  animation: slideDown 0.4s ease-out forwards;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.path-finder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.path-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.path-title {
+  font-family: var(--font-title);
+  font-size: 1.6rem;
+  color: var(--gold);
+}
+
+.path-close-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  transition: var(--transition-smooth);
+}
+
+.path-close-btn:hover {
+  color: white;
+  border-color: white;
+  background: rgba(255,255,255,0.05);
+}
+
+.path-main-content {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 30px;
+}
+
+@media (max-width: 900px) {
+  .path-main-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.path-flowchart {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.flowchart-step {
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 15px 20px;
+}
+
+.step-title {
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.step-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.step-option-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.03);
+  transition: var(--transition-smooth);
+}
+
+.step-option-item:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.step-option-checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition-smooth);
+}
+
+.step-option-item.checked .step-option-checkbox {
+  border-color: var(--green-glow);
+  background: var(--green-glow);
+}
+
+.step-option-item.checked .step-option-checkbox::after {
+  content: "✓";
+  color: var(--bg-dark);
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.step-option-text {
+  font-size: 0.95rem;
+}
+
+.path-status-panel {
+  background: rgba(23, 28, 38, 0.4);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.path-status-gauge-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px auto;
+}
+
+.path-status-gauge {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(var(--green-glow) 0%, #2a313d 0%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition-smooth);
+}
+
+.path-status-gauge-inner {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--bg-panel-secondary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.path-percent {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.path-percent-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.path-summary-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  text-align: left;
+  line-height: 1.7;
+}
+
+.path-solver-action-btn {
+  background: var(--gold);
+  color: var(--bg-dark);
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  width: 100%;
+}
+
+.path-solver-action-btn:hover {
+  box-shadow: var(--shadow-neon);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   TAB 3: 奧秘牌配置模擬器 (Arcana Card Planner) 佈局
+   ========================================================================== */
+.arcana-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 30px;
+}
+
+@media (max-width: 1024px) {
+  .arcana-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 5x5 奧秘牌石板板塊 */
+.arcana-board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.arcana-board {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 540px;
+  background: rgba(0,0,0,0.3);
+  padding: 15px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  aspect-ratio: 1;
+}
+
+.arcana-card-item {
+  background: rgba(23, 28, 38, 0.8);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  aspect-ratio: 0.75;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px;
+  transition: var(--transition-smooth);
+  user-select: none;
+}
+
+.arcana-card-item:hover {
+  transform: translateY(-3px) scale(1.03);
+  border-color: var(--border-color-active);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.arcana-card-item.active {
+  border-color: var(--gold);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(23, 28, 38, 0.9) 100%);
+  box-shadow: var(--shadow-neon);
+}
+
+.arcana-card-num {
+  font-family: var(--font-title);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.arcana-card-item.active .arcana-card-num {
+  color: var(--gold);
+}
+
+.arcana-card-cost {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #2a313d;
+  color: var(--text-main);
+  font-size: 0.75rem;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.arcana-card-item.active .arcana-card-cost {
+  background: var(--gold);
+  color: var(--bg-dark);
+}
+
+.arcana-card-icon {
+  font-size: 1.6rem;
+  text-align: center;
+  margin: auto 0;
+  color: var(--text-muted);
+  transition: var(--transition-smooth);
+}
+
+.arcana-card-item.active .arcana-card-icon {
+  color: var(--gold);
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 5px var(--gold));
+}
+
+.arcana-card-name-label {
+  font-size: 0.75rem;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-muted);
+}
+
+.arcana-card-item.active .arcana-card-name-label {
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+/* 奧秘牌側邊統計面板 */
+.arcana-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.grasp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.grasp-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.grasp-value-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.grasp-current {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.grasp-max {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+.grasp-progress-bar-bg {
+  width: 100%;
+  height: 12px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.grasp-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--gold);
+  box-shadow: 0 0 10px var(--gold);
+  border-radius: 6px;
+  transition: var(--transition-smooth);
+}
+
+.grasp-progress-bar.warning {
+  background: var(--red-glow);
+  box-shadow: 0 0 10px var(--red-glow);
+}
+
+.grasp-warning-text {
+  color: var(--red-glow);
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: none;
+  animation: flash 1s infinite alternate;
+}
+
+@keyframes flash {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+
+.card-details-panel {
+  background: rgba(23, 28, 38, 0.4);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  min-height: 160px;
+}
+
+.card-details-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.card-details-content {
+  display: none;
+}
+
+.card-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.card-details-name {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--gold);
+}
+
+.card-details-cost {
+  background: var(--gold);
+  color: var(--bg-dark);
+  font-weight: 800;
+  font-size: 0.8rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.card-details-desc {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.7;
+}
+
+.active-cards-list-panel {
+  background: rgba(23, 28, 38, 0.2);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.active-cards-title {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.active-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.active-card-pill {
+  display: flex;
+  justify-content: space-between;
+  background: rgba(255,255,255,0.03);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.active-card-pill-name {
+  font-weight: 600;
+  color: var(--gold);
+}
+
+/* ==========================================================================
+   TAB 4: 神級流派推薦 (Meta Guides) 佈局
+   ========================================================================== */
+.presets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 25px;
+}
+
+@media (max-width: 600px) {
+  .presets-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.preset-card {
+  background: var(--grad-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transition-smooth);
+}
+
+.preset-card:hover {
+  border-color: var(--border-color-active);
+  box-shadow: var(--shadow-neon);
+  transform: translateY(-5px);
+}
+
+.preset-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.preset-title {
+  font-family: var(--font-title);
+  font-size: 1.35rem;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.preset-weapon {
+  font-size: 0.9rem;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.preset-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.preset-tag {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+}
+
+.preset-tag.highlight {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.preset-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.preset-action-btn {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  width: 100%;
+}
+
+.preset-action-btn:hover {
+  background: var(--gold);
+  color: var(--bg-dark);
+  box-shadow: var(--shadow-neon);
+}
+
+/* ==========================================================================
+   神恩選擇彈窗 (Boon Selection Modal)
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition-smooth);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-container {
+  width: 90%;
+  max-width: 650px;
+  max-height: 85vh;
+  background: linear-gradient(180deg, #161b22 0%, #0e1217 100%);
+  border: 1px solid var(--border-color-active);
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.9);
+  transition: var(--transition-smooth);
+}
+
+.modal-overlay.active .modal-container {
+  transform: scale(1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  color: var(--gold);
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.modal-close:hover {
+  color: white;
+}
+
+.modal-filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.modal-search {
+  flex-grow: 1;
+  background: var(--bg-panel-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 10px 15px;
+  border-radius: 8px;
+  outline: none;
+  font-family: var(--font-body);
+}
+
+.modal-god-select {
+  background: var(--bg-panel-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 10px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  outline: none;
+}
+
+.modal-list-container {
+  overflow-y: auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 5px;
+}
+
+.modal-boon-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px 18px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.modal-boon-item:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: var(--god-color, var(--gold));
+  transform: translateX(4px);
+}
+
+.modal-boon-info {
+  flex-grow: 1;
+}
+
+.modal-boon-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-boon-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text-main);
+}
+
+.modal-boon-item:hover .modal-boon-name {
+  color: var(--god-color, var(--gold));
+}
+
+.modal-boon-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 3px;
+  max-width: 480px;
+}
+
+.modal-boon-god-badge {
+  font-size: 0.7rem;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-muted);
+}
