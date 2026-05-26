@@ -1526,3 +1526,367 @@ select:focus, select:hover {
   background: rgba(255,255,255,0.05);
   color: var(--text-muted);
 }
+
+/* ==========================================================================
+   雙重神恩 X-Y 組合矩陣樣式
+   ========================================================================== */
+.matrix-container-panel {
+  overflow: hidden;
+  position: relative;
+}
+
+.matrix-wrapper {
+  overflow-x: auto;
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: rgba(17, 20, 26, 0.4);
+  margin-top: 15px;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+}
+
+.matrix-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+.matrix-wrapper::-webkit-scrollbar-thumb {
+  background: var(--border-color-active);
+  border-radius: 3px;
+}
+
+.duo-matrix-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  text-align: center;
+  table-layout: fixed;
+}
+
+.duo-matrix-table th, .duo-matrix-table td {
+  padding: 10px 6px;
+  border: 1px solid var(--border-color);
+  font-size: 0.85rem;
+  vertical-align: middle;
+  height: 64px;
+}
+
+.duo-matrix-table th {
+  background: var(--bg-panel-secondary);
+  color: var(--gold);
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+.duo-matrix-table thead tr:first-child th:first-child {
+  background: var(--bg-dark);
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.matrix-row-header {
+  background: var(--bg-panel-secondary) !important;
+  color: var(--text-main);
+  font-weight: 700;
+  text-align: center;
+  width: 100px;
+}
+
+.matrix-diagonal-cell {
+  background: rgba(255, 255, 255, 0.01) !important;
+  color: rgba(255, 255, 255, 0.05);
+  font-size: 0.7rem !important;
+  font-style: italic;
+  cursor: not-allowed;
+  user-select: none;
+}
+
+.matrix-diagonal-cell.has-legendary {
+  background: rgba(255, 89, 42, 0.06) !important;
+  border: 1px dashed rgba(255, 89, 42, 0.4) !important;
+  color: #ff592a !important;
+  cursor: pointer !important;
+  font-weight: 700;
+  font-style: normal;
+  transition: var(--transition-smooth);
+}
+
+.matrix-diagonal-cell.has-legendary:hover {
+  background: rgba(255, 89, 42, 0.16) !important;
+  box-shadow: 0 0 10px rgba(255, 89, 42, 0.2) inset;
+  transform: scale(1.02);
+}
+
+.matrix-empty-cell {
+  background: rgba(0, 0, 0, 0.15);
+  cursor: not-allowed;
+}
+
+.matrix-duo-cell {
+  background: linear-gradient(135deg, rgba(23, 28, 38, 0.8) 0%, rgba(10, 12, 17, 0.95) 100%);
+  border: 1px solid var(--border-color) !important;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+}
+
+.matrix-duo-cell:hover {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(23, 28, 38, 0.9) 100%);
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.25) inset;
+  transform: scale(1.02);
+  z-index: 5;
+}
+
+.matrix-duo-cell-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 100%;
+  height: 100%;
+}
+
+.matrix-duo-name {
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+}
+
+.matrix-duo-sub {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.matrix-scroll-hint {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--gold);
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   手機與平板版型優化 (Mobile / Tablet Responsive Overrides)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .matrix-scroll-hint {
+    display: flex;
+    animation: pulseHint 2s infinite ease-in-out;
+  }
+}
+
+@keyframes pulseHint {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  
+  header {
+    padding: 20px 10px;
+    margin-bottom: 20px;
+    border-radius: 0 0 16px 16px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+  }
+  
+  .subtitle {
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+  
+  .panel {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+  }
+  
+  .panel-title {
+    font-size: 1.15rem;
+    margin-bottom: 15px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .panel-title span:last-child {
+    font-size: 0.75rem !important;
+    text-align: left;
+  }
+
+  /* 導覽列優化：橫向平滑滾動 */
+  .tabs-navigation {
+    justify-content: flex-start;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .tabs-navigation::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .tabs-navigation::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 2px;
+  }
+  
+  .tab-btn {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    border-radius: 6px;
+  }
+
+  /* 裝配核心配置 */
+  .weapon-select-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .boon-slot {
+    padding: 12px 15px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .slot-icon-label {
+    min-width: unset;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    width: 100%;
+    padding-bottom: 6px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .slot-name {
+    font-size: 0.7rem;
+  }
+  
+  .slot-type-zh {
+    font-size: 0.95rem;
+  }
+  
+  .slot-content-area {
+    padding-left: 0;
+    width: 100%;
+  }
+
+  .slot-boon-name {
+    font-size: 1.05rem;
+  }
+  
+  .slot-boon-desc {
+    font-size: 0.85rem;
+  }
+  
+  /* 詛咒狀態網格 */
+  .curses-list {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 8px;
+  }
+  
+  .curse-badge {
+    padding: 8px 6px;
+  }
+  
+  .curse-label {
+    font-size: 0.85rem;
+  }
+
+  /* 奧秘牌 5x5 石板在手機上的自適應 */
+  .arcana-board {
+    gap: 6px !important;
+    padding: 8px !important;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+  
+  .arcana-card-item {
+    padding: 4px !important;
+    border-radius: 6px !important;
+  }
+  
+  .arcana-card-num {
+    font-size: 0.65rem !important;
+  }
+  
+  .arcana-card-cost {
+    font-size: 0.55rem !important;
+    top: 2px !important;
+    right: 2px !important;
+    padding: 1px 3px !important;
+  }
+  
+  .arcana-card-icon {
+    font-size: 1.1rem !important;
+  }
+  
+  .arcana-card-name-label {
+    font-size: 0.55rem !important;
+  }
+
+  /* 奧秘牌 Grasp 計量 */
+  .grasp-current {
+    font-size: 1.6rem;
+  }
+  
+  .grasp-title {
+    font-size: 0.95rem;
+  }
+  
+  /* 彈窗 UI 手機優化 */
+  .modal-container {
+    width: 95%;
+    padding: 16px;
+    max-height: 90vh;
+  }
+  
+  .modal-filter-bar {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .modal-search, .modal-god-select {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+  
+  .modal-boon-item {
+    padding: 10px 12px;
+  }
+  
+  .modal-boon-name {
+    font-size: 0.95rem;
+  }
+  
+  .modal-boon-desc {
+    font-size: 0.8rem;
+  }
+}
+

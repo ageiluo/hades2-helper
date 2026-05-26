@@ -17,7 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
     Special: null,
     Cast: null,
     Dash: null,
-    Gain: null
+    Gain: null,
+    passives: new Set() // 存放被動/雙重/傳奇神恩 ID
   };
 
   // 奧秘牌配置狀態
@@ -81,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tabId === "database") {
       renderGodFilterMenu();
       renderBoonsGrid();
+      renderDuoMatrix();
     } else if (tabId === "arcana") {
       renderArcanaBoard();
       updateArcanaState();
@@ -252,6 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
       activeBuild[slot] = null;
       renderPlannerSlot(slot);
     });
+    activeBuild.passives.clear();
     updatePlannerState();
   });
 
@@ -303,6 +306,79 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 更新神恩解鎖檢測清單 (Duo & Legendary Checklist)
     updatePlannerSynergies(activeCurses);
+    renderPassiveBoons();
+  }
+
+  // 渲染被動與特殊神恩列表
+  function renderPassiveBoons() {
+    const container = document.getElementById("planner-passive-list");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    if (activeBuild.passives.size === 0) {
+      container.innerHTML = `<span class="slot-empty-text" style="font-size: 0.85rem; font-style: italic;">目前尚未裝配任何被動或特殊神恩。</span>`;
+      return;
+    }
+
+    activeBuild.passives.forEach(boonId => {
+      const boon = hades2BoonsData.boons.find(b => b.id === boonId);
+      if (!boon) return;
+
+      const godInfo = hades2BoonsData.gods[boon.god] || { themeColor: "#fff", name: "未知" };
+      const item = document.createElement("div");
+      item.className = "passive-boon-item-row";
+      item.style.cssText = `
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(23, 28, 38, 0.6);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid ${godInfo.themeColor};
+        padding: 10px 14px;
+        border-radius: 8px;
+        margin-bottom: 2px;
+      `;
+
+      let badgeClass = "passive";
+      let badgeText = "被動";
+      if (boon.slot === "Duo") {
+        badgeClass = "duo";
+        badgeText = "雙重";
+      } else if (boon.slot === "Legendary") {
+        badgeClass = "legendary";
+        badgeText = "傳奇";
+      }
+
+      item.innerHTML = `
+        <div style="display: flex; flex-direction: column; gap: 2px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-weight: 700; font-size: 0.95rem; color: ${godInfo.themeColor};">${boon.name}</span>
+            <span class="boon-card-badge ${badgeClass}" style="font-size: 0.65rem; padding: 1px 4px;">${badgeText}</span>
+          </div>
+          <span style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">${boon.desc}</span>
+        </div>
+        <button class="passive-clear-btn" data-id="${boon.id}" title="清除裝配" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem; padding: 2px 8px; transition: var(--transition-smooth);">✕</button>
+      `;
+
+      // Clear passive button
+      item.querySelector(".passive-clear-btn").addEventListener("click", () => {
+        activeBuild.passives.delete(boon.id);
+        renderPassiveBoons();
+        updatePlannerState();
+      });
+
+      // Hover effect on clear button
+      const clearBtn = item.querySelector(".passive-clear-btn");
+      clearBtn.addEventListener("mouseenter", () => {
+        clearBtn.style.color = "#ff4a4a";
+      });
+      clearBtn.addEventListener("mouseleave", () => {
+        clearBtn.style.color = "var(--text-muted)";
+      });
+
+      container.appendChild(item);
+    });
   }
 
   function translateCurse(curse) {
@@ -513,19 +589,97 @@ document.addEventListener("DOMContentLoaded", () => {
           // 普通神恩提示可到裝配區裝配
           const confirmEquip = confirm(`要將「${boon.name}」裝配到您的構築規劃器中嗎？`);
           if (confirmEquip) {
-            // 如果該槽位可裝配，則直接裝配
             const coreSlots = ["Attack", "Special", "Cast", "Dash", "Gain"];
             if (coreSlots.includes(boon.slot)) {
               equipBoon(boon.slot, boon);
               switchTab("planner");
             } else {
-              alert("此為被動/其他神恩，無法裝入核心的普攻、特技等五大主動槽位。已為您記錄！");
+              activeBuild.passives.add(boon.id);
+              updatePlannerState();
+              switchTab("planner");
+              alert(`🎉 已成功將被動/特殊神恩「${boon.name}」裝配到您的規劃器列表中！`);
             }
           }
         }
       });
 
       gridEl.appendChild(card);
+    });
+  }
+
+  // 渲染雙重神恩 X-Y 關係矩陣
+  function renderDuoMatrix() {
+    const matrixTable = document.getElementById("duo-combination-matrix");
+    if (!matrixTable) return;
+
+    const matrixGods = [
+      { key: "zeus", name: "宙斯 (Zeus)" },
+      { key: "hera", name: "赫拉 (Hera)" },
+      { key: "poseidon", name: "波賽頓 (Poseidon)" },
+      { key: "apollo", name: "阿波羅 (Apollo)" },
+      { key: "aphrodite", name: "阿芙蘿黛蒂 (Aphrodite)" },
+      { key: "hestia", name: "赫斯提亞 (Hestia)" },
+      { key: "demeter", name: "德密特 (Demeter)" },
+      { key: "hephaestus", name: "赫菲斯托斯 (Hephaestus)" },
+      { key: "hermes", name: "荷米斯 (Hermes)" }
+    ];
+
+    let theadHtml = `<thead><tr><th>橫縱軸神明</th>`;
+    matrixGods.forEach(god => {
+      theadHtml += `<th>${god.name.split(" ")[0]}</th>`;
+    });
+    theadHtml += `</tr></thead>`;
+
+    let tbodyHtml = "<tbody>";
+    matrixGods.forEach(rowGod => {
+      tbodyHtml += `<tr><td class="matrix-row-header">${rowGod.name.split(" ")[0]}</td>`;
+      matrixGods.forEach(colGod => {
+        if (rowGod.key === colGod.key) {
+          // 對角線：查找該神明的傳奇神恩
+          const legendaryBoon = hades2BoonsData.boons.find(b => b.god === rowGod.key && b.slot === "Legendary");
+          if (legendaryBoon) {
+            tbodyHtml += `<td class="matrix-diagonal-cell has-legendary" data-boon-id="${legendaryBoon.id}" title="點擊查看傳奇神恩解鎖路徑">
+              <div style="font-size:0.75rem;">★ 傳奇 ★</div>
+              <div class="matrix-duo-name" style="color: #ff592a; font-size:0.8rem; text-shadow:0 0 5px rgba(255, 89, 42, 0.4);">${legendaryBoon.name}</div>
+            </td>`;
+          } else {
+            tbodyHtml += `<td class="matrix-diagonal-cell">—</td>`;
+          }
+        } else {
+          // 非對角線：查找雙重神恩
+          const duoBoon = hades2BoonsData.boons.find(b => 
+            b.slot === "Duo" && 
+            b.prerequisites.gods.includes(rowGod.key) && 
+            b.prerequisites.gods.includes(colGod.key)
+          );
+
+          if (duoBoon) {
+            tbodyHtml += `<td class="matrix-duo-cell" data-boon-id="${duoBoon.id}" title="點擊查看雙重神恩解鎖路徑">
+              <div class="matrix-duo-cell-inner">
+                <span class="matrix-duo-name">${duoBoon.name}</span>
+                <span class="matrix-duo-sub">雙重神恩</span>
+              </div>
+            </td>`;
+          } else {
+            tbodyHtml += `<td class="matrix-empty-cell">—</td>`;
+          }
+        }
+      });
+      tbodyHtml += "</tr>";
+    });
+    tbodyHtml += "</tbody>";
+
+    matrixTable.innerHTML = theadHtml + tbodyHtml;
+
+    // 綁定點擊事件
+    matrixTable.querySelectorAll(".matrix-duo-cell, .matrix-diagonal-cell.has-legendary").forEach(cell => {
+      cell.addEventListener("click", () => {
+        const boonId = cell.getAttribute("data-boon-id");
+        const boon = hades2BoonsData.boons.find(b => b.id === boonId);
+        if (boon) {
+          openPathFinder(boon);
+        }
+      });
     });
   }
 
@@ -597,6 +751,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const item = document.createElement("div");
       item.className = "step-option-item";
+      item.setAttribute("data-boon-id", id);
       item.innerHTML = `
         <div class="step-option-checkbox"></div>
         <span class="step-option-text">${boon.name} (${translateSlot(boon.slot)})</span>
@@ -607,6 +762,25 @@ document.addEventListener("DOMContentLoaded", () => {
           pathObtainedBoons.delete(id);
           item.classList.remove("checked");
         } else {
+          // 檢查核心槽位衝突 (普攻、特技、法陣、奔刺、回魔)
+          const coreSlots = ["Attack", "Special", "Cast", "Dash", "Gain"];
+          if (coreSlots.includes(boon.slot)) {
+            // 尋找已勾選且同槽位的其他衝突神恩
+            const conflictId = Array.from(pathObtainedBoons).find(checkedId => {
+              const b = hades2BoonsData.boons.find(x => x.id === checkedId);
+              return b && b.slot === boon.slot && b.id !== boon.id;
+            });
+
+            if (conflictId) {
+              // 移除衝突神恩的勾選狀態與 DOM 樣式
+              pathObtainedBoons.delete(conflictId);
+              const conflictingEl = document.querySelector(`.step-option-item[data-boon-id="${conflictId}"]`);
+              if (conflictingEl) {
+                conflictingEl.classList.remove("checked");
+              }
+            }
+          }
+
           pathObtainedBoons.add(id);
           item.classList.add("checked");
         }
@@ -653,26 +827,37 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    let loadedCount = 0;
+    let coreCount = 0;
+    let passiveCount = 0;
+
     pathObtainedBoons.forEach(id => {
       const boon = hades2BoonsData.boons.find(b => b.id === id);
       if (boon) {
-        // 僅能裝配進 Attack, Special, Cast, Dash, Gain 槽位
         const coreSlots = ["Attack", "Special", "Cast", "Dash", "Gain"];
         if (coreSlots.includes(boon.slot)) {
           activeBuild[boon.slot] = boon;
           renderPlannerSlot(boon.slot);
-          loadedCount++;
+          coreCount++;
+        } else {
+          activeBuild.passives.add(boon.id);
+          passiveCount++;
         }
       }
     });
 
-    if (loadedCount > 0) {
+    // 將目標雙重/傳奇神恩本身也加入被動列表中，使其更完整！
+    if (currentPathBoon) {
+      activeBuild.passives.add(currentPathBoon.id);
+      passiveCount++;
+    }
+
+    const totalCount = coreCount + passiveCount;
+    if (totalCount > 0) {
       updatePlannerState();
-      alert(`成功為您套用了 ${loadedCount} 個前置神恩到規劃器槽位！已為您自動跳轉查看。`);
+      alert(`🎉 成功套用前置配置！\n• 核心神恩：已裝配 ${coreCount} 個\n• 被動與目標神恩：已裝配 ${passiveCount} 個\n\n已自動為您跳轉至構築規劃面板。`);
       switchTab("planner");
     } else {
-      alert("選取的均為被動技能，無法直接裝配進核心的五大主動槽位。");
+      alert("無效的神恩配置，無法套用。");
     }
   });
 
@@ -891,6 +1076,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     // 4. 更新全局狀態
+    activeBuild.passives.clear();
     updatePlannerState();
     
     // 5. 自動跳轉到首頁查看
@@ -900,4 +1086,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 初始化加載
   renderPresets();
+  renderDuoMatrix();
 });

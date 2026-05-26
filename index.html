@@ -122,6 +122,17 @@
               </div>
             </div>
 
+            <!-- 已裝配的被動與特殊神恩 -->
+            <div class="panel passive-boons-panel" style="margin-top: 15px; padding: 16px; background: rgba(0,0,0,0.25); border-radius: 12px; border: 1px solid var(--border-color); box-shadow: none;">
+              <div style="font-family: var(--font-title); color: var(--gold); font-size: 1rem; margin-bottom: 12px; font-weight: 700; border-left: 3px solid var(--gold); padding-left: 8px; display: flex; justify-content: space-between; align-items: center;">
+                <span>🔑 已裝配的被動 & 特殊神恩</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-body); font-weight: normal;">(Legendary / Duo / Passive)</span>
+              </div>
+              <div class="passive-boons-list" id="planner-passive-list" style="display: flex; flex-direction: column; gap: 8px;">
+                <span class="slot-empty-text" style="font-size: 0.85rem; font-style: italic;">目前尚未裝配任何被動或特殊神恩。</span>
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -243,6 +254,24 @@
             </div>
             <button class="path-solver-action-btn" id="btn-apply-path-to-planner">一鍵套用前置到構築規劃器</button>
           </div>
+        </div>
+      </div>
+
+      <!-- 雙重神恩 X-Y 關係矩陣 -->
+      <div class="panel matrix-container-panel">
+        <div class="panel-title">
+          <span>🎛️ 雙重神恩 X-Y 關係矩陣 (點擊查看解鎖前置)</span>
+          <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: normal; border-left: none; padding-left: 0;">
+            橫縱軸神明相交點代表其雙重神恩，對角線為傳奇神恩
+          </span>
+        </div>
+        <div class="matrix-scroll-hint">
+          <span>👈 左右滑動查看完整組合矩陣 👉</span>
+        </div>
+        <div class="matrix-wrapper">
+          <table class="duo-matrix-table" id="duo-combination-matrix">
+            <!-- 矩陣會由 app.js 動態渲染 -->
+          </table>
         </div>
       </div>
 
