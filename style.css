@@ -1732,6 +1732,9 @@ select:focus, select:hover {
 
   /* 導覽列優化：橫向平滑滾動 */
   .tabs-navigation {
+    position: relative;
+    z-index: 10;
+    touch-action: pan-x;
     justify-content: flex-start;
     overflow-x: auto;
     white-space: nowrap;
@@ -1753,6 +1756,8 @@ select:focus, select:hover {
   }
   
   .tab-btn {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
     padding: 10px 16px;
     font-size: 0.9rem;
     flex-shrink: 0;

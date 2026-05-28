@@ -643,7 +643,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const legendaryBoon = hades2BoonsData.boons.find(b => b.god === rowGod.key && b.slot === "Legendary");
           if (legendaryBoon) {
             tbodyHtml += `<td class="matrix-diagonal-cell has-legendary" data-boon-id="${legendaryBoon.id}" title="點擊查看傳奇祝福解鎖路徑">
-              <div style="font-size:0.75rem;">★ 傳奇 ★</div>
+               <div style="font-size:0.75rem;">★ 傳奇 ★</div>
               <div class="matrix-duo-name" style="color: #ff592a; font-size:0.8rem; text-shadow:0 0 5px rgba(255, 89, 42, 0.4);">${legendaryBoon.name}</div>
             </td>`;
           } else {
@@ -1099,7 +1099,10 @@ document.addEventListener("DOMContentLoaded", () => {
   try {
     const savedQuests = localStorage.getItem("hades2_completed_quests");
     if (savedQuests) {
-      JSON.parse(savedQuests).forEach(id => completedQuests.add(id));
+      const parsed = JSON.parse(savedQuests);
+      if (Array.isArray(parsed)) {
+        parsed.forEach(id => completedQuests.add(id));
+      }
     }
   } catch (e) {
     console.error("讀取已完成任務失敗:", e);
@@ -1148,8 +1151,8 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.className = `timeline-btn ${activeTutorialStage === stageKey ? "active" : ""}`;
       btn.setAttribute("data-stage", stageKey);
       
-      const emoji = stage.name.substring(0, 2);
-      const cleanName = stage.name.substring(2).split("：")[0];
+      const emoji = stage.emoji || "";
+      const cleanName = stage.name.split("：")[0];
 
       btn.innerHTML = `
         <span>${emoji} ${cleanName}</span>
