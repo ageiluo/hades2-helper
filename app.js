@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- 狀態宣告與初始化 ---
   // ==========================================
   let activeTab = "planner";
-  let currentPlannerSlot = null; // 用於紀錄點擊了哪個普攻/特技槽位
+  let currentPlannerSlot = null; // 用於紀錄點擊了哪個攻擊/特技槽位
   
   // 核心構築狀態
   const activeBuild = {
@@ -18,21 +18,21 @@ document.addEventListener("DOMContentLoaded", () => {
     Cast: null,
     Dash: null,
     Gain: null,
-    passives: new Set() // 存放被動/雙重/傳奇神恩 ID
+    passives: new Set() // 存放被動/雙重/傳奇祝福 ID
   };
 
   // 奧秘牌配置狀態
   const activeArcanaIds = new Set();
   const maxGraspLimit = 30;
 
-  // 神恩百科篩選狀態
+  // 祝福百科篩選狀態
   let selectedGodKey = "zeus";
   let selectedSlotFilter = "All";
   let boonSearchQuery = "";
 
   // 雙重/傳奇解鎖路徑模擬狀態
   let currentPathBoon = null;
-  const pathObtainedBoons = new Set(); // 存放點擊勾選的前置神恩 ID
+  const pathObtainedBoons = new Set(); // 存放點擊勾選的前置祝福 ID
 
   // ==========================================
   // --- 頁面元素選取 ---
@@ -43,16 +43,18 @@ document.addEventListener("DOMContentLoaded", () => {
     planner: document.getElementById("tab-btn-planner"),
     database: document.getElementById("tab-btn-database"),
     arcana: document.getElementById("tab-btn-arcana"),
-    guides: document.getElementById("tab-btn-guides")
+    guides: document.getElementById("tab-btn-guides"),
+    tutorial: document.getElementById("tab-btn-tutorial")
   };
   const tabPanels = {
     planner: document.getElementById("panel-planner"),
     database: document.getElementById("panel-database"),
     arcana: document.getElementById("panel-arcana"),
-    guides: document.getElementById("panel-guides")
+    guides: document.getElementById("panel-guides"),
+    tutorial: document.getElementById("panel-tutorial")
   };
 
-  // 彈窗元件 (Boon Modal)
+  // 彈窗元件 (Blessing Modal)
   const modalOverlay = document.getElementById("boon-select-modal");
   const modalCloseBtn = document.getElementById("btn-close-modal");
   const modalSearchInput = document.getElementById("modal-search-input");
@@ -86,6 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (tabId === "arcana") {
       renderArcanaBoard();
       updateArcanaState();
+    } else if (tabId === "tutorial") {
+      renderTutorial();
     }
   }
 
@@ -121,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 開啟神恩選擇彈窗
+  // 開啟祝福選擇彈窗
   function openBoonModal(slot) {
     currentPlannerSlot = slot;
     modalOverlay.classList.add("active");
@@ -129,8 +133,8 @@ document.addEventListener("DOMContentLoaded", () => {
     modalGodFilter.value = "All";
     
     // 將 Modal 標題設定為對應的槽位名稱
-    const slotNamesZh = { Attack: "普通攻擊", Special: "特技攻擊", Cast: "法陣技能", Dash: "奔刺技能", Gain: "法力回復" };
-    document.getElementById("modal-title").textContent = `選擇 ${slotNamesZh[slot]} 神恩`;
+    const slotNamesZh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "魔力" };
+    document.getElementById("modal-title").textContent = `選擇 ${slotNamesZh[slot]} 祝福`;
     
     renderModalBoons();
   }
@@ -149,14 +153,14 @@ document.addEventListener("DOMContentLoaded", () => {
   modalSearchInput.addEventListener("input", renderModalBoons);
   modalGodFilter.addEventListener("change", renderModalBoons);
 
-  // 渲染彈窗內的可選神恩
+  // 渲染彈窗內的可選祝福
   function renderModalBoons() {
     modalBoonsList.innerHTML = "";
     
     const searchQuery = modalSearchInput.value.toLowerCase().trim();
     const selectedGod = modalGodFilter.value;
 
-    // 篩選出符合此槽位 (Attack/Special 等) 且符合條件的神恩
+    // 篩選出符合此槽位 (Attack/Special 等) 且符合條件的祝福
     const filteredBoons = hades2BoonsData.boons.filter(boon => {
       if (boon.slot !== currentPlannerSlot) return false;
       if (selectedGod !== "All" && boon.god !== selectedGod) return false;
@@ -171,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (filteredBoons.length === 0) {
-      modalBoonsList.innerHTML = `<div class="slot-empty-text" style="text-align:center; padding: 20px;">找不到符合篩選條件的神恩。</div>`;
+      modalBoonsList.innerHTML = `<div class="slot-empty-text" style="text-align:center; padding: 20px;">找不到符合篩選條件的祝福。</div>`;
       return;
     }
 
@@ -201,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 裝配神恩到指定槽位
+  // 裝配祝福到指定槽位
   function equipBoon(slot, boon) {
     activeBuild[slot] = boon;
     renderPlannerSlot(slot);
@@ -217,8 +221,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!boon) {
       slotEl.classList.remove("filled");
       slotEl.style.borderLeftColor = "";
-      const slotNamesZh = { Attack: "普通攻擊", Special: "特技攻擊", Cast: "法陣技能", Dash: "奔刺技能", Gain: "法力回復" };
-      contentEl.innerHTML = `<span class="slot-empty-text">點擊裝配${slotNamesZh[slot]}神恩...</span>`;
+      const slotNamesZh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "魔力" };
+      contentEl.innerHTML = `<span class="slot-empty-text">點擊裝配${slotNamesZh[slot]}祝福...</span>`;
       return;
     }
 
@@ -262,7 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- 3. 狀態詛咒與「源頭」增傷判定邏輯 ---
   // ==========================================
   function updatePlannerState() {
-    // 統計當前所帶神恩引發的詛咒
+    // 統計當前所帶祝福引發的詛咒
     const activeCurses = new Set();
     
     slots.forEach(slot => {
@@ -283,33 +287,33 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // 判定奧秘牌「源頭 (Origination)」雙重詛咒 (+50%傷害) 是否激活
+    // 判定奧秘卡牌「源頭 (Origination)」雙重狀態 (+50%傷害) 是否啟用
     const origBox = document.getElementById("origination-box");
     const origStatus = document.getElementById("origination-status-label");
     const origDesc = document.getElementById("origination-desc-text");
 
     if (activeCurses.size >= 2) {
       origBox.classList.add("active");
-      origStatus.textContent = "已激活 (+50% 全傷加成！)";
+      origStatus.textContent = "已啟用 (+50% 全傷加成！)";
       origStatus.style.color = "var(--green-glow)";
       origDesc.innerHTML = `完美契合！您當前擁有的狀態詛咒有：<strong>${Array.from(activeCurses).map(c => translateCurse(c)).join("、")}</strong>，已滿足「至少兩種狀態詛咒」之條件，將觸發超強的 50% 乘算傷害加成！`;
     } else {
       origBox.classList.remove("active");
-      origStatus.textContent = "未激活";
+      origStatus.textContent = "未啟用";
       origStatus.style.color = "var(--text-muted)";
       if (activeCurses.size === 1) {
-        origDesc.innerHTML = `尚缺一種狀態！目前僅有 <strong>${translateCurse(Array.from(activeCurses)[0])}</strong> 詛咒。請在其他空餘核心槽位補充附帶狀態詛咒的神恩以觸發 +50% 增傷！`;
+        origDesc.innerHTML = `尚缺一種狀態！目前僅有 <strong>${translateCurse(Array.from(activeCurses)[0])}</strong> 詛咒。請在其他空餘核心槽位補充附帶狀態詛咒的祝福以觸發 +50% 增傷！`;
       } else {
-        origDesc.textContent = `在裝配的核心神恩中，需要提供【至少兩種不同的狀態詛咒】，即可激活奧秘牌「源頭」獲得 +50% 的爆發全傷加成！`;
+        origDesc.textContent = `在裝配的核心祝福中，需要提供【至少兩種不同的狀態詛咒】，即可啟用阿卡納「源頭」獲得 +50% 的爆發全傷加成！`;
       }
     }
 
-    // 更新神恩解鎖檢測清單 (Duo & Legendary Checklist)
+    // 更新祝福解鎖檢測清單 (Duo & Legendary Checklist)
     updatePlannerSynergies(activeCurses);
     renderPassiveBoons();
   }
 
-  // 渲染被動與特殊神恩列表
+  // 渲染被動與特殊祝福列表
   function renderPassiveBoons() {
     const container = document.getElementById("planner-passive-list");
     if (!container) return;
@@ -317,7 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
     container.innerHTML = "";
 
     if (activeBuild.passives.size === 0) {
-      container.innerHTML = `<span class="slot-empty-text" style="font-size: 0.85rem; font-style: italic;">目前尚未裝配任何被動或特殊神恩。</span>`;
+      container.innerHTML = `<span class="slot-empty-text" style="font-size: 0.85rem; font-style: italic;">目前尚未裝配任何被動或特殊祝福。</span>`;
       return;
     }
 
@@ -386,12 +390,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return zh[curse] || curse;
   }
 
-  // 更新規劃器下方的雙重與傳奇神恩解鎖狀態檢測
+  // 更新規劃器下方的雙重與傳奇祝福解鎖狀態檢測
   function updatePlannerSynergies(activeCurses) {
     const listEl = document.getElementById("planner-synergies-list");
     listEl.innerHTML = "";
 
-    // 篩選出數據庫中所有的雙重與傳奇神恩
+    // 篩選出數據庫中所有的雙重與傳奇祝福
     const specialBoons = hades2BoonsData.boons.filter(b => b.slot === "Duo" || b.slot === "Legendary");
 
     specialBoons.forEach(boon => {
@@ -403,7 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // 檢查是否滿足前置選項
       reqs.forEach(req => {
-        // 檢查當前 activeBuild 中是否有裝配對應 options 裡的任何一個神恩
+        // 檢查當前 activeBuild 中是否有裝配對應 options 裡的任何一個祝福
         const hasOption = slots.some(slot => {
           const equipped = activeBuild[slot];
           return equipped && req.options.includes(equipped.id);
@@ -455,7 +459,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ==========================================
-  // --- 4. 神恩百科與前置解鎖 (Boon Encyclopedia) 邏輯 ---
+  // --- 4. 祝福百科與前置解鎖 (Boon Encyclopedia) 邏輯 ---
   // ==========================================
   
   // 渲染左側神明篩選器
@@ -504,7 +508,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderBoonsGrid();
   });
 
-  // 渲染神恩展示網格
+  // 渲染祝福展示網格
   function renderBoonsGrid() {
     const gridEl = document.getElementById("boons-display-grid");
     gridEl.innerHTML = "";
@@ -534,7 +538,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (filtered.length === 0) {
-      gridEl.innerHTML = `<div class="slot-empty-text" style="grid-column: 1/-1; text-align: center; padding: 40px 0;">目前無符合篩選條件的神恩。</div>`;
+      gridEl.innerHTML = `<div class="slot-empty-text" style="grid-column: 1/-1; text-align: center; padding: 40px 0;">目前無符合篩選條件的祝福。</div>`;
       return;
     }
 
@@ -546,14 +550,14 @@ document.addEventListener("DOMContentLoaded", () => {
       card.style.setProperty("--god-color", curGod.themeColor);
       card.style.setProperty("--god-glow-color", curGod.glowColor);
 
-      // 槽位名稱中文化
-      const slotsZh = { Attack: "普通攻擊", Special: "特技攻擊", Cast: "法陣技能", Dash: "奔刺技能", Gain: "法力回復", Passive: "被動效果", Duo: "雙重神恩", Legendary: "傳奇神恩" };
+      // 槽位名稱中文化 (對齊 Xbox)
+      const slotsZh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "魔力", Passive: "被動效果", Duo: "雙重祝福", Legendary: "傳奇祝福" };
       
       let badgeHtml = "";
       if (boon.slot === "Duo") {
-        badgeHtml = `<span class="boon-card-badge duo">雙重神恩</span>`;
+        badgeHtml = `<span class="boon-card-badge duo">雙重祝福</span>`;
       } else if (boon.slot === "Legendary") {
-        badgeHtml = `<span class="boon-card-badge legendary">傳奇神恩</span>`;
+        badgeHtml = `<span class="boon-card-badge legendary">傳奇祝福</span>`;
       }
 
       let curseHtml = "";
@@ -581,12 +585,12 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
 
-      // 點擊事件：如果是雙重/傳奇，開啟前置路徑規劃，其餘普通神恩可選擇直接裝載或查看
+      // 點擊事件：如果是雙重/傳奇，開啟前置路徑規劃，其餘普通祝福可選擇直接裝載或查看
       card.addEventListener("click", () => {
         if (boon.slot === "Duo" || boon.slot === "Legendary") {
           openPathFinder(boon);
         } else {
-          // 普通神恩提示可到裝配區裝配
+          // 普通祝福提示可到裝配區裝配
           const confirmEquip = confirm(`要將「${boon.name}」裝配到您的構築規劃器中嗎？`);
           if (confirmEquip) {
             const coreSlots = ["Attack", "Special", "Cast", "Dash", "Gain"];
@@ -597,7 +601,7 @@ document.addEventListener("DOMContentLoaded", () => {
               activeBuild.passives.add(boon.id);
               updatePlannerState();
               switchTab("planner");
-              alert(`🎉 已成功將被動/特殊神恩「${boon.name}」裝配到您的規劃器列表中！`);
+              alert(`🎉 已成功將被動/特殊祝福「${boon.name}」裝配到您的規劃器列表中！`);
             }
           }
         }
@@ -607,7 +611,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 渲染雙重神恩 X-Y 關係矩陣
+  // 渲染雙重祝福 X-Y 關係矩陣
   function renderDuoMatrix() {
     const matrixTable = document.getElementById("duo-combination-matrix");
     if (!matrixTable) return;
@@ -635,10 +639,10 @@ document.addEventListener("DOMContentLoaded", () => {
       tbodyHtml += `<tr><td class="matrix-row-header">${rowGod.name.split(" ")[0]}</td>`;
       matrixGods.forEach(colGod => {
         if (rowGod.key === colGod.key) {
-          // 對角線：查找該神明的傳奇神恩
+          // 對角線：查找該神明的傳奇祝福
           const legendaryBoon = hades2BoonsData.boons.find(b => b.god === rowGod.key && b.slot === "Legendary");
           if (legendaryBoon) {
-            tbodyHtml += `<td class="matrix-diagonal-cell has-legendary" data-boon-id="${legendaryBoon.id}" title="點擊查看傳奇神恩解鎖路徑">
+            tbodyHtml += `<td class="matrix-diagonal-cell has-legendary" data-boon-id="${legendaryBoon.id}" title="點擊查看傳奇祝福解鎖路徑">
               <div style="font-size:0.75rem;">★ 傳奇 ★</div>
               <div class="matrix-duo-name" style="color: #ff592a; font-size:0.8rem; text-shadow:0 0 5px rgba(255, 89, 42, 0.4);">${legendaryBoon.name}</div>
             </td>`;
@@ -646,7 +650,7 @@ document.addEventListener("DOMContentLoaded", () => {
             tbodyHtml += `<td class="matrix-diagonal-cell">—</td>`;
           }
         } else {
-          // 非對角線：查找雙重神恩
+          // 非對角線：查找雙重祝福
           const duoBoon = hades2BoonsData.boons.find(b => 
             b.slot === "Duo" && 
             b.prerequisites.gods.includes(rowGod.key) && 
@@ -654,10 +658,10 @@ document.addEventListener("DOMContentLoaded", () => {
           );
 
           if (duoBoon) {
-            tbodyHtml += `<td class="matrix-duo-cell" data-boon-id="${duoBoon.id}" title="點擊查看雙重神恩解鎖路徑">
+            tbodyHtml += `<td class="matrix-duo-cell" data-boon-id="${duoBoon.id}" title="點擊查看雙重祝福解鎖路徑">
               <div class="matrix-duo-cell-inner">
                 <span class="matrix-duo-name">${duoBoon.name}</span>
-                <span class="matrix-duo-sub">雙重神恩</span>
+                <span class="matrix-duo-sub">雙重祝福</span>
               </div>
             </td>`;
           } else {
@@ -713,9 +717,9 @@ document.addEventListener("DOMContentLoaded", () => {
     pathPanel.scrollIntoView({ behavior: "smooth", block: "start" });
     
     pathBoonName.textContent = boon.name;
-    pathTypeBadge.textContent = boon.slot === "Duo" ? "雙重神恩" : "傳奇神恩";
+    pathTypeBadge.textContent = boon.slot === "Duo" ? "雙重祝福" : "傳奇祝福";
     pathTypeBadge.className = `boon-card-badge ${boon.slot.toLowerCase()}`;
-    pathDescText.innerHTML = `<strong>效果：</strong>${boon.desc}<br><br>這是一個強力的特殊神恩。在下方勾選您已獲得的神恩，模擬前置路徑。`;
+    pathDescText.innerHTML = `<strong>效果：</strong>${boon.desc}<br><br>這是一個強力的特殊祝福。在下方勾選您已獲得的祝福，模擬前置路徑。`;
 
     pathObtainedBoons.clear();
 
@@ -725,15 +729,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // 渲染第一步 (God A)
     const req1 = reqs[0];
     const god1 = hades2BoonsData.gods[req1.god];
-    pathStep1Title.textContent = `${god1.name} 前置需求（以下任選一項）`;
+    pathStep1Title.textContent = `${god1.name} 前置祝福需求（以下任選一項）`;
     renderPathOptions(pathStep1Options, req1.options);
 
-    // 渲染第二步 (God B) - 傳奇神恩通常只有一步，雙重神恩有兩步
+    // 渲染第二步 (God B) - 傳奇祝福通常只有一步，雙重祝福有兩步
     if (reqs.length > 1) {
       pathStep2Box.style.display = "block";
       const req2 = reqs[1];
       const god2 = hades2BoonsData.gods[req2.god];
-      pathStep2Title.textContent = `${god2.name} 前置需求（以下任選一項）`;
+      pathStep2Title.textContent = `${god2.name} 前置祝福需求（以下任選一項）`;
       renderPathOptions(pathStep2Options, req2.options);
     } else {
       pathStep2Box.style.display = "none";
@@ -762,17 +766,17 @@ document.addEventListener("DOMContentLoaded", () => {
           pathObtainedBoons.delete(id);
           item.classList.remove("checked");
         } else {
-          // 檢查核心槽位衝突 (普攻、特技、法陣、奔刺、回魔)
+          // 檢查核心槽位衝突 (攻擊、特技、施法、衝刺、魔力)
           const coreSlots = ["Attack", "Special", "Cast", "Dash", "Gain"];
           if (coreSlots.includes(boon.slot)) {
-            // 尋找已勾選且同槽位的其他衝突神恩
+            // 尋找已勾選且同槽位的其他衝突祝福
             const conflictId = Array.from(pathObtainedBoons).find(checkedId => {
               const b = hades2BoonsData.boons.find(x => x.id === checkedId);
               return b && b.slot === boon.slot && b.id !== boon.id;
             });
 
             if (conflictId) {
-              // 移除衝突神恩的勾選狀態與 DOM 樣式
+              // 移除衝突祝福的勾選狀態與 DOM 樣式
               pathObtainedBoons.delete(conflictId);
               const conflictingEl = document.querySelector(`.step-option-item[data-boon-id="${conflictId}"]`);
               if (conflictingEl) {
@@ -791,8 +795,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // 對齊 Xbox 插槽中文
   function translateSlot(slot) {
-    const zh = { Attack: "普攻", Special: "特技", Cast: "法陣", Dash: "奔刺", Gain: "回魔", Passive: "被動" };
+    const zh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "魔力", Passive: "被動" };
     return zh[slot] || slot;
   }
 
@@ -816,14 +821,14 @@ document.addEventListener("DOMContentLoaded", () => {
       pathDescText.innerHTML = `<strong>效果：</strong>${currentPathBoon.desc}<br><br><span style="color:var(--green-glow); font-weight:800;">🎉 恭喜！您已具備解鎖「${currentPathBoon.name}」的全部前置條件！在後續的遊戲關卡中，您將有機率在祝福房中刷出此技能。</span>`;
     } else {
       pathPercentNum.style.color = "var(--text-main)";
-      pathDescText.innerHTML = `<strong>效果：</strong>${currentPathBoon.desc}<br><br>請勾選以達標。當前進度為 ${percent}%。還需要補充其他神明的核心前置技能。`;
+      pathDescText.innerHTML = `<strong>效果：</strong>${currentPathBoon.desc}<br><br>請勾選以達標。當前進度為 ${percent}%。還需要補充其他神明的第一階段前置技能。`;
     }
   }
 
   // 綁定「一鍵套用前置到構築規劃器」
   pathApplyBtn.addEventListener("click", () => {
     if (pathObtainedBoons.size === 0) {
-      alert("請先在左邊勾選您想要模擬套用的前置神恩！");
+      alert("請先在左邊勾選您想要模擬套用的前置祝福！");
       return;
     }
 
@@ -845,7 +850,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // 將目標雙重/傳奇神恩本身也加入被動列表中，使其更完整！
+    // 將目標雙重/傳奇祝福本身也加入被動列表中，使其更完整！
     if (currentPathBoon) {
       activeBuild.passives.add(currentPathBoon.id);
       passiveCount++;
@@ -854,16 +859,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const totalCount = coreCount + passiveCount;
     if (totalCount > 0) {
       updatePlannerState();
-      alert(`🎉 成功套用前置配置！\n• 核心神恩：已裝配 ${coreCount} 個\n• 被動與目標神恩：已裝配 ${passiveCount} 個\n\n已自動為您跳轉至構築規劃面板。`);
+      alert(`🎉 成功套用前置配置！\n• 核心祝福：已裝配 ${coreCount} 個\n• 被動與目標祝福：已裝配 ${passiveCount} 個\n\n已自動為您跳轉至構築規劃面板。`);
       switchTab("planner");
     } else {
-      alert("無效的神恩配置，無法套用。");
+      alert("無效的祝福配置，無法套用。");
     }
   });
 
 
   // ==========================================
-  // --- 6. 奧秘牌配置模擬器 (Arcana Cards) 邏輯 ---
+  // --- 6. 阿卡納奧秘配置模擬器 (Arcana Cards) 邏輯 ---
   // ==========================================
   const arcanaDetailPlaceholder = document.getElementById("card-detail-placeholder");
   const arcanaDetailBody = document.getElementById("card-detail-body");
@@ -948,7 +953,7 @@ document.addEventListener("DOMContentLoaded", () => {
     arcanaDetailBody.style.display = "none";
   }
 
-  // 更新奧秘牌計量表與啟用列表
+  // 更新奧秘卡牌計量表與啟用列表
   function updateArcanaState() {
     let totalCost = 0;
     activatedCardsList.innerHTML = "";
@@ -980,7 +985,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // 更新心力計量表
+    // 更新悟性計量表
     graspCurrentNum.textContent = totalCost;
     const percent = Math.min((totalCost / maxGraspLimit) * 100, 100);
     graspMeter.style.width = `${percent}%`;
@@ -1054,7 +1059,7 @@ document.addEventListener("DOMContentLoaded", () => {
     activeBuild.weapon = selectWeapon.value;
     activeBuild.aspect = selectAspect.value;
 
-    // 2. 裝配槽位神恩
+    // 2. 裝配槽位祝福
     Object.keys(preset.coreBoons).forEach(slot => {
       const boonId = preset.coreBoons[slot];
       const boon = hades2BoonsData.boons.find(b => b.id === boonId);
@@ -1081,7 +1086,211 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // 5. 自動跳轉到首頁查看
     switchTab("planner");
-    alert(`🎉 「${preset.title}」已成功載入！核心槽位神恩與奧秘牌已配置完畢，已為您跳轉到構築規劃面板查看。`);
+    alert(`🎉 「${preset.title}」已成功載入！核心槽位祝福與阿卡納奧秘已配置完畢，已為您跳轉到構築規劃面板查看。`);
+  }
+
+  // ==========================================
+  // --- 8. 新手成長教學 (Beginner Guide) 邏輯 ---
+  // ==========================================
+  let activeTutorialStage = "early";
+  let completedQuests = new Set();
+  
+  // 從 localStorage 讀取已完成的任務
+  try {
+    const savedQuests = localStorage.getItem("hades2_completed_quests");
+    if (savedQuests) {
+      JSON.parse(savedQuests).forEach(id => completedQuests.add(id));
+    }
+  } catch (e) {
+    console.error("讀取已完成任務失敗:", e);
+  }
+
+  let activeQuestFilter = "all";
+
+  function renderTutorial() {
+    renderMechanics();
+    renderTimelineTabs();
+    renderTimelineContent();
+    renderQuestsFilters();
+    renderQuestsList();
+    updateQuestsProgress();
+  }
+
+  // 1. 渲染核心機制
+  function renderMechanics() {
+    const grid = document.getElementById("tutorial-mechanics-grid");
+    if (!grid) return;
+    grid.innerHTML = "";
+
+    hades2TutorialData.mechanics.forEach(mech => {
+      const card = document.createElement("div");
+      card.className = "mechanics-card";
+      card.innerHTML = `
+        <div class="mechanics-card-header">
+          <div class="mechanics-card-icon">${mech.icon}</div>
+          <h3 class="mechanics-card-title">${mech.title}</h3>
+        </div>
+        <p class="mechanics-card-desc">${mech.desc}</p>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // 2. 渲染時間軸導覽按鈕
+  function renderTimelineTabs() {
+    const container = document.getElementById("tutorial-timeline-tabs");
+    if (!container) return;
+    container.innerHTML = "";
+
+    hades2TutorialData.stages.forEach(stage => {
+      const btn = document.createElement("button");
+      const stageKey = stage.id.replace("stage_", "");
+      btn.className = `timeline-btn ${activeTutorialStage === stageKey ? "active" : ""}`;
+      btn.setAttribute("data-stage", stageKey);
+      
+      const emoji = stage.name.substring(0, 2);
+      const cleanName = stage.name.substring(2).split("：")[0];
+
+      btn.innerHTML = `
+        <span>${emoji} ${cleanName}</span>
+        <span class="timeline-btn-tag">${stage.tag}</span>
+      `;
+
+      btn.addEventListener("click", () => {
+        activeTutorialStage = stageKey;
+        renderTimelineTabs();
+        renderTimelineContent();
+      });
+
+      container.appendChild(btn);
+    });
+  }
+
+  // 3. 渲染時間軸細節內容
+  function renderTimelineContent() {
+    const container = document.getElementById("tutorial-timeline-content");
+    if (!container) return;
+    container.innerHTML = "";
+
+    const stage = hades2TutorialData.stages.find(s => s.id === `stage_${activeTutorialStage}`);
+    if (!stage) return;
+
+    // 渲染階段總結與詳細小卡
+    const summaryEl = document.createElement("div");
+    summaryEl.className = "timeline-summary";
+    summaryEl.innerHTML = `<strong>本階段目標：</strong>${stage.summary}`;
+    container.appendChild(summaryEl);
+
+    const grid = document.createElement("div");
+    grid.className = "timeline-details-grid";
+
+    stage.details.forEach(detail => {
+      const box = document.createElement("div");
+      box.className = "timeline-detail-box";
+      box.innerHTML = `
+        <h4 class="timeline-detail-title">${detail.title}</h4>
+        <p class="timeline-detail-content">${detail.content}</p>
+      `;
+      grid.appendChild(box);
+    });
+
+    container.appendChild(grid);
+  }
+
+  // 4. 綁定任務過濾按鈕點擊事件
+  function renderQuestsFilters() {
+    const filters = document.querySelectorAll("#tutorial-quest-filters .filter-btn");
+    filters.forEach(btn => {
+      // 確保只在初始化時綁定一次
+      if (btn.dataset.bound) return;
+      btn.dataset.bound = "true";
+
+      btn.addEventListener("click", () => {
+        filters.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeQuestFilter = btn.getAttribute("data-quest-filter");
+        renderQuestsList();
+      });
+    });
+  }
+
+  // 5. 渲染任務清單
+  function renderQuestsList() {
+    const list = document.getElementById("tutorial-quest-list");
+    if (!list) return;
+    list.innerHTML = "";
+
+    const filteredQuests = hades2TutorialData.quests.filter(q => {
+      if (activeQuestFilter === "all") return true;
+      return q.stage === activeQuestFilter;
+    });
+
+    if (filteredQuests.length === 0) {
+      list.innerHTML = `<div class="slot-empty-text" style="text-align: center; padding: 20px;">當前階段無任何任務。</div>`;
+      return;
+    }
+
+    filteredQuests.forEach(quest => {
+      const item = document.createElement("div");
+      const isChecked = completedQuests.has(quest.id);
+      item.className = `quest-item ${isChecked ? "checked" : ""}`;
+      
+      const badgeZh = { early: "🟢 入門期", mid: "🟡 中期", late: "🔴 後期" };
+
+      item.innerHTML = `
+        <div class="quest-checkbox-wrapper"></div>
+        <div class="quest-info">
+          <div class="quest-title-text">
+            <span>${quest.title}</span>
+            <span class="quest-badge ${quest.stage}">${badgeZh[quest.stage]}</span>
+          </div>
+          <div class="quest-desc-text">${quest.desc}</div>
+        </div>
+      `;
+
+      item.addEventListener("click", () => {
+        if (completedQuests.has(quest.id)) {
+          completedQuests.delete(quest.id);
+          item.classList.remove("checked");
+        } else {
+          completedQuests.add(quest.id);
+          item.classList.add("checked");
+        }
+        
+        // 儲存至 localStorage
+        try {
+          localStorage.setItem("hades2_completed_quests", JSON.stringify(Array.from(completedQuests)));
+        } catch (e) {
+          console.error("儲存任務完成狀態失敗:", e);
+        }
+
+        updateQuestsProgress();
+      });
+
+      list.appendChild(item);
+    });
+  }
+
+  // 6. 更新進度顯示
+  function updateQuestsProgress() {
+    const progressLabel = document.getElementById("quests-progress-label");
+    if (!progressLabel) return;
+
+    const totalQuests = hades2TutorialData.quests.length;
+    const completedCount = Array.from(completedQuests).filter(id => 
+      hades2TutorialData.quests.some(q => q.id === id)
+    ).length;
+
+    const percent = totalQuests > 0 ? Math.round((completedCount / totalQuests) * 100) : 0;
+    progressLabel.textContent = `已完成：${completedCount} / ${totalQuests} (${percent}%)`;
+    
+    if (percent === 100) {
+      progressLabel.style.color = "var(--green-glow)";
+      progressLabel.style.textShadow = "0 0 8px rgba(24, 242, 153, 0.4)";
+    } else {
+      progressLabel.style.color = "var(--text-muted)";
+      progressLabel.style.textShadow = "none";
+    }
   }
 
   // 初始化加載

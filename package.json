@@ -4,7 +4,7 @@
   "description": "黑帝斯2 冥府構築助手 (Hades II Build Assistant)",
   "main": "index.html",
   "scripts": {
-    "dev": "npx -y serve ./"
+    "dev": "python -m http.server 8000"
   },
   "keywords": [
     "hades2",

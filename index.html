@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>《黑帝斯2》冥府構築助手 - Hades II Build Assistant</title>
-  <meta name="description" content="專為《黑帝斯2》玩家設計的互動式神恩構築模擬、雙重與傳奇神恩解鎖前置路徑檢索、冥府奧秘牌搭配規劃器。支持「源頭」雙重狀態詛咒判定，助你輕鬆搭配最強冥府Build。">
+  <meta name="description" content="專為《黑帝斯2》玩家設計的互動式祝福構築模擬、雙重與傳奇祝福解鎖前置路徑檢索、阿卡納奧秘配置規劃器。支持「源頭」雙重狀態詛咒判定，助你輕鬆搭配最強冥府Build。">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,13 +24,16 @@
         🔮 構築規劃器
       </button>
       <button class="tab-btn" id="tab-btn-database" role="tab" aria-selected="false" aria-controls="panel-database">
-        📖 神恩百科 & 解鎖路徑
+        📖 祝福百科 & 解鎖路徑
       </button>
       <button class="tab-btn" id="tab-btn-arcana" role="tab" aria-selected="false" aria-controls="panel-arcana">
-        🎴 奧秘牌配置器
+        🎴 阿卡納奧秘配置器
       </button>
       <button class="tab-btn" id="tab-btn-guides" role="tab" aria-selected="false" aria-controls="panel-guides">
         🏆 神級流派推薦
+      </button>
+      <button class="tab-btn" id="tab-btn-tutorial" role="tab" aria-selected="false" aria-controls="panel-tutorial">
+        🎓 新手成長教學
       </button>
     </nav>
 
@@ -71,65 +74,65 @@
               </div>
             </div>
 
-            <!-- 五個核心神恩裝配槽位 -->
+            <!-- 五個核心祝福裝配槽位 -->
             <div class="boon-slot" id="slot-Attack" data-slot="Attack">
               <div class="slot-icon-label">
                 <span class="slot-name">Attack</span>
-                <span class="slot-type-zh">普通攻擊</span>
+                <span class="slot-type-zh">攻擊</span>
               </div>
               <div class="slot-content-area" id="slot-Attack-content">
-                <span class="slot-empty-text">點擊裝配普通攻擊神恩...</span>
+                <span class="slot-empty-text">點擊裝配攻擊祝福...</span>
               </div>
             </div>
 
             <div class="boon-slot" id="slot-Special" data-slot="Special">
               <div class="slot-icon-label">
                 <span class="slot-name">Special</span>
-                <span class="slot-type-zh">特技攻擊</span>
+                <span class="slot-type-zh">特技</span>
               </div>
               <div class="slot-content-area" id="slot-Special-content">
-                <span class="slot-empty-text">點擊裝配特技攻擊神恩...</span>
+                <span class="slot-empty-text">點擊裝配特技祝福...</span>
               </div>
             </div>
 
             <div class="boon-slot" id="slot-Cast" data-slot="Cast">
               <div class="slot-icon-label">
                 <span class="slot-name">Cast</span>
-                <span class="slot-type-zh">法陣技能</span>
+                <span class="slot-type-zh">施法</span>
               </div>
               <div class="slot-content-area" id="slot-Cast-content">
-                <span class="slot-empty-text">點擊裝配法陣技能神恩...</span>
+                <span class="slot-empty-text">點擊裝配施法祝福...</span>
               </div>
             </div>
 
             <div class="boon-slot" id="slot-Dash" data-slot="Dash">
               <div class="slot-icon-label">
                 <span class="slot-name">Dash</span>
-                <span class="slot-type-zh">奔刺技能</span>
+                <span class="slot-type-zh">衝刺</span>
               </div>
               <div class="slot-content-area" id="slot-Dash-content">
-                <span class="slot-empty-text">點擊裝配奔刺技能神恩...</span>
+                <span class="slot-empty-text">點擊裝配衝刺祝福...</span>
               </div>
             </div>
 
             <div class="boon-slot" id="slot-Gain" data-slot="Gain">
               <div class="slot-icon-label">
-                <span class="slot-name">Gain</span>
-                <span class="slot-type-zh">法力回復</span>
+                <span class="slot-name">Magick</span>
+                <span class="slot-type-zh">魔力</span>
               </div>
               <div class="slot-content-area" id="slot-Gain-content">
-                <span class="slot-empty-text">點擊裝配法力回復神恩...</span>
+                <span class="slot-empty-text">點擊裝配魔力祝福...</span>
               </div>
             </div>
 
-            <!-- 已裝配的被動與特殊神恩 -->
+            <!-- 已裝配的被動與特殊祝福 -->
             <div class="panel passive-boons-panel" style="margin-top: 15px; padding: 16px; background: rgba(0,0,0,0.25); border-radius: 12px; border: 1px solid var(--border-color); box-shadow: none;">
               <div style="font-family: var(--font-title); color: var(--gold); font-size: 1rem; margin-bottom: 12px; font-weight: 700; border-left: 3px solid var(--gold); padding-left: 8px; display: flex; justify-content: space-between; align-items: center;">
-                <span>🔑 已裝配的被動 & 特殊神恩</span>
+                <span>🔑 已裝配的被動 & 特殊祝福</span>
                 <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-body); font-weight: normal;">(Legendary / Duo / Passive)</span>
               </div>
               <div class="passive-boons-list" id="planner-passive-list" style="display: flex; flex-direction: column; gap: 8px;">
-                <span class="slot-empty-text" style="font-size: 0.85rem; font-style: italic;">目前尚未裝配任何被動或特殊神恩。</span>
+                <span class="slot-empty-text" style="font-size: 0.85rem; font-style: italic;">目前尚未裝配任何被動或特殊祝福。</span>
               </div>
             </div>
 
@@ -148,7 +151,7 @@
               <h2 id="origination-status-label" style="color: var(--text-muted); font-size: 1.6rem; letter-spacing: 2px;">未激活</h2>
             </div>
             <p class="origination-desc" id="origination-desc-text">
-              在裝配的核心神恩中，需要提供【至少兩種不同的狀態詛咒】，即可激活奧秘牌「源頭」獲得 +50% 的爆發全傷加成！
+              在裝配的核心祝福中，需要提供【至少兩種不同的狀態詛咒】，即可激活奧秘牌「源頭」獲得 +50% 的爆發全傷加成！
             </p>
           </div>
 
@@ -192,11 +195,11 @@
             </div>
           </div>
 
-          <!-- 解鎖神恩預警 -->
+          <!-- 解鎖祝福預警 -->
           <div class="panel">
-            <div class="panel-title">🔗 傳奇與雙重神恩解鎖檢測</div>
+            <div class="panel-title">🔗 傳奇與雙重祝福解鎖檢測</div>
             <div class="build-synergies-list" id="planner-synergies-list">
-              <!-- 動態顯示哪些傳奇或雙重神恩的前置條件已被點亮 -->
+              <!-- 動態顯示哪些傳奇或雙重祝福的前置條件已被點亮 -->
             </div>
           </div>
         </div>
@@ -205,15 +208,15 @@
     </main>
 
     <!-- ==========================================
-         TAB 2: 神恩百科 Panel
+         TAB 2: 祝福百科 Panel
          ========================================== -->
     <section class="tab-panel" id="panel-database" role="tabpanel" aria-labelledby="tab-btn-database">
       
-      <!-- 頂部高亮路徑解鎖面板 (預設隱藏，點擊雙重或傳奇神恩時滑出) -->
+      <!-- 頂部高亮路徑解鎖面板 (預設隱藏，點擊雙重或傳奇祝福時滑出) -->
       <div class="path-finder-panel" id="boon-path-finder">
         <div class="path-finder-header">
           <div class="path-title-group">
-            <span class="boon-card-badge duo" id="path-type-badge">Duo</span>
+            <span class="boon-card-badge duo" id="path-type-badge">雙重祝福</span>
             <span class="path-title" id="path-boon-name">黃金法則</span>
           </div>
           <button class="path-close-btn" id="btn-close-path" aria-label="關閉路徑面板">✕</button>
@@ -223,15 +226,15 @@
           <!-- 步驟前置 -->
           <div class="path-flowchart">
             <div class="flowchart-step">
-              <div class="step-title" id="path-step1-title">神明 A 前置神恩需求</div>
+              <div class="step-title" id="path-step1-title">神明 A 前置祝福需求</div>
               <div class="step-options-list" id="path-step1-options">
-                <!-- 核心神恩選項 -->
+                <!-- 核心祝福選項 -->
               </div>
             </div>
             <div class="flowchart-step" id="path-step2-box">
-              <div class="step-title" id="path-step2-title">神明 B 前置神恩需求</div>
+              <div class="step-title" id="path-step2-title">神明 B 前置祝福需求</div>
               <div class="step-options-list" id="path-step2-options">
-                <!-- 核心神恩選項 -->
+                <!-- 核心祝福選項 -->
               </div>
             </div>
           </div>
@@ -249,7 +252,7 @@
               </div>
               <h3 style="color: var(--gold); margin-bottom: 12px;">前置條件解鎖路徑</h3>
               <p class="path-summary-desc" id="path-desc-text">
-                請在左邊勾選您在局內已經選取到的神恩。系統會動態為您評估是否已經符合在後續房間中刷出此強力雙重神恩的資格！
+                請在左邊勾選您在局內已經選取到的祝福。系統會動態為您評估是否已經符合在後續房間中刷出此強力雙重祝福的資格！
               </p>
             </div>
             <button class="path-solver-action-btn" id="btn-apply-path-to-planner">一鍵套用前置到構築規劃器</button>
@@ -257,12 +260,12 @@
         </div>
       </div>
 
-      <!-- 雙重神恩 X-Y 關係矩陣 -->
+      <!-- 雙重祝福 X-Y 關係矩陣 -->
       <div class="panel matrix-container-panel">
         <div class="panel-title">
-          <span>🎛️ 雙重神恩 X-Y 關係矩陣 (點擊查看解鎖前置)</span>
+          <span>🎛️ 雙重祝福 X-Y 關係矩陣 (點擊查看解鎖前置)</span>
           <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: normal; border-left: none; padding-left: 0;">
-            橫縱軸神明相交點代表其雙重神恩，對角線為傳奇神恩
+            橫縱軸神明相交點代表其雙重祝福，對角線為傳奇祝福
           </span>
         </div>
         <div class="matrix-scroll-hint">
@@ -275,40 +278,40 @@
         </div>
       </div>
 
-      <!-- 神恩數據檢索板塊 -->
+      <!-- 祝福數據檢索板塊 -->
       <div class="boons-layout">
         <!-- 左側：神明篩選選單 -->
         <aside class="god-menu" id="god-filter-menu" role="tablist" aria-label="篩選神明">
           <!-- 動態生成神明選項 -->
         </aside>
 
-        <!-- 右側：搜尋與神恩卡片列表 -->
+        <!-- 右側：搜尋與祝福卡片列表 -->
         <div class="boons-main-area">
           <div class="search-bar-container">
-            <input type="text" class="search-input" id="input-boon-search" placeholder="輸入關鍵字搜尋神恩（例如：擊退、燒傷、法陣、Omega...）">
+            <input type="text" class="search-input" id="input-boon-search" placeholder="輸入關鍵字搜尋祝福（例如：擊退、燒傷、施法、Omega...）">
           </div>
           
           <div class="filter-slots-container" id="boon-slot-filters">
             <button class="filter-btn active" data-slot="All">全部類型</button>
-            <button class="filter-btn" data-slot="Attack">普通攻擊</button>
-            <button class="filter-btn" data-slot="Special">特技攻擊</button>
-            <button class="filter-btn" data-slot="Cast">法陣技能</button>
-            <button class="filter-btn" data-slot="Dash">奔刺技能</button>
-            <button class="filter-btn" data-slot="Gain">法力回復</button>
+            <button class="filter-btn" data-slot="Attack">攻擊</button>
+            <button class="filter-btn" data-slot="Special">特技</button>
+            <button class="filter-btn" data-slot="Cast">施法</button>
+            <button class="filter-btn" data-slot="Dash">衝刺</button>
+            <button class="filter-btn" data-slot="Gain">魔力</button>
             <button class="filter-btn" data-slot="Passive">被動/其他</button>
-            <button class="filter-btn" data-slot="Duo">雙重神恩</button>
-            <button class="filter-btn" data-slot="Legendary">傳奇神恩</button>
+            <button class="filter-btn" data-slot="Duo">雙重祝福</button>
+            <button class="filter-btn" data-slot="Legendary">傳奇祝福</button>
           </div>
 
           <div class="boons-grid" id="boons-display-grid">
-            <!-- 神恩卡片動態載入區 -->
+            <!-- 祝福卡片動態載入區 -->
           </div>
         </div>
       </div>
     </section>
 
     <!-- ==========================================
-         TAB 3: 奧秘牌配置 Panel
+         TAB 3: 阿卡納奧秘配置 Panel
          ========================================== -->
     <section class="tab-panel" id="panel-arcana" role="tabpanel" aria-labelledby="tab-btn-arcana">
       <div class="arcana-layout">
@@ -316,7 +319,7 @@
         <!-- 左側：5x5 石板 -->
         <div class="panel arcana-board-container">
           <div class="panel-title" style="width: 100%;">
-            <span>🎴 冥府奧秘牌石板 (5x5)</span>
+            <span>🎴 阿卡納奧秘卡牌石板 (5x5)</span>
             <button class="filter-btn" id="btn-reset-arcana" style="font-size: 0.8rem; padding: 4px 10px;">清空配置</button>
           </div>
           
@@ -327,10 +330,10 @@
 
         <!-- 右側：統計與卡牌詳情 -->
         <div class="arcana-stats">
-          <!-- 心力消耗量錶 -->
+          <!-- 悟性消耗量錶 -->
           <div class="panel">
             <div class="grasp-header">
-              <span class="grasp-title">🧠 心力（Grasp）負載</span>
+              <span class="grasp-title">🧠 悟性（Grasp）負載</span>
               <div class="grasp-value-container">
                 <span class="grasp-current" id="grasp-current-num">0</span>
                 <span class="grasp-max">/ 30</span>
@@ -342,14 +345,14 @@
             </div>
             
             <div class="grasp-warning-text" id="grasp-warning">
-              ⚠️ 警告：心力負載已超出上限 (30)！請取消激活部分奧秘牌以適配角色心力。
+              ⚠️ 警告：悟性負載已超出上限 (30)！請取消啟用部分奧秘卡牌以適配角色悟性。
             </div>
           </div>
 
           <!-- 卡片說明詳情 -->
           <div class="card-details-panel">
             <div class="card-details-empty" id="card-detail-placeholder">
-              滑標移入或點擊任何奧秘牌，即可查看卡牌編號、名稱、心力消耗與神秘效果。
+              滑鼠移入或點擊 any 奧秘卡牌，即可查看卡牌編號、名稱、悟性消耗與神秘效果。
             </div>
             
             <div class="card-details-content" id="card-detail-body">
@@ -365,9 +368,9 @@
 
           <!-- 已啟用卡牌匯總 -->
           <div class="active-cards-list-panel">
-            <div class="active-cards-title">🌟 已啟用的奧秘牌效果</div>
+            <div class="active-cards-title">🌟 已啟用的阿卡納卡牌效果</div>
             <div class="active-cards-list" id="activated-cards-list">
-              <div class="slot-empty-text" id="active-cards-empty">當前未啟用任何奧秘牌。</div>
+              <div class="slot-empty-text" id="active-cards-empty">當前未啟用任何奧秘卡牌。</div>
             </div>
           </div>
         </div>
@@ -384,15 +387,66 @@
       </div>
     </section>
 
+    <!-- ==========================================
+         TAB 5: 新手成長教學 Panel
+         ========================================== -->
+    <section class="tab-panel" id="panel-tutorial" role="tabpanel" aria-labelledby="tab-btn-tutorial">
+      <div class="tutorial-layout">
+        
+        <!-- 頂部：核心機制學堂 -->
+        <div class="panel">
+          <div class="panel-title">📚 冥府生存手冊：四大核心機制解析</div>
+          <div class="mechanics-grid" id="tutorial-mechanics-grid">
+            <!-- 由 app.js 動態渲染 -->
+          </div>
+        </div>
+
+        <!-- 中部：前中後期成長指南 (互動時間軸) -->
+        <div class="panel timeline-panel">
+          <div class="panel-title">📈 漸進式逃出指南 (點擊切換階段)</div>
+          
+          <div class="timeline-navigation" id="tutorial-timeline-tabs">
+            <!-- 階段按鈕由 app.js 動態渲染 -->
+          </div>
+          
+          <div class="timeline-content-card" id="tutorial-timeline-content">
+            <!-- 詳細心得由 app.js 動態渲染 -->
+          </div>
+        </div>
+
+        <!-- 底部：行者任務清單 -->
+        <div class="panel quest-panel">
+          <div class="panel-title">
+            <span>🏆 冥府行者考驗：成長必做任務清單</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: normal; border-left: none; padding-left: 0;" id="quests-progress-label">
+              已完成：0 / 0 (0%)
+            </span>
+          </div>
+          
+          <div class="quest-filter-bar" id="tutorial-quest-filters">
+            <button class="filter-btn active" data-quest-filter="all">全部任務</button>
+            <button class="filter-btn" data-quest-filter="early">🟢 入門期</button>
+            <button class="filter-btn" data-quest-filter="mid">🟡 中期</button>
+            <button class="filter-btn" data-quest-filter="late">🔴 後期</button>
+          </div>
+
+          <div class="quest-list" id="tutorial-quest-list">
+            <!-- 任務列表由 app.js 動態渲染 -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
   </div>
 
   <!-- ==========================================
-       Boon 選擇浮層 (Modal)
+       祝福選擇浮層 (Modal)
        ========================================== -->
   <div class="modal-overlay" id="boon-select-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-container">
       <div class="modal-header">
-        <h2 class="modal-title" id="modal-title">選擇神恩</h2>
+        <h2 class="modal-title" id="modal-title">選擇祝福</h2>
         <button class="modal-close" id="btn-close-modal" aria-label="關閉選擇彈窗">✕</button>
       </div>
       
@@ -412,7 +466,7 @@
       </div>
 
       <div class="modal-list-container" id="modal-boons-list">
-        <!-- 神恩裝配選項動態渲染 -->
+        <!-- 祝福裝配選項動態渲染 -->
       </div>
     </div>
   </div>
@@ -421,6 +475,7 @@
   <script src="arcana_data.js"></script>
   <script src="boons_data.js"></script>
   <script src="guide_data.js"></script>
+  <script src="tutorial_data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
