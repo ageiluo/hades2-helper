@@ -1299,6 +1299,46 @@ select:focus, select:hover {
   transform: translateY(-5px);
 }
 
+/* 流派步驟指南樣式 */
+.preset-steps {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px dashed rgba(212, 175, 55, 0.15);
+}
+
+.preset-steps-title {
+  font-family: var(--font-title);
+  color: var(--gold);
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.preset-steps-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 0;
+}
+
+.preset-step-item {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+  transition: var(--transition-smooth);
+}
+
+.preset-step-item:hover {
+  background: rgba(212, 175, 55, 0.03);
+  border-color: rgba(212, 175, 55, 0.15);
+  color: var(--text-main);
+}
+
 .preset-header {
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 15px;
