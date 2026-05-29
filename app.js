@@ -1021,6 +1021,22 @@ document.addEventListener("DOMContentLoaded", () => {
       // 產生標籤
       const tagsHtml = preset.features.map(f => `<span class="preset-tag">${f}</span>`).join("");
       
+      // 產生步驟指南 HTML
+      let stepsHtml = "";
+      if (preset.buildSteps && preset.buildSteps.length > 0) {
+        const stepsListHtml = preset.buildSteps.map(step => `
+          <li class="preset-step-item">${step}</li>
+        `).join("");
+        stepsHtml = `
+          <div class="preset-steps">
+            <h4 class="preset-steps-title">📋 構築成型步驟指南：</h4>
+            <ol class="preset-steps-list">
+              ${stepsListHtml}
+            </ol>
+          </div>
+        `;
+      }
+
       card.innerHTML = `
         <div>
           <div class="preset-header">
@@ -1032,6 +1048,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           </div>
           <p class="preset-desc">${preset.description}</p>
+          ${stepsHtml}
         </div>
         <button class="preset-action-btn" data-apply-preset="${preset.id}">一鍵載入此套流派配置</button>
       `;
