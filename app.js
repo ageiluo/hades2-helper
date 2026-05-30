@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Hades II Build Assistant Core Logic (黑帝斯2 構築助手核心邏輯 - 官方對齊版)
  */
 
@@ -107,6 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const weaponAspectsMap = {
     witch_staff: [
       { value: "melinoe", text: "墨利諾厄之姿 (Aspect of Melinoë)" },
+      { value: "circe", text: "瑟西之姿 (Aspect of Circe)" },
       { value: "momus", text: "摩墨斯之姿 (Aspect of Momus)" }
     ],
     sister_blades: [
@@ -116,7 +117,8 @@ document.addEventListener("DOMContentLoaded", () => {
     ],
     umbral_flames: [
       { value: "melinoe", text: "墨利諾厄之姿 (Aspect of Melinoë)" },
-      { value: "moros", text: "莫洛斯之姿 (Aspect of Moros)" }
+      { value: "moros", text: "莫洛斯之姿 (Aspect of Moros)" },
+      { value: "eos", text: "歐斯之姿 (Aspect of Eos)" }
     ],
     moonstone_axe: [
       { value: "melinoe", text: "墨利諾厄之姿 (Aspect of Melinoë)" },
@@ -125,7 +127,14 @@ document.addEventListener("DOMContentLoaded", () => {
     ],
     argent_skull: [
       { value: "melinoe", text: "墨利諾厄之姿 (Aspect of Melinoë)" },
-      { value: "medea", text: "美狄亞之姿 (Aspect of Medea)" }
+      { value: "medea", text: "美狄亞之姿 (Aspect of Medea)" },
+      { value: "persephone", text: "波瑟芬妮之姿 (Aspect of Persephone)" }
+    ],
+    black_coat: [
+      { value: "melinoe", text: "墨利諾厄之姿 (Aspect of Melinoë)" },
+      { value: "selene", text: "塞勒涅之姿 (Aspect of Selene)" },
+      { value: "nyx", text: "尼克斯之姿 (Aspect of Nyx)" },
+      { value: "shiva", text: "濕婆之姿 (Aspect of Shiva)" }
     ]
   };
 
@@ -511,7 +520,8 @@ document.addEventListener("DOMContentLoaded", () => {
           sister_blades: "姊妹雙刃 (Sister Blades)",
           umbral_flames: "暗影之炬 (Umbral Flames)",
           moonstone_axe: "月石之斧 (Moonstone Axe)",
-          argent_skull: "銀白之顱 (Argent Skull)"
+          argent_skull: "銀白之顱 (Argent Skull)",
+          black_coat: "黑色戰甲 (Black Coat)"
         };
         const currentWeaponZh = weaponNames[currentWeapon] || "當前武器";
 
@@ -899,6 +909,8 @@ document.addEventListener("DOMContentLoaded", () => {
       weaponAdvise = "您已選擇【暗影之炬】。建議利用特技遠程彈幕環繞進行中距離拉扯，瘋狂多段疊加狀態傷害！";
     } else if (selectedWeapon === "argent_skull") {
       weaponAdvise = "您已選擇【銀白之顱】。建議發射骷髏後使用特技前衝擊飛並快速回收骷髏，生存容錯極高！";
+    } else if (selectedWeapon === "black_coat") {
+      weaponAdvise = "您已選擇【黑色戰甲】。戰甲防守與反擊能力強大，建議蓄力反彈飛行道具，並利用Omega招式施加高額單體核爆！";
     } else {
       weaponAdvise = "根據當前武器型態，合理搭配對應的核心與被動祝福進行逃脫。";
     }
