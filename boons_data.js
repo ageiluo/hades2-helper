@@ -1,5 +1,5 @@
 /**
- * Hades II Boons Data (黑帝斯2 神恩數據庫)
+ * Hades II Boons Data (黑帝斯2 祝福數據庫)
  */
 const hades2BoonsData = {
   gods: {
@@ -77,7 +77,7 @@ const hades2BoonsData = {
       englishName: "Heaven Strike",
       slot: "Attack",
       curse: "Blitz",
-      desc: "普通攻擊召喚雷擊，並對敵人施加【雷擊】狀態。"
+      desc: "攻擊召喚雷擊，並對敵人施加【雷擊】狀態。"
     },
     {
       id: "zeus_special",
@@ -86,7 +86,7 @@ const hades2BoonsData = {
       englishName: "Lightning Flourish",
       slot: "Special",
       curse: "Blitz",
-      desc: "特技攻擊召喚雷擊，並對敵人施加【雷擊】狀態。"
+      desc: "特技召喚雷擊，並對敵人施加【雷擊】狀態。"
     },
     {
       id: "zeus_cast",
@@ -95,25 +95,25 @@ const hades2BoonsData = {
       englishName: "Storm Ring",
       slot: "Cast",
       curse: "None",
-      desc: "法陣會在指定區域內隨機召喚落雷打擊敵人。"
+      desc: "施法會在指定區域內隨機召喚落雷打擊敵人。"
     },
     {
       id: "zeus_dash",
       god: "zeus",
-      name: "雷鳴奔刺",
+      name: "雷鳴衝刺",
       englishName: "Thunder Sprint",
       slot: "Dash",
       curse: "None",
-      desc: "奔刺時會不斷有落雷打擊附近的敵人，每次消耗法力。"
+      desc: "衝刺時會不斷有落雷打擊附近的敵人，每次消耗魔力。"
     },
     {
       id: "zeus_gain",
       god: "zeus",
-      name: "離子回魔",
+      name: "離子魔力",
       englishName: "Ionic Gain",
       slot: "Gain",
       curse: "None",
-      desc: "使法力上限減少 70%，但每秒獲得極高的法力回復速度。"
+      desc: "使魔力上限減少 70%，但每秒獲得極高的魔力回復速度。"
     },
     {
       id: "zeus_double_strike",
@@ -133,7 +133,7 @@ const hades2BoonsData = {
       englishName: "Sworn Strike",
       slot: "Attack",
       curse: "Hitch",
-      desc: "普通攻擊造成更高傷害，並施加【牽引】狀態。"
+      desc: "攻擊造成更高傷害，並施加【牽引】狀態。"
     },
     {
       id: "hera_special",
@@ -142,7 +142,7 @@ const hades2BoonsData = {
       englishName: "Sworn Flourish",
       slot: "Special",
       curse: "Hitch",
-      desc: "特技攻擊造成更高傷害，並施加【牽引】狀態。"
+      desc: "特技造成更高傷害，並施加【牽引】狀態。"
     },
     {
       id: "hera_cast",
@@ -151,12 +151,12 @@ const hades2BoonsData = {
       englishName: "Engagement Ring",
       slot: "Cast",
       curse: "Hitch",
-      desc: "法陣將召喚一個邊界，進入其中的敵人會被施加【牽引】狀態並受到傷害。"
+      desc: "施法將召喚一個邊界，進入其中的敵人會被施加【牽引】狀態並受到傷害。"
     },
     {
       id: "hera_dash",
       god: "hera",
-      name: "連結奔刺",
+      name: "連結衝刺",
       englishName: "Nexus Sprint",
       slot: "Dash",
       curse: "Hitch",
@@ -165,11 +165,11 @@ const hades2BoonsData = {
     {
       id: "hera_gain",
       god: "hera",
-      name: "重生回魔",
+      name: "重生魔力",
       englishName: "Born Gain",
       slot: "Gain",
       curse: "None",
-      desc: "當法力值歸零時，瞬間回滿。每次觸發有短暫的冷卻時間。"
+      desc: "當魔力值歸零時，瞬間回滿。每次觸發有短暫的冷卻時間。"
     },
 
     // --- 波賽頓 Poseidon ---
@@ -180,7 +180,7 @@ const hades2BoonsData = {
       englishName: "Wave Strike",
       slot: "Attack",
       curse: "Slip",
-      desc: "普攻附帶水花濺射，擊退敵人並施加【滑行】狀態。"
+      desc: "攻擊附帶水花濺射，擊退敵人並施加【滑行】狀態。"
     },
     {
       id: "poseidon_special",
@@ -198,25 +198,25 @@ const hades2BoonsData = {
       englishName: "Geyser Ring",
       slot: "Cast",
       curse: "None",
-      desc: "法陣在被引導或引爆時，會召喚巨大的噴泉擊飛並傷害敵人。"
+      desc: "施法在被引導或引爆時，會召喚巨大的噴泉擊飛並傷害敵人。"
     },
     {
       id: "poseidon_dash",
       god: "poseidon",
-      name: "碎浪奔刺",
+      name: "碎浪衝刺",
       englishName: "Breaker Sprint",
       slot: "Dash",
       curse: "Slip",
-      desc: "奔刺時撞擊敵人造成水浪傷害，並施加【滑行】狀態。"
+      desc: "衝刺時撞擊敵人造成水浪傷害，並施加【滑行】狀態。"
     },
     {
       id: "poseidon_gain",
       god: "poseidon",
-      name: "流水回魔",
+      name: "流水魔力",
       englishName: "Fluid Gain",
       slot: "Gain",
       curse: "None",
-      desc: "擊敗敵人時有 20% 機率掉落水球，撿起可恢復大量法力值。"
+      desc: "擊敗敵人時有 20% 機率掉落水球，撿起可恢復大量魔力。"
     },
     {
       id: "poseidon_double_up",
@@ -236,7 +236,7 @@ const hades2BoonsData = {
       englishName: "Nova Strike",
       slot: "Attack",
       curse: "Daze",
-      desc: "普攻傷害增加，攻擊範圍顯著擴大，並施加【眩暈】狀態。"
+      desc: "攻擊傷害增加，攻擊範圍顯著擴大，並施加【眩暈】狀態。"
     },
     {
       id: "apollo_special",
@@ -254,25 +254,25 @@ const hades2BoonsData = {
       englishName: "Solar Ring",
       slot: "Cast",
       curse: "Daze",
-      desc: "法陣會發射持續的日光脈衝，對範圍內敵人造成持續傷害並致盲。"
+      desc: "施法會發射持續的日光脈衝，對範圍內敵人造成持續傷害並致盲。"
     },
     {
       id: "apollo_dash",
       god: "apollo",
-      name: "炫目奔刺",
+      name: "炫目衝刺",
       englishName: "Blinding Sprint",
       slot: "Dash",
       curse: "Daze",
-      desc: "奔刺速度大幅提升，並會致盲所經過的敵人。"
+      desc: "衝刺速度大幅提升，並會致盲所經過的敵人。"
     },
     {
       id: "apollo_gain",
       god: "apollo",
-      name: "清明回魔",
+      name: "清明魔力",
       englishName: "Lucid Gain",
       slot: "Gain",
       curse: "None",
-      desc: "當您站在法陣區域中時，法力值會獲得超高速自動回復。"
+      desc: "當您站在施法法陣區域中時，魔力會獲得超高速自動回復。"
     },
 
     // --- 阿芙蘿黛蒂 Aphrodite ---
@@ -283,7 +283,7 @@ const hades2BoonsData = {
       englishName: "Flutter Strike",
       slot: "Attack",
       curse: "Weak",
-      desc: "普攻對貼身近距離敵人造成極高的爆發傷害，並施加【衰弱】狀態。"
+      desc: "攻擊對貼身近距離敵人造成極高的爆發傷害，並施加【衰弱】狀態。"
     },
     {
       id: "aphrodite_special",
@@ -301,25 +301,25 @@ const hades2BoonsData = {
       englishName: "Rapture Ring",
       slot: "Cast",
       curse: "Weak",
-      desc: "法陣在釋放時會將附近的敵人吸向中心，並施加【衰弱】。"
+      desc: "施法在釋放時會將附近的敵人吸向中心，並施加【衰弱】。"
     },
     {
       id: "aphrodite_dash",
       god: "aphrodite",
-      name: "激情奔刺",
+      name: "激情衝刺",
       englishName: "Passion Sprint",
       slot: "Dash",
       curse: "Weak",
-      desc: "奔刺撞擊敵人時造成傷害並施加【衰弱】，且會吸引敵人注意力。"
+      desc: "衝刺撞擊敵人時造成傷害並施加【衰弱】，且會吸引敵人注意力。"
     },
     {
       id: "aphrodite_gain",
       god: "aphrodite",
-      name: "魅惑回魔",
+      name: "魅惑魔力",
       englishName: "Glamour Gain",
       slot: "Gain",
       curse: "None",
-      desc: "只要您身邊有受到狀態詛咒的敵人，即可持續獲得法力回復。"
+      desc: "只要您身邊有受到狀態詛咒的敵人，即可持續獲得魔力回復。"
     },
 
     // --- 赫斯提亞 Hestia ---
@@ -330,7 +330,7 @@ const hades2BoonsData = {
       englishName: "Flame Strike",
       slot: "Attack",
       curse: "Scorch",
-      desc: "普通攻擊使敵人附帶【燒傷】狀態，造成持續燃燒傷害。"
+      desc: "攻擊使敵人附帶【燒傷】狀態，造成持續燃燒傷害。"
     },
     {
       id: "hestia_special",
@@ -339,7 +339,7 @@ const hades2BoonsData = {
       englishName: "Flame Flourish",
       slot: "Special",
       curse: "Scorch",
-      desc: "特技攻擊使敵人附帶【燒傷】狀態，造成持續燃燒傷害。"
+      desc: "特技使敵人附帶【燒傷】狀態，造成持續燃燒傷害。"
     },
     {
       id: "hestia_cast",
@@ -348,25 +348,25 @@ const hades2BoonsData = {
       englishName: "Smolder Ring",
       slot: "Cast",
       curse: "Scorch",
-      desc: "法陣會持續朝中心噴射火花，對範圍內敵人造成超高速的【燒傷】堆疊。"
+      desc: "施法會持續朝中心噴射火花，對範圍內敵人造成超高速的【燒傷】堆疊。"
     },
     {
       id: "hestia_dash",
       god: "hestia",
-      name: "煤煙奔刺",
+      name: "煤煙衝刺",
       englishName: "Soot Sprint",
       slot: "Dash",
       curse: "None",
-      desc: "奔刺時可吸收敵人的遠程投影彈幕，並對發射彈幕的敵人施加燒傷。"
+      desc: "衝刺時可吸收敵人的遠程投影彈幕，並對發射彈幕的敵人施加燒傷。"
     },
     {
       id: "hestia_gain",
       god: "hestia",
-      name: "爐火回魔",
+      name: "爐火魔力",
       englishName: "Hearth Gain",
       slot: "Gain",
       curse: "None",
-      desc: "犧牲 10% 生命上限，換取每秒極為高昂的恆定法力回復。"
+      desc: "犧牲 10% 生命上限，換取每秒極為高昂的恆定魔力回復。"
     },
 
     // --- 德密特 Demeter ---
@@ -377,7 +377,7 @@ const hades2BoonsData = {
       englishName: "Frost Strike",
       slot: "Attack",
       curse: "Freeze",
-      desc: "普攻造成傷害並累積【凍結】。凍結疊滿會使敵人無法行動。"
+      desc: "攻擊造成傷害並累積【凍結】。凍結疊滿會使敵人無法行動。"
     },
     {
       id: "demeter_special",
@@ -395,25 +395,25 @@ const hades2BoonsData = {
       englishName: "Arctic Ring",
       slot: "Cast",
       curse: "Cyclone",
-      desc: "法陣內部颳起【冷冽狂風】，對範圍內敵人造成減速與微量持續傷害。"
+      desc: "施法內部颳起【冷冽狂風】，對範圍內敵人造成減速與微量持續傷害。"
     },
     {
       id: "demeter_dash",
       god: "demeter",
-      name: "寒霜奔刺",
+      name: "寒霜衝刺",
       englishName: "Frigid Sprint",
       slot: "Dash",
       curse: "Cyclone",
-      desc: "奔刺時在身後留下冷冽風暴，對接觸的敵人施加寒冷與減速。"
+      desc: "衝刺時在身後留下冷冽風暴，對接觸的敵人施加寒冷與減速。"
     },
     {
       id: "demeter_gain",
       god: "demeter",
-      name: "寧靜回魔",
+      name: "寧靜魔力",
       englishName: "Tranquil Gain",
       slot: "Gain",
       curse: "None",
-      desc: "只要您保持不動（不移動不攻擊），法力值便會瞬間超快速回滿。"
+      desc: "只要您保持不動（不移動不攻擊），魔力便會瞬間超快速回滿。"
     },
 
     // --- 赫菲斯托斯 Hephaestus ---
@@ -424,7 +424,7 @@ const hades2BoonsData = {
       englishName: "Volcanic Strike",
       slot: "Attack",
       curse: "Vent",
-      desc: "普通攻擊會觸發一場巨大的熔岩爆炸（冷卻 15 秒），爆發後對敵人附加【排氣】狀態。"
+      desc: "攻擊會觸發一場巨大的熔岩爆炸（冷卻 15 秒），爆發後對敵人附加【排氣】狀態。"
     },
     {
       id: "hephaestus_special",
@@ -433,7 +433,7 @@ const hades2BoonsData = {
       englishName: "Volcanic Flourish",
       slot: "Special",
       curse: "Vent",
-      desc: "特技攻擊會觸發一場巨大的熔岩爆炸（冷卻 15 秒），爆發後對敵人附加【排氣】狀態。"
+      desc: "特技會觸發一場巨大的熔岩爆炸（冷卻 15 秒），爆發後對敵人附加【排氣】狀態。"
     },
     {
       id: "hephaestus_cast",
@@ -442,25 +442,25 @@ const hades2BoonsData = {
       englishName: "Anvil Ring",
       slot: "Cast",
       curse: "None",
-      desc: "法陣啟動時會產生一次沉重打擊，使範圍內敵人受到重創，並提供護盾增益。"
+      desc: "施法啟動時會產生一次沉重打擊，使範圍內敵人受到重創，並提供護盾增益。"
     },
     {
       id: "hephaestus_dash",
       god: "hephaestus",
-      name: "鍛造奔刺",
+      name: "鍛造衝刺",
       englishName: "Smithy Sprint",
       slot: "Dash",
       curse: "None",
-      desc: "奔刺開始時產生震波擊飛敵人，且可擋下前方的投射物。"
+      desc: "衝刺開始時產生震波擊飛敵人，且可擋下前方的投射物。"
     },
     {
       id: "hephaestus_gain",
       god: "hephaestus",
-      name: "固定回魔",
+      name: "固定魔力",
       englishName: "Fixed Gain",
       slot: "Gain",
       curse: "None",
-      desc: "每當您受到傷害時，會瞬間回復 100% 的法力值；另有被動微量法力回復。"
+      desc: "每當您受到傷害時，會瞬間回復 100% 的魔力；另有被動微量魔力回復。"
     },
 
     // --- 荷米斯 Hermes ---
@@ -471,7 +471,7 @@ const hades2BoonsData = {
       englishName: "Swift Strike",
       slot: "Passive",
       curse: "None",
-      desc: "普通攻擊的速度提升 15%。"
+      desc: "攻擊的速度提升 15%。"
     },
     {
       id: "hermes_special_speed",
@@ -480,7 +480,7 @@ const hades2BoonsData = {
       englishName: "Swift Flourish",
       slot: "Passive",
       curse: "None",
-      desc: "特技攻擊的速度提升 15%。"
+      desc: "特技的速度提升 15%。"
     },
     {
       id: "hermes_dodge",
@@ -493,11 +493,11 @@ const hades2BoonsData = {
     },
 
     // ==========================================
-    // --- 雙重神恩 Duo Boons ---
+    // --- 雙重祝福 Duo Boons ---
     // ==========================================
     {
       id: "duo_golden_rule",
-      god: "zeus", // 歸類用，可自由映射
+      god: "zeus",
       name: "黃金法則",
       englishName: "Golden Rule",
       slot: "Duo",
@@ -612,7 +612,7 @@ const hades2BoonsData = {
       englishName: "Master Metal",
       slot: "Duo",
       curse: "None",
-      desc: "所有需要引導（Omega）的技能，引導速度提升 30% 且消耗的法力額外引發微型火山爆震。",
+      desc: "所有需要引導 Ω 的技能，引導速度提升 30% 且消耗的魔力額外引發微型火山爆震。",
       prerequisites: {
         gods: ["hephaestus", "hermes"],
         requirements: [
@@ -629,7 +629,7 @@ const hades2BoonsData = {
     },
 
     // ==========================================
-    // --- 傳奇神恩 Legendary Boons ---
+    // --- 傳奇祝福 Legendary Boons ---
     // ==========================================
     {
       id: "legendary_zeus",
@@ -660,7 +660,7 @@ const hades2BoonsData = {
       englishName: "Greatest Bounty",
       slot: "Legendary",
       curse: "None",
-      desc: "戰鬥結束後掉落的所有基礎道具、金幣、心力值、最大生命均以雙倍結算。",
+      desc: "戰鬥結束後掉落的所有基礎道具、金幣、悟性值、最大生命均以雙倍結算。",
       prerequisites: {
         gods: ["poseidon"],
         requirements: [
@@ -682,7 +682,7 @@ const hades2BoonsData = {
       englishName: "Winter Harvest",
       slot: "Legendary",
       curse: "None",
-      desc: "受有【凍結】的敵人生命值低於 10% 時會瞬間被粉碎秒殺，並對周圍引發冰碎擴散凍結。",
+      desc: "受有【凍結】的敵人生命值低於 10%時會瞬間被粉碎秒殺，並對周圍引發冰碎擴散凍結。",
       prerequisites: {
         gods: ["demeter"],
         requirements: [
