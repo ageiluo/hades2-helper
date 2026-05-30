@@ -193,11 +193,18 @@ h1 {
    ========================================================================== */
 .planner-grid {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 30px;
+  grid-template-columns: 1.1fr 1.3fr 1fr;
+  gap: 20px;
+  align-items: start;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
+  .planner-grid {
+    grid-template-columns: 1.2fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
   .planner-grid {
     grid-template-columns: 1fr;
   }
@@ -2293,4 +2300,228 @@ select:focus, select:hover {
     flex-wrap: wrap;
     gap: 4px;
   }
+}
+
+/* ==========================================================================
+   智能推薦面板樣式 (Smart Recommendation Panel Styles)
+   ========================================================================== */
+#smart-recommendation-panel {
+  border-color: rgba(212, 175, 55, 0.3);
+  background: linear-gradient(180deg, #161c28 0%, #0d1117 100%);
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+#smart-recommendation-panel.has-content {
+  border-color: var(--border-color-active);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+}
+
+.recommendation-section {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.recommendation-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.recommendation-sec-title {
+  font-family: var(--font-title);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recommendation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recommendation-item {
+  display: flex;
+  flex-direction: column;
+  background: rgba(23, 28, 38, 0.6);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--god-color, var(--gold));
+  border-radius: 8px;
+  padding: 10px 14px;
+  transition: var(--transition-smooth);
+}
+
+.recommendation-item:hover {
+  background: rgba(23, 28, 38, 0.9);
+  border-color: var(--border-color-active);
+  transform: translateX(4px);
+}
+
+.recommendation-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.recommendation-item-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+.recommendation-item-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.recommendation-item-prereq {
+  font-size: 0.78rem;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(255,255,255,0.05);
+  color: var(--text-muted);
+}
+
+.recommendation-item-prereq span.fulfilled {
+  color: var(--green-glow);
+  font-weight: 600;
+}
+
+.recommendation-item-prereq span.missing {
+  color: #ff9d42;
+}
+
+/* 起源互補推薦樣式 */
+.origination-recommendation {
+  background: rgba(24, 242, 153, 0.03);
+  border: 1px solid rgba(24, 242, 153, 0.15);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.origination-recommendation.active {
+  background: rgba(24, 242, 153, 0.08);
+  border-color: var(--green-glow);
+  box-shadow: 0 0 10px rgba(24, 242, 153, 0.1);
+}
+
+.origination-rec-title {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--green-glow);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.origination-rec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.origination-rec-god-item {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.origination-rec-god-name {
+  font-weight: 700;
+  color: var(--god-color, var(--gold));
+  white-space: nowrap;
+}
+
+/* 流派推薦卡片 */
+.rec-preset-card {
+  background: linear-gradient(135deg, rgba(23, 28, 38, 0.8) 0%, rgba(13, 17, 24, 0.9) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: var(--transition-smooth);
+}
+
+.rec-preset-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
+}
+
+.rec-preset-title {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--gold);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rec-preset-weapon {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.rec-preset-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.rec-preset-btn {
+  background: var(--gold);
+  color: var(--bg-dark);
+  border: none;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: var(--transition-smooth);
+}
+
+.rec-preset-btn:hover {
+  box-shadow: 0 0 10px var(--gold-glow);
+  transform: scale(1.03);
+}
+
+/* 奧秘與武器搭配建議 */
+.rec-combo-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.rec-combo-item {
+  margin-bottom: 6px;
+}
+
+.rec-combo-item:last-child {
+  margin-bottom: 0;
+}
+
+.rec-combo-label {
+  font-weight: 600;
+  color: var(--text-main);
 }

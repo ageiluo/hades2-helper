@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>《黑帝斯2》冥府構築助手 - Hades II Build Assistant</title>
-  <meta name="description" content="專為《黑帝斯2》玩家設計的互動式祝福構築模擬、雙重與傳奇祝福解鎖前置路徑檢索、阿卡納奧秘配置規劃器。支持「源頭」雙重狀態詛咒判定，助你輕鬆搭配最強冥府Build。">
+  <meta name="description" content="專為《黑帝斯2》玩家設計的互動式祝福構築模擬、雙重與傳奇祝福解鎖前置路徑檢索、奧秘卡牌配置規劃器。支持「起源」雙重狀態詛咒判定，助你輕鬆搭配最強冥府Build。">
   <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
@@ -27,7 +27,7 @@
         📖 祝福百科 & 解鎖路徑
       </button>
       <button class="tab-btn" id="tab-btn-arcana" role="tab" aria-selected="false" aria-controls="panel-arcana">
-        🎴 阿卡納奧秘配置器
+        🎴 奧秘卡牌配置器
       </button>
       <button class="tab-btn" id="tab-btn-guides" role="tab" aria-selected="false" aria-controls="panel-guides">
         🏆 神級流派推薦
@@ -56,20 +56,26 @@
               <div class="form-group">
                 <label for="select-weapon">選擇武器</label>
                 <select id="select-weapon">
-                  <option value="witch_staff">巫師之杖 (Witch's Staff)</option>
-                  <option value="sister_blades">姊妹雙刀 (Sister Blades)</option>
-                  <option value="umbral_flames">暗影之火 (Umbral Flames)</option>
-                  <option value="moonstone_axe">月長石巨斧 (Moonstone Axe)</option>
-                  <option value="argent_skull">白銀骷髏 (Argent Skull)</option>
+                  <option value="" disabled selected>-- 請選擇武器 --</option>
+                  <option value="witch_staff">女巫之杖 (Witch's Staff)</option>
+                  <option value="sister_blades">姊妹雙刃 (Sister Blades)</option>
+                  <option value="umbral_flames">暗影之炬 (Umbral Flames)</option>
+                  <option value="moonstone_axe">月石之斧 (Moonstone Axe)</option>
+                  <option value="argent_skull">銀白之顱 (Argent Skull)</option>
                 </select>
               </div>
               <div class="form-group">
-                <label for="select-aspect">選擇武器基底</label>
+                <label for="select-aspect">選擇武器型態</label>
                 <select id="select-aspect">
-                  <option value="melinoe">梅莉諾雅基底 (Aspect of Melinoë)</option>
-                  <option value="artemis">阿爾忒彌斯基底 (Aspect of Artemis)</option>
-                  <option value="charon">卡戎基底 (Aspect of Charon)</option>
-                  <option value="medea">美狄亞基底 (Aspect of Medea)</option>
+                  <option value="" disabled selected>-- 請選擇型態 --</option>
+                  <option value="melinoe">墨利諾厄之姿 (Aspect of Melinoë)</option>
+                  <option value="artemis">阿提米絲之姿 (Aspect of Artemis)</option>
+                  <option value="charon">卡戎之姿 (Aspect of Charon)</option>
+                  <option value="medea">美狄亞之姿 (Aspect of Medea)</option>
+                  <option value="pan">潘之姿 (Aspect of Pan)</option>
+                  <option value="momus">摩墨斯之姿 (Aspect of Momus)</option>
+                  <option value="moros">莫洛斯之姿 (Aspect of Moros)</option>
+                  <option value="thanatos">泰納托斯之姿 (Aspect of Thanatos)</option>
                 </select>
               </div>
             </div>
@@ -117,11 +123,11 @@
 
             <div class="boon-slot" id="slot-Gain" data-slot="Gain">
               <div class="slot-icon-label">
-                <span class="slot-name">Magick</span>
-                <span class="slot-type-zh">魔力</span>
+                <span class="slot-name">Gain</span>
+                <span class="slot-type-zh">法能</span>
               </div>
               <div class="slot-content-area" id="slot-Gain-content">
-                <span class="slot-empty-text">點擊裝配魔力祝福...</span>
+                <span class="slot-empty-text">點擊裝配法能祝福...</span>
               </div>
             </div>
 
@@ -139,19 +145,32 @@
           </div>
         </div>
 
+        <!-- 中間：智慧構築與後續推薦 (即時動態連動，與核心配置並列) -->
+        <div class="panel" id="smart-recommendation-panel">
+          <div class="panel-title">
+            <span>🔮 智慧構築與後續推薦</span>
+            <span id="recommendation-badge" class="boon-card-badge duo" style="font-size: 0.75rem; padding: 2px 6px; display: none;">有新建議</span>
+          </div>
+          <div id="recommendation-content">
+            <span class="slot-empty-text" style="font-style: normal; line-height: 1.6; display: block;">
+              💡 <strong>冥府指引：</strong>請在左側裝配任何核心祝福，奧林帕斯眾神將隨即為您解析後續發展走向、強力雙重/傳奇路徑、增傷搭檔及神級流派推薦！
+            </span>
+          </div>
+        </div>
+
         <!-- 右側：狀態詛咒與增傷判定 -->
         <div class="synergy-panel">
-          <!-- 關鍵的「源頭」雙重詛咒判定器 -->
+          <!-- 關鍵的「起源」雙重詛咒判定器 -->
           <div class="origination-indicator" id="origination-box">
             <div class="origination-header">
-              <span class="origination-badge">奧秘 XVIII. 源頭</span>
+              <span class="origination-badge">奧秘 XIV. 起源</span>
               <span class="origination-title">雙重詛咒增傷判定</span>
             </div>
             <div class="origination-header" style="margin-top: 10px;">
-              <h2 id="origination-status-label" style="color: var(--text-muted); font-size: 1.6rem; letter-spacing: 2px;">未激活</h2>
+              <h2 id="origination-status-label" style="color: var(--text-muted); font-size: 1.6rem; letter-spacing: 2px;">未啟用</h2>
             </div>
             <p class="origination-desc" id="origination-desc-text">
-              在裝配的核心祝福中，需要提供【至少兩種不同的狀態詛咒】，即可激活奧秘牌「源頭」獲得 +50% 的爆發全傷加成！
+              在裝配的核心祝福中，需要提供【至少兩種不同的狀態詛咒】，即可啟用奧秘卡牌「起源」獲得 +50% 的爆發全傷加成！
             </p>
           </div>
 
@@ -161,19 +180,19 @@
             <div class="curses-list" id="active-curses-grid">
               <!-- 狀態詛咒會在此動態點亮 -->
               <div class="curse-badge" data-curse="Blitz" style="--curse-color: #ecd544;">
-                <div class="curse-label">雷擊 (Blitz)</div>
+                <div class="curse-label">雷霆 (Blitz)</div>
                 <div class="curse-god">宙斯</div>
               </div>
               <div class="curse-badge" data-curse="Hitch" style="--curse-color: #bd66ff;">
-                <div class="curse-label">牽引 (Hitch)</div>
+                <div class="curse-label">繫結 (Hitch)</div>
                 <div class="curse-god">赫拉</div>
               </div>
               <div class="curse-badge" data-curse="Slip" style="--curse-color: #45a3ff;">
-                <div class="curse-label">滑行 (Slip)</div>
+                <div class="curse-label">受潮 (Slip)</div>
                 <div class="curse-god">波賽頓</div>
               </div>
               <div class="curse-badge" data-curse="Daze" style="--curse-color: #ffca58;">
-                <div class="curse-label">眩暈 (Daze)</div>
+                <div class="curse-label">目眩 (Daze)</div>
                 <div class="curse-god">阿波羅</div>
               </div>
               <div class="curse-badge" data-curse="Weak" style="--curse-color: #ff7da4;">
@@ -181,25 +200,17 @@
                 <div class="curse-god">阿芙蘿黛蒂</div>
               </div>
               <div class="curse-badge" data-curse="Scorch" style="--curse-color: #ff592a;">
-                <div class="curse-label">燒傷 (Scorch)</div>
+                <div class="curse-label">灼燬 (Scorch)</div>
                 <div class="curse-god">赫斯提亞</div>
               </div>
               <div class="curse-badge" data-curse="Freeze" style="--curse-color: #a2fdf2;">
-                <div class="curse-label">凍結 (Freeze)</div>
-                <div class="curse-god">德密特</div>
+                <div class="curse-label">冰凍 (Freeze)</div>
+                <div class="curse-god">狄蜜特</div>
               </div>
               <div class="curse-badge" data-curse="Vent" style="--curse-color: #d27d2d;">
-                <div class="curse-label">排氣 (Vent)</div>
+                <div class="curse-label">回火 (Vent)</div>
                 <div class="curse-god">赫菲斯托斯</div>
               </div>
-            </div>
-          </div>
-
-          <!-- 解鎖祝福預警 -->
-          <div class="panel">
-            <div class="panel-title">🔗 傳奇與雙重祝福解鎖檢測</div>
-            <div class="build-synergies-list" id="planner-synergies-list">
-              <!-- 動態顯示哪些傳奇或雙重祝福的前置條件已被點亮 -->
             </div>
           </div>
         </div>
@@ -255,7 +266,10 @@
                 請在左邊勾選您在局內已經選取到的祝福。系統會動態為您評估是否已經符合在後續房間中刷出此強力雙重祝福的資格！
               </p>
             </div>
-            <button class="path-solver-action-btn" id="btn-apply-path-to-planner">一鍵套用前置到構築規劃器</button>
+            <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
+              <button class="path-solver-action-btn" id="btn-apply-path-to-planner">一鍵套用前置到構築規劃器</button>
+              <button class="path-solver-action-btn" id="btn-equip-path-boon-directly" style="background: transparent; border: 1px solid var(--gold); color: var(--gold);">直接裝配此被動到規劃器</button>
+            </div>
           </div>
         </div>
       </div>
@@ -288,7 +302,7 @@
         <!-- 右側：搜尋與祝福卡片列表 -->
         <div class="boons-main-area">
           <div class="search-bar-container">
-            <input type="text" class="search-input" id="input-boon-search" placeholder="輸入關鍵字搜尋祝福（例如：擊退、燒傷、施法、Omega...）">
+            <input type="text" class="search-input" id="input-boon-search" placeholder="輸入關鍵字搜尋祝福（例如：擊退、受潮、施法、Omega...）">
           </div>
           
           <div class="filter-slots-container" id="boon-slot-filters">
@@ -297,7 +311,7 @@
             <button class="filter-btn" data-slot="Special">特技</button>
             <button class="filter-btn" data-slot="Cast">施法</button>
             <button class="filter-btn" data-slot="Dash">衝刺</button>
-            <button class="filter-btn" data-slot="Gain">魔力</button>
+            <button class="filter-btn" data-slot="Gain">法能</button>
             <button class="filter-btn" data-slot="Passive">被動/其他</button>
             <button class="filter-btn" data-slot="Duo">雙重祝福</button>
             <button class="filter-btn" data-slot="Legendary">傳奇祝福</button>
@@ -319,7 +333,7 @@
         <!-- 左側：5x5 石板 -->
         <div class="panel arcana-board-container">
           <div class="panel-title" style="width: 100%;">
-            <span>🎴 阿卡納奧秘卡牌石板 (5x5)</span>
+            <span>🎴 奧秘卡牌石板 (5x5)</span>
             <button class="filter-btn" id="btn-reset-arcana" style="font-size: 0.8rem; padding: 4px 10px;">清空配置</button>
           </div>
           
@@ -330,10 +344,10 @@
 
         <!-- 右側：統計與卡牌詳情 -->
         <div class="arcana-stats">
-          <!-- 悟性消耗量錶 -->
+          <!-- 掌握值消耗量錶 -->
           <div class="panel">
             <div class="grasp-header">
-              <span class="grasp-title">🧠 悟性（Grasp）負載</span>
+              <span class="grasp-title">🧠 掌握值（Grasp）負載</span>
               <div class="grasp-value-container">
                 <span class="grasp-current" id="grasp-current-num">0</span>
                 <span class="grasp-max">/ 30</span>
@@ -345,30 +359,30 @@
             </div>
             
             <div class="grasp-warning-text" id="grasp-warning">
-              ⚠️ 警告：悟性負載已超出上限 (30)！請取消啟用部分奧秘卡牌以適配角色悟性。
+              ⚠️ 警告：掌握值負載已超出上限 (30)！請取消啟用部分奧秘卡牌以適配角色掌握值。
             </div>
           </div>
 
           <!-- 卡片說明詳情 -->
           <div class="card-details-panel">
             <div class="card-details-empty" id="card-detail-placeholder">
-              滑鼠移入或點擊任何奧秘卡牌，即可查看卡牌編號、名稱、悟性消耗與神秘效果。
+              滑鼠移入或點擊任何奧秘卡牌，即可查看卡牌編號、名稱、掌握值消耗與奧秘效果。
             </div>
             
             <div class="card-details-content" id="card-detail-body">
               <div class="card-details-header">
-                <span class="card-details-name" id="card-detail-name">I. 魔女</span>
-                <span class="card-details-cost" id="card-detail-cost">消耗：1</span>
+                <span class="card-details-name" id="card-detail-name">I. 女巫</span>
+                <span class="card-details-cost" id="card-detail-cost">掌握消耗：1</span>
               </div>
               <p class="card-details-desc" id="card-detail-desc">
-                引導招式時，周圍的時間流速變慢。
+                引導 Ω 招式時，周遭時間流速變慢。
               </p>
             </div>
           </div>
 
           <!-- 已啟用卡牌匯總 -->
           <div class="active-cards-list-panel">
-            <div class="active-cards-title">🌟 已啟用的阿卡納卡牌效果</div>
+            <div class="active-cards-title">🌟 已啟用的奧秘卡牌效果</div>
             <div class="active-cards-list" id="activated-cards-list">
               <div class="slot-empty-text" id="active-cards-empty">當前未啟用任何奧秘卡牌。</div>
             </div>
@@ -382,6 +396,17 @@
          TAB 4: 構築流派推薦 Panel
          ========================================== -->
     <section class="tab-panel" id="panel-guides" role="tabpanel" aria-labelledby="tab-btn-guides">
+      <div class="guide-filter-row" style="margin-bottom: 25px; display: flex; align-items: center; gap: 12px; background: rgba(23, 28, 38, 0.4); border: 1px solid var(--border-color); padding: 15px 20px; border-radius: 12px; max-width: max-content;">
+        <label for="select-guide-weapon" style="font-family: var(--font-title); color: var(--gold); font-size: 0.95rem; font-weight: 700; letter-spacing: 1px;">⚔️ 按武器篩選流派：</label>
+        <select id="select-guide-weapon" style="background: var(--bg-panel-secondary); border: 1px solid var(--border-color); color: var(--text-main); padding: 8px 16px; border-radius: 8px; font-family: var(--font-body); font-size: 0.9rem; outline: none; min-width: 220px; cursor: pointer; transition: var(--transition-smooth);">
+          <option value="all">🛡️ 全部武器流派</option>
+          <option value="witch_staff">🪄 女巫之杖 (Witch's Staff)</option>
+          <option value="sister_blades">🗡️ 姊妹雙刃 (Sister Blades)</option>
+          <option value="umbral_flames">🔥 暗影之炬 (Umbral Flames)</option>
+          <option value="moonstone_axe">🪓 月石之斧 (Moonstone Axe)</option>
+          <option value="argent_skull">💀 銀白之顱 (Argent Skull)</option>
+        </select>
+      </div>
       <div class="presets-grid" id="presets-container">
         <!-- 動態渲染流派預設卡片 -->
       </div>
@@ -460,7 +485,7 @@
           <option value="apollo">阿波羅</option>
           <option value="aphrodite">阿芙蘿黛蒂</option>
           <option value="hestia">赫斯提亞</option>
-          <option value="demeter">德密特</option>
+          <option value="demeter">狄蜜特</option>
           <option value="hephaestus">赫菲斯托斯</option>
         </select>
       </div>

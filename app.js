@@ -1,5 +1,5 @@
-/**
- * Hades II Build Assistant Core Logic (黑帝斯2 構築助手核心邏輯)
+﻿/**
+ * Hades II Build Assistant Core Logic (黑帝斯2 構築助手核心邏輯 - 官方對齊版)
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // 核心構築狀態
   const activeBuild = {
-    weapon: "witch_staff",
-    aspect: "melinoe",
+    weapon: null,
+    aspect: null,
     Attack: null,   // 存放 Boon 物件
     Special: null,
     Cast: null,
@@ -103,15 +103,58 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- 2. 構築規劃器 (Build Planner) 邏輯 ---
   // ==========================================
   
+  // 武器與型態關聯對照數據表
+  const weaponAspectsMap = {
+    witch_staff: [
+      { value: "melinoe", text: "墨利諾厄之姿 (Aspect of Melinoë)" },
+      { value: "momus", text: "摩墨斯之姿 (Aspect of Momus)" }
+    ],
+    sister_blades: [
+      { value: "melinoe", text: "墨利諾厄之姿 (Aspect of Melinoë)" },
+      { value: "artemis", text: "阿提米絲之姿 (Aspect of Artemis)" },
+      { value: "pan", text: "潘之姿 (Aspect of Pan)" }
+    ],
+    umbral_flames: [
+      { value: "melinoe", text: "墨利諾厄之姿 (Aspect of Melinoë)" },
+      { value: "moros", text: "莫洛斯之姿 (Aspect of Moros)" }
+    ],
+    moonstone_axe: [
+      { value: "melinoe", text: "墨利諾厄之姿 (Aspect of Melinoë)" },
+      { value: "charon", text: "卡戎之姿 (Aspect of Charon)" },
+      { value: "thanatos", text: "泰納托斯之姿 (Aspect of Thanatos)" }
+    ],
+    argent_skull: [
+      { value: "melinoe", text: "墨利諾厄之姿 (Aspect of Melinoë)" },
+      { value: "medea", text: "美狄亞之姿 (Aspect of Medea)" }
+    ]
+  };
+
   // 綁定武器與基底切換
   const selectWeapon = document.getElementById("select-weapon");
   const selectAspect = document.getElementById("select-aspect");
   
   selectWeapon.addEventListener("change", (e) => {
-    activeBuild.weapon = e.target.value;
+    const weapon = e.target.value;
+    activeBuild.weapon = weapon;
+    
+    // 動態更新型態下拉選單，防止選取不符武器的型態
+    selectAspect.innerHTML = '<option value="" disabled selected>-- 請選擇型態 --</option>';
+    if (weaponAspectsMap[weapon]) {
+      weaponAspectsMap[weapon].forEach(aspect => {
+        const opt = document.createElement("option");
+        opt.value = aspect.value;
+        opt.textContent = aspect.text;
+        selectAspect.appendChild(opt);
+      });
+    }
+    
+    activeBuild.aspect = null;
+    updatePlannerState();
   });
+  
   selectAspect.addEventListener("change", (e) => {
     activeBuild.aspect = e.target.value;
+    updatePlannerState();
   });
 
   // 綁定核心槽位點擊事件
@@ -133,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalGodFilter.value = "All";
     
     // 將 Modal 標題設定為對應的槽位名稱
-    const slotNamesZh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "魔力" };
+    const slotNamesZh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "法能" };
     document.getElementById("modal-title").textContent = `選擇 ${slotNamesZh[slot]} 祝福`;
     
     renderModalBoons();
@@ -221,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!boon) {
       slotEl.classList.remove("filled");
       slotEl.style.borderLeftColor = "";
-      const slotNamesZh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "魔力" };
+      const slotNamesZh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "法能" };
       contentEl.innerHTML = `<span class="slot-empty-text">點擊裝配${slotNamesZh[slot]}祝福...</span>`;
       return;
     }
@@ -259,11 +302,39 @@ document.addEventListener("DOMContentLoaded", () => {
       renderPlannerSlot(slot);
     });
     activeBuild.passives.clear();
+    // 重置武器與型態為空置狀態
+    selectWeapon.value = "";
+    selectAspect.innerHTML = '<option value="" disabled selected>-- 請選擇型態 --</option>';
+    activeBuild.weapon = null;
+    activeBuild.aspect = null;
     updatePlannerState();
   });
 
+  // 自動掃描並裝備滿足前置條件的雙重/傳奇被動
+  function autoEquipSatisfiedSpecialBoons() {
+    const equippedBoonIds = new Set();
+    slots.forEach(slot => {
+      const boon = activeBuild[slot];
+      if (boon) equippedBoonIds.add(boon.id);
+    });
+
+    const allSpecialBoons = hades2BoonsData.boons.filter(b => b.slot === "Duo" || b.slot === "Legendary");
+    allSpecialBoons.forEach(specialBoon => {
+      if (!specialBoon.prerequisites) return;
+      const reqs = specialBoon.prerequisites.requirements;
+      let satisfied = true;
+      reqs.forEach(req => {
+        const hasAny = req.options.some(optId => equippedBoonIds.has(optId));
+        if (!hasAny) satisfied = false;
+      });
+      if (satisfied) {
+        activeBuild.passives.add(specialBoon.id);
+      }
+    });
+  }
+
   // ==========================================
-  // --- 3. 狀態詛咒與「源頭」增傷判定邏輯 ---
+  // --- 3. 狀態詛咒與「起源」增傷判定邏輯 ---
   // ==========================================
   function updatePlannerState() {
     // 統計當前所帶祝福引發的詛咒
@@ -287,7 +358,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // 判定奧秘卡牌「源頭 (Origination)」雙重狀態 (+50%傷害) 是否啟用
+    // 判定奧秘卡牌「起源 (Origination)」雙重狀態 (+50%傷害) 是否啟用
     const origBox = document.getElementById("origination-box");
     const origStatus = document.getElementById("origination-status-label");
     const origDesc = document.getElementById("origination-desc-text");
@@ -304,13 +375,610 @@ document.addEventListener("DOMContentLoaded", () => {
       if (activeCurses.size === 1) {
         origDesc.innerHTML = `尚缺一種狀態！目前僅有 <strong>${translateCurse(Array.from(activeCurses)[0])}</strong> 詛咒。請在其他空餘核心槽位補充附帶狀態詛咒的祝福以觸發 +50% 增傷！`;
       } else {
-        origDesc.textContent = `在裝配的核心祝福中，需要提供【至少兩種不同的狀態詛咒】，即可啟用阿卡納「源頭」獲得 +50% 的爆發全傷加成！`;
+        origDesc.textContent = `在裝配的核心祝福中，需要提供【至少兩種不同的狀態詛咒】，即可啟用奧秘卡牌「起源」獲得 +50% 的爆發全傷加成！`;
       }
     }
 
-    // 更新祝福解鎖檢測清單 (Duo & Legendary Checklist)
-    updatePlannerSynergies(activeCurses);
     renderPassiveBoons();
+    updateBuildRecommendations();
+  }
+
+  // ==========================================
+  // --- 3.5 智慧構築與後續建議分析引擎 ---
+  // ==========================================
+  function updateBuildRecommendations() {
+    const recPanel = document.getElementById("smart-recommendation-panel");
+    const recContent = document.getElementById("recommendation-content");
+    const recBadge = document.getElementById("recommendation-badge");
+    if (!recPanel || !recContent) return;
+
+    // 獲取當前已裝配的核心祝福與神明
+    const equippedCoreBoons = [];
+    const equippedGods = new Set();
+    const equippedBoonIds = new Set();
+    const activeCurses = new Set();
+
+    slots.forEach(slot => {
+      const boon = activeBuild[slot];
+      if (boon) {
+        equippedCoreBoons.push(boon);
+        equippedGods.add(boon.god);
+        equippedBoonIds.add(boon.id);
+        if (boon.curse && boon.curse !== "None") {
+          activeCurses.add(boon.curse);
+        }
+      }
+    });
+
+    // 如果沒有裝配任何祝福，我們從選擇的武器開始給予後續流派建議！
+    if (equippedCoreBoons.length === 0) {
+      recPanel.classList.add("has-content");
+      if (recBadge) recBadge.style.display = "inline-block";
+      
+      // 尋找與當前武器及型態完全匹配的所有流派
+      const currentWeapon = activeBuild.weapon;
+      const currentAspect = activeBuild.aspect;
+      const matchingPresets = hades2BuildPresets.filter(p => 
+        p.weaponKey === currentWeapon && 
+        (!currentAspect || p.aspectKey === currentAspect)
+      );
+      
+      if (matchingPresets.length > 0) {
+        let presetsHtml = "";
+        
+        matchingPresets.forEach(preset => {
+          const essentialSlots = preset.essentialSlots || [];
+          let essentialHtml = "";
+          let optionalHtml = "";
+          
+          Object.keys(preset.coreBoons).forEach(slotKey => {
+            const boonId = preset.coreBoons[slotKey];
+            const boon = hades2BoonsData.boons.find(b => b.id === boonId);
+            if (!boon) return;
+            
+            const godInfo = hades2BoonsData.gods[boon.god] || { themeColor: "#fff", name: "" };
+            const slotZh = translateSlot(slotKey);
+            const isEssential = essentialSlots.includes(slotKey);
+            
+            const itemHtml = `
+              <div style="display: flex; flex-direction: column; font-size: 0.82rem; margin-bottom: 6px; padding: 6px 8px; background: rgba(255, 255, 255, 0.02); border: 1px dashed ${isEssential ? "rgba(255, 89, 42, 0.35)" : "rgba(69, 163, 255, 0.25)"}; border-radius: 6px;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <span>➡️ <strong style="color: #ff9d42;">後續建議</strong>【${slotZh}】：<span style="color: ${godInfo.themeColor}; font-weight: 700;">${boon.name}</span> (${godInfo.name.split(" ")[0]})</span>
+                  <span style="color: #ff9d42; font-weight: 600; font-size: 0.75rem;">待獲取</span>
+                </div>
+                <div style="color: var(--text-muted); font-size: 0.76rem; margin-top: 4px; line-height: 1.35;">${boon.desc}</div>
+              </div>
+            `;
+            
+            if (isEssential) {
+              essentialHtml += itemHtml;
+            } else {
+              optionalHtml += itemHtml;
+            }
+          });
+
+          let boonsDirectionsHtml = "";
+          if (essentialHtml) {
+            boonsDirectionsHtml += `
+              <div class="boon-group-title" style="font-family: var(--font-title); font-size: 0.85rem; color: #ff592a; margin-top: 10px; margin-bottom: 6px; display: flex; align-items: center; gap: 4px; font-weight: bold; border-left: 2px solid #ff592a; padding-left: 6px;">🔥 核心必備祝福 (流派運作關鍵)</div>
+              ${essentialHtml}
+            `;
+          }
+          if (optionalHtml) {
+            boonsDirectionsHtml += `
+              <div class="boon-group-title" style="font-family: var(--font-title); font-size: 0.85rem; color: #45a3ff; margin-top: 14px; margin-bottom: 6px; display: flex; align-items: center; gap: 4px; font-weight: bold; border-left: 2px solid #45a3ff; padding-left: 6px;">💡 建議搭配/後續加強</div>
+              ${optionalHtml}
+            `;
+          }
+          
+          const buildTips = preset.tips ? `<div style="font-size: 0.8rem; color: var(--gold); border-left: 2px solid var(--gold); padding-left: 6px; margin: 10px 0; line-height: 1.45;"><strong>💡 運行策略建議：</strong>${preset.tips}</div>` : "";
+          
+          const aspectBadgeColor = preset.aspectEssential ? "#ff592a" : "#18f299";
+          const aspectBgColor = preset.aspectEssential ? "rgba(255, 89, 42, 0.15)" : "rgba(24, 242, 153, 0.15)";
+          const aspectBorder = preset.aspectEssential ? "1px solid #ff592a" : "1px solid #18f299";
+          const aspectStatusText = preset.aspectEssential ? "核心必須" : "任意 (建議)";
+
+          presetsHtml += `
+            <div class="rec-preset-card" style="margin-bottom: 15px;">
+              <div class="rec-preset-title" style="margin-bottom: 6px;">
+                <span>流派：${preset.title}</span>
+                <span class="preset-tag highlight" style="font-size: 0.68rem; margin: 0; padding: 2px 6px;">武器適配</span>
+              </div>
+              <div class="rec-preset-weapon" style="margin-bottom: 6px; font-size: 0.82rem; color: var(--text-main); font-weight: 600;">
+                🪓 推薦武器：${preset.weapon}
+              </div>
+              <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px; line-height: 1.45;">
+                <span style="color: var(--gold); font-weight: bold;">🔑 武器型態：</span>${preset.aspect} 
+                <span style="color: ${aspectBadgeColor}; font-weight: bold; background: ${aspectBgColor}; border: ${aspectBorder}; padding: 1px 6px; border-radius: 4px; font-size: 0.72rem; margin-left: 6px; display: inline-block;">${aspectStatusText}</span>
+                <div style="margin-top: 4px; font-size: 0.78rem; font-style: italic; color: rgba(255,255,255,0.55);">${preset.aspectNote}</div>
+              </div>
+              
+              <div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px;">
+                ${boonsDirectionsHtml}
+              </div>
+              
+              ${buildTips}
+              
+              <div style="display: flex; justify-content: flex-end; margin-top: 8px;">
+                <button class="rec-preset-btn-action primary" data-action="full" data-preset-id="${preset.id}" style="background: var(--gold); color: var(--bg-dark); border: none; cursor: pointer; font-family: var(--font-body); font-weight: 700; font-size: 0.82rem; padding: 7px 14px; border-radius: 6px; transition: var(--transition-smooth); box-shadow: 0 0 10px rgba(212,175,55,0.15);">一鍵載入流派配置</button>
+              </div>
+            </div>
+          `;
+        });
+        
+        const weaponNames = {
+          witch_staff: "女巫之杖 (Witch's Staff)",
+          sister_blades: "姊妹雙刃 (Sister Blades)",
+          umbral_flames: "暗影之炬 (Umbral Flames)",
+          moonstone_axe: "月石之斧 (Moonstone Axe)",
+          argent_skull: "銀白之顱 (Argent Skull)"
+        };
+        const currentWeaponZh = weaponNames[currentWeapon] || "當前武器";
+
+        recContent.innerHTML = `
+          <div class="recommendation-section">
+            <div class="recommendation-sec-title">🔮 武器專屬流派指引</div>
+            <div style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 12px;">
+              您當前選擇了武器 <strong>【${currentWeaponZh}】</strong>，奧林帕斯眾神為您指引以下推薦流派發展走向與後續祝福選擇：
+            </div>
+            
+            ${presetsHtml}
+          </div>
+        `;
+        
+        // 綁定按鈕事件
+        const actionBtns = recContent.querySelectorAll(".rec-preset-btn-action");
+        actionBtns.forEach(btn => {
+          btn.addEventListener("click", () => {
+            const presetId = btn.getAttribute("data-preset-id");
+            const preset = hades2BuildPresets.find(p => p.id === presetId);
+            if (preset) {
+              loadPresetBuild(preset);
+            }
+          });
+        });
+        
+      } else {
+        recPanel.classList.remove("has-content");
+        if (recBadge) recBadge.style.display = "none";
+        recContent.innerHTML = `
+          <span class="slot-empty-text" style="font-style: normal; line-height: 1.6; display: block;">
+            💡 <strong>冥府指引：</strong>請在左側【選擇武器】或【裝配核心祝福】，奧林帕斯眾神將隨即為您解析後續發展走向、增傷搭檔及神級流派推薦！
+          </span>
+        `;
+      }
+      return;
+    }
+
+    recPanel.classList.add("has-content");
+    if (recBadge) recBadge.style.display = "inline-block";
+
+    let html = "";
+
+    // 1. 【起源增傷互補搭檔推薦】
+    html += `
+      <div class="recommendation-section">
+        <div class="recommendation-sec-title">⚡ 「起源」詛咒增傷互補搭檔</div>
+    `;
+
+    if (activeCurses.size >= 2) {
+      html += `
+        <div class="origination-recommendation active">
+          <div class="origination-rec-title">🎉 起源雙重增傷已成功啟動！</div>
+          <div style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">
+            您當前擁有 <strong>${activeCurses.size}</strong> 種狀態詛咒（${Array.from(activeCurses).map(c => translateCurse(c)).join("、")}），已完美激活奧秘卡牌【XIV. 起源】的 <strong>+50% 全傷加成</strong>！
+          </div>
+        </div>
+      `;
+    } else {
+      // 找出還缺少的狀態詛咒
+      const allCursesInfo = [
+        { key: "Blitz", god: "zeus", name: "雷霆", godZh: "宙斯" },
+        { key: "Hitch", god: "hera", name: "繫結", godZh: "赫拉" },
+        { key: "Slip", god: "poseidon", name: "受潮", godZh: "波賽頓" },
+        { key: "Daze", god: "apollo", name: "目眩", godZh: "阿波羅" },
+        { key: "Weak", god: "aphrodite", name: "衰弱", godZh: "阿芙蘿黛蒂" },
+        { key: "Scorch", god: "hestia", name: "灼燬", godZh: "赫斯提亞" },
+        { key: "Freeze", god: "demeter", name: "冰凍", godZh: "狄蜜特" },
+        { key: "Vent", god: "hephaestus", name: "回火", godZh: "赫菲斯托斯" }
+      ];
+
+      const missingCurses = allCursesInfo.filter(c => !activeCurses.has(c.key));
+      const currentCurseName = activeCurses.size === 1 ? translateCurse(Array.from(activeCurses)[0]) : "無";
+
+      html += `
+        <div class="origination-recommendation">
+          <div class="origination-rec-title" style="color: #ff9d42;">⚠️ 尚缺一種狀態詛咒啟用增傷</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 8px;">
+            當前已有狀態：<strong>${currentCurseName}</strong>。只要再補一個不同狀態，即可常駐增傷 +50%。後續推薦選擇：
+          </div>
+          <div class="origination-rec-list">
+      `;
+
+      // 智慧推薦 3 個最契合的補詛咒神明
+      missingCurses.slice(0, 3).forEach(c => {
+        const godInfo = hades2BoonsData.gods[c.god];
+        
+        // 智慧尋找不與現有詛咒或已佔用槽位衝突的推薦祝福
+        const emptySlots = slots.filter(slot => !activeBuild[slot]);
+        const slotsWithoutCurse = slots.filter(slot => {
+          const b = activeBuild[slot];
+          return !b || !b.curse || b.curse === "None";
+        });
+
+        // 優先在完全空置的槽位中尋找能提供該詛咒的祝福，其次在無詛咒的槽位中尋找，最後退而求其次
+        let recBoon = hades2BoonsData.boons.find(b => 
+          b.god === c.god && 
+          b.curse === c.key && 
+          emptySlots.includes(b.slot)
+        );
+        
+        if (!recBoon) {
+          recBoon = hades2BoonsData.boons.find(b => 
+            b.god === c.god && 
+            b.curse === c.key && 
+            slotsWithoutCurse.includes(b.slot)
+          );
+        }
+        
+        if (!recBoon) {
+          recBoon = hades2BoonsData.boons.find(b => b.god === c.god && b.curse === c.key);
+        }
+
+        const boonNameHtml = recBoon ? `（如裝配於【${translateSlot(recBoon.slot)}】槽位的：<span style="color:${godInfo.themeColor};">${recBoon.name}</span>）` : "";
+        html += `
+          <div class="origination-rec-god-item">
+            <span style="color:var(--green-glow);">✦</span>
+            <span>
+              <span class="origination-rec-god-name" style="--god-color: ${godInfo.themeColor};">${godInfo.name}</span>
+              提供【${c.name}】狀態${boonNameHtml}
+            </span>
+          </div>
+        `;
+      });
+
+      html += `
+          </div>
+        </div>
+      `;
+    }
+    html += `</div>`;
+
+    // 2. 【後續強力雙重/傳奇解鎖路徑】
+    // 分析所有 Duo / Legendary 祝福的前置，看當前裝配是否包含其中某個前置組件
+    const allSpecialBoons = hades2BoonsData.boons.filter(b => b.slot === "Duo" || b.slot === "Legendary");
+    const matchedSpecialBoons = [];
+
+    allSpecialBoons.forEach(specialBoon => {
+      if (!specialBoon.prerequisites) return;
+
+      const reqs = specialBoon.prerequisites.requirements;
+      let matchedSome = false;
+      const progressDetails = [];
+
+      reqs.forEach(req => {
+        // 檢查當前裝配是否包含此 req 的 options 之一
+        const isSatisfied = req.options.some(optId => equippedBoonIds.has(optId));
+        if (isSatisfied) {
+          matchedSome = true;
+          progressDetails.push({ god: req.god, satisfied: true, label: `已具備 ${hades2BoonsData.gods[req.god].name.split(" ")[0]}` });
+        } else {
+          progressDetails.push({ god: req.god, satisfied: false, label: `尚缺 ${hades2BoonsData.gods[req.god].name.split(" ")[0]}`, options: req.options });
+        }
+      });
+
+      if (matchedSome) {
+        matchedSpecialBoons.push({
+          boon: specialBoon,
+          reqs: progressDetails
+        });
+      }
+    });
+
+    html += `
+      <div class="recommendation-section">
+        <div class="recommendation-sec-title">🔗 建議解鎖強力雙重/傳奇路徑</div>
+        <div class="recommendation-list">
+    `;
+
+    if (matchedSpecialBoons.length === 0) {
+      html += `<span class="slot-empty-text" style="font-size:0.8rem;">目前核心祝福暫無可適配的雙重/傳奇解鎖走向。</span>`;
+    } else {
+      matchedSpecialBoons.forEach(item => {
+        const godInfo = hades2BoonsData.gods[item.boon.god] || { themeColor: "#fff" };
+        const badgeClass = item.boon.slot.toLowerCase();
+        const badgeZh = item.boon.slot === "Duo" ? "雙重" : "傳奇";
+        
+        // 渲染解鎖條件進度
+        const prereqList = item.reqs.map(r => {
+          if (r.satisfied) {
+            return `<span class="fulfilled" style="color: var(--green-glow);">${r.label}</span>`;
+          } else {
+            // 尋找尚缺神明的一個推薦祝福
+            const missingBoonId = r.options[0];
+            const missingBoon = hades2BoonsData.boons.find(b => b.id === missingBoonId);
+            const missingBoonName = missingBoon ? `『${missingBoon.name}』` : "相關祝福";
+            return `<span class="missing" style="color: #ff9d42;">${r.label} (後續建議選擇 ${hades2BoonsData.gods[r.god].name.split(" ")[0]} ${missingBoonName})</span>`;
+          }
+        }).join(" / ");
+
+        const isEquipped = activeBuild.passives.has(item.boon.id);
+        const actionButtonHtml = isEquipped 
+          ? `<span style="color: var(--green-glow); font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; gap: 4px;">✅ 已裝配</span>`
+          : `<button class="rec-equip-passive-btn" data-boon-id="${item.boon.id}" style="background: transparent; border: 1px solid var(--gold); color: var(--gold); font-size: 0.72rem; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-family: var(--font-body); font-weight: 700; transition: var(--transition-smooth); outline: none;">裝配</button>`;
+
+        html += `
+          <div class="recommendation-item" style="--god-color: ${godInfo.themeColor};">
+            <div class="recommendation-item-header">
+              <span class="recommendation-item-title" style="color: ${godInfo.themeColor};">${item.boon.name}</span>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                ${actionButtonHtml}
+                <span class="boon-card-badge ${badgeClass}" style="font-size: 0.65rem; padding: 1px 4px;">${badgeZh}</span>
+              </div>
+            </div>
+            <div class="recommendation-item-desc">${item.boon.desc}</div>
+            <div class="recommendation-item-prereq">
+              <strong>路徑要求：</strong>${prereqList}
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    html += `
+        </div>
+      </div>
+    `;
+
+    // 3. 【神級流派走向匹配】
+    // 比對 hades2BuildPresets 尋找核心匹配的 preset
+    // 3. 【神級流派走向匹配】
+    // 比對 hades2BuildPresets 尋找核心與型態匹配的 preset
+    const matchedPresets = [];
+    const currentAspect = activeBuild.aspect;
+    
+    hades2BuildPresets.forEach(preset => {
+      // 限制匹配當前選取的武器，若選取了型態也限制必須匹配型態
+      if (preset.weaponKey !== activeBuild.weapon) return;
+      if (currentAspect && preset.aspectKey !== currentAspect) return;
+
+      // 只要當前裝備的祝福有出現在 preset 核心槽位中，就算匹配
+      let matchCount = 0;
+      Object.keys(preset.coreBoons).forEach(slotKey => {
+        const pBoonId = preset.coreBoons[slotKey];
+        if (equippedBoonIds.has(pBoonId)) {
+          matchCount++;
+        }
+      });
+
+      if (matchCount > 0) {
+        matchedPresets.push({
+          preset: preset,
+          matchCount: matchCount
+        });
+      }
+    });
+
+    // 依照匹配度排序
+    matchedPresets.sort((a, b) => b.matchCount - a.matchCount);
+
+    html += `
+      <div class="recommendation-section">
+        <div class="recommendation-sec-title">🏆 推薦神級流派與後續祝福方向</div>
+    `;
+
+    if (matchedPresets.length === 0) {
+      html += `<span class="slot-empty-text" style="font-size:0.8rem;">目前配置暫未匹配到預設流派，您可以繼續豐富核心祝福。</span>`;
+    } else {
+      matchedPresets.forEach((match, index) => {
+        const bestMatch = match.preset;
+        const essentialSlots = bestMatch.essentialSlots || [];
+        let essentialHtml = "";
+        let optionalHtml = "";
+        
+        Object.keys(bestMatch.coreBoons).forEach(slotKey => {
+          const boonId = bestMatch.coreBoons[slotKey];
+          const boon = hades2BoonsData.boons.find(b => b.id === boonId);
+          if (!boon) return;
+          
+          const isEquipped = equippedBoonIds.has(boonId);
+          const godInfo = hades2BoonsData.gods[boon.god] || { themeColor: "#fff", name: "" };
+          const slotZh = translateSlot(slotKey);
+          const isEssential = essentialSlots.includes(slotKey);
+          
+          let itemHtml = "";
+          if (isEquipped) {
+            itemHtml = `
+              <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; margin-bottom: 6px; padding: 4px 8px; background: rgba(24, 242, 153, 0.05); border: 1px solid ${isEssential ? "rgba(255, 89, 42, 0.35)" : "rgba(24, 242, 153, 0.15)"}; border-radius: 6px;">
+                <span>✅ <strong style="color: var(--green-glow);">已解鎖</strong>【${slotZh}】：<span style="color: ${godInfo.themeColor}; font-weight: 700;">${boon.name}</span> (${godInfo.name.split(" ")[0]})</span>
+                <span style="color: var(--text-muted); font-size: 0.75rem;">已裝配</span>
+              </div>
+            `;
+          } else {
+            itemHtml = `
+              <div style="display: flex; flex-direction: column; font-size: 0.82rem; margin-bottom: 6px; padding: 6px 8px; background: rgba(255, 255, 255, 0.02); border: 1px dashed ${isEssential ? "rgba(255, 89, 42, 0.35)" : "rgba(69, 163, 255, 0.25)"}; border-radius: 6px;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <span>➡️ <strong style="color: #ff9d42;">後續建議</strong>【${slotZh}】：<span style="color: ${godInfo.themeColor}; font-weight: 700;">${boon.name}</span> (${godInfo.name.split(" ")[0]})</span>
+                  <span style="color: #ff9d42; font-weight: 600; font-size: 0.75rem;">待獲取</span>
+                </div>
+                <div style="color: var(--text-muted); font-size: 0.76rem; margin-top: 4px; line-height: 1.35;">${boon.desc}</div>
+              </div>
+            `;
+          }
+
+          if (isEssential) {
+            essentialHtml += itemHtml;
+          } else {
+            optionalHtml += itemHtml;
+          }
+        });
+
+        let boonsDirectionsHtml = "";
+        if (essentialHtml) {
+          boonsDirectionsHtml += `
+            <div class="boon-group-title" style="font-family: var(--font-title); font-size: 0.85rem; color: #ff592a; margin-top: 10px; margin-bottom: 6px; display: flex; align-items: center; gap: 4px; font-weight: bold; border-left: 2px solid #ff592a; padding-left: 6px;">🔥 核心必備祝福 (流派運作關鍵)</div>
+            ${essentialHtml}
+          `;
+        }
+        if (optionalHtml) {
+          boonsDirectionsHtml += `
+            <div class="boon-group-title" style="font-family: var(--font-title); font-size: 0.85rem; color: #45a3ff; margin-top: 14px; margin-bottom: 6px; display: flex; align-items: center; gap: 4px; font-weight: bold; border-left: 2px solid #45a3ff; padding-left: 6px;">💡 建議搭配/後續加強</div>
+            ${optionalHtml}
+          `;
+        }
+
+        const buildTips = bestMatch.tips ? `<div style="font-size: 0.8rem; color: var(--gold); border-left: 2px solid var(--gold); padding-left: 6px; margin: 10px 0; line-height: 1.45;"><strong>💡 運行策略建議：</strong>${bestMatch.tips}</div>` : "";
+
+        const allCoreBoonsEquipped = Object.values(bestMatch.coreBoons).every(boonId => equippedBoonIds.has(boonId));
+        const actionButtonsHtml = allCoreBoonsEquipped
+          ? `
+            <div style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; background: rgba(24, 242, 153, 0.08); border: 1px solid rgba(24, 242, 153, 0.25); border-radius: 8px; margin-top: 8px; color: var(--green-glow); font-family: var(--font-title); font-size: 0.82rem; font-weight: bold; text-shadow: 0 0 8px rgba(24, 242, 153, 0.3); width: 100%;">
+              🎉 本流派核心配置已完美裝配成型！
+            </div>
+          `
+          : `
+            <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px;">
+              <button class="rec-preset-btn-action secondary" data-action="full" data-preset-id="${bestMatch.id}" style="background: transparent; border: 1px solid var(--gold); color: var(--gold); cursor: pointer; font-family: var(--font-body); font-weight: 700; font-size: 0.8rem; padding: 6px 12px; border-radius: 6px; transition: var(--transition-smooth);">載入完整流派</button>
+              <button class="rec-preset-btn-action primary" data-action="complement" data-preset-id="${bestMatch.id}" style="background: var(--gold); color: var(--bg-dark); border: none; cursor: pointer; font-family: var(--font-body); font-weight: 700; font-size: 0.8rem; padding: 6px 12px; border-radius: 6px; transition: var(--transition-smooth);">一鍵補全剩餘</button>
+            </div>
+          `;
+
+        const badgeText = index === 0 ? "最契合流派" : "次契合流派";
+        const aspectBadgeColor = bestMatch.aspectEssential ? "#ff592a" : "#18f299";
+        const aspectBgColor = bestMatch.aspectEssential ? "rgba(255, 89, 42, 0.15)" : "rgba(24, 242, 153, 0.15)";
+        const aspectBorder = bestMatch.aspectEssential ? "1px solid #ff592a" : "1px solid #18f299";
+        const aspectStatusText = bestMatch.aspectEssential ? "核心必須" : "任意 (建議)";
+
+        html += `
+          <div class="rec-preset-card" style="margin-top: 8px; margin-bottom: 15px;">
+            <div class="rec-preset-title" style="margin-bottom: 6px;">
+              <span>流派：${bestMatch.title}</span>
+              <span class="preset-tag highlight" style="font-size: 0.68rem; margin: 0; padding: 2px 6px;">${badgeText}</span>
+            </div>
+            <div class="rec-preset-weapon" style="margin-bottom: 6px; font-size: 0.82rem; color: var(--text-main); font-weight: 600;">
+              🪓 推薦武器：${bestMatch.weapon}
+            </div>
+            <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px; line-height: 1.45;">
+              <span style="color: var(--gold); font-weight: bold;">🔑 武器型態：</span>${bestMatch.aspect} 
+              <span style="color: ${aspectBadgeColor}; font-weight: bold; background: ${aspectBgColor}; border: ${aspectBorder}; padding: 1px 6px; border-radius: 4px; font-size: 0.72rem; margin-left: 6px; display: inline-block;">${aspectStatusText}</span>
+              <div style="margin-top: 4px; font-size: 0.78rem; font-style: italic; color: rgba(255,255,255,0.55);">${bestMatch.aspectNote}</div>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px;">
+              ${boonsDirectionsHtml}
+            </div>
+            
+            ${buildTips}
+            
+            ${actionButtonsHtml}
+          </div>
+        `;
+      });
+    }
+
+    html += `</div>`;
+
+    // 4. 【奧秘與武器搭配建議】
+    html += `
+      <div class="recommendation-section">
+        <div class="recommendation-sec-title">🔮 奧秘與武器型態搭配指南</div>
+        <div class="rec-combo-box">
+    `;
+
+    // 智慧搭配話術
+    let weaponAdvise = "";
+    const selectedWeapon = activeBuild.weapon;
+    
+    if (selectedWeapon === "sister_blades") {
+      weaponAdvise = "您已選擇【姊妹雙刃】。建議利用其高速近戰特點，搭配特技扇形飛刀或瞬移背擊，爆發增傷極限！";
+    } else if (selectedWeapon === "witch_staff") {
+      weaponAdvise = "您已選擇【女巫之杖】。建議利用其中遠程安全距離進行 Omega 招式引導，搭配施法法陣控場！";
+    } else if (selectedWeapon === "moonstone_axe") {
+      weaponAdvise = "您已選擇【月石之斧】。重斧打擊面板極高但硬直大，建議利用衝刺起手或搭配高額爆震祝福！";
+    } else if (selectedWeapon === "umbral_flames") {
+      weaponAdvise = "您已選擇【暗影之炬】。建議利用特技遠程彈幕環繞進行中距離拉扯，瘋狂多段疊加狀態傷害！";
+    } else if (selectedWeapon === "argent_skull") {
+      weaponAdvise = "您已選擇【銀白之顱】。建議發射骷髏後使用特技前衝擊飛並快速回收骷髏，生存容錯極高！";
+    } else {
+      weaponAdvise = "根據當前武器型態，合理搭配對應的核心與被動祝福進行逃脫。";
+    }
+    
+    let arcanaAdvise = "【XIV. 起源】（狀態詛咒增傷）、【VI. 復仇三女神】（施法增傷）";
+
+    if (equippedGods.has("poseidon") && equippedGods.has("hera")) {
+      weaponAdvise = "您已選擇【姊妹雙刃】。其特技扇形飛刀能完美觸發波賽頓特技擊退，配合赫拉攻擊掛繫結，分享全場傷害！";
+      arcanaAdvise = "極力推薦啟用【XIV. 起源】與【IX. 命運】（利於獲取所需祝福）。";
+    } else if (equippedGods.has("apollo")) {
+      weaponAdvise = "您已選擇【女巫之杖】。利用其超長打擊距離配合阿波羅大範圍施法【烈陽之環】安全輸出。";
+      arcanaAdvise = "必點奧秘【VI. 復仇三女神】（法陣增傷）與【XIV. 起源】。";
+    } else if (equippedGods.has("hephaestus") && equippedGods.has("hestia")) {
+      weaponAdvise = "您已選擇【月石之斧】。利用重斧極高單次面板，完美搭配赫菲斯托斯火山之擊的冷卻大爆炸！";
+      arcanaAdvise = "推薦啟用【XXIII. 力量】（低血高防護盾）與【X. 巨力】（增加打擊力度）。";
+    }
+
+    html += `
+          <div class="rec-combo-item">
+            <span class="rec-combo-label">⚔️ 武器特色建議：</span>
+            <span>${weaponAdvise}</span>
+          </div>
+          <div class="rec-combo-item">
+            <span class="rec-combo-label">🎴 推薦啟用奧秘：</span>
+            <span>${arcanaAdvise}</span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // 將 HTML 寫入內容區域
+    recContent.innerHTML = html;
+
+    // 綁定「一鍵載入/補全流派」按鈕事件
+    const actionBtns = recContent.querySelectorAll(".rec-preset-btn-action");
+    actionBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const presetId = btn.getAttribute("data-preset-id");
+        const action = btn.getAttribute("data-action");
+        const preset = hades2BuildPresets.find(p => p.id === presetId);
+        if (!preset) return;
+
+        if (action === "full") {
+          loadPresetBuild(preset);
+        } else if (action === "complement") {
+          // 一鍵補全剩餘空置槽位
+          let complCount = 0;
+          Object.keys(preset.coreBoons).forEach(slot => {
+            const boonId = preset.coreBoons[slot];
+            const boon = hades2BoonsData.boons.find(b => b.id === boonId);
+            if (boon && !activeBuild[slot]) {
+              activeBuild[slot] = boon;
+              renderPlannerSlot(slot);
+              complCount++;
+            }
+          });
+          if (complCount > 0) {
+            autoEquipSatisfiedSpecialBoons();
+            updatePlannerState();
+            alert(`🎉 已成功為您在空置槽位中補全 ${complCount} 個「${preset.title}」核心祝福，並自動加載了已解鎖的雙重/傳奇被動！`);
+          } else {
+            alert("您的所有槽位都已裝配了祝福，無法進行空白補全。您可以點擊「載入完整流派」以進行完全覆蓋！");
+          }
+        }
+      });
+    });
+
+    // 綁定「裝配」推薦被動按鈕事件
+    const equipBtns = recContent.querySelectorAll(".rec-equip-passive-btn");
+    equipBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const boonId = btn.getAttribute("data-boon-id");
+        activeBuild.passives.add(boonId);
+        updatePlannerState();
+        const boon = hades2BoonsData.boons.find(b => b.id === boonId);
+        if (boon) {
+          alert(`🎉 已成功將被動/特殊祝福「${boon.name}」直接裝配到您的被動清單中！`);
+        }
+      });
+    });
   }
 
   // 渲染被動與特殊祝福列表
@@ -386,76 +1054,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function translateCurse(curse) {
-    const zh = { Blitz: "雷擊 (宙斯)", Hitch: "牽引 (赫拉)", Slip: "滑行 (波賽頓)", Daze: "眩暈 (阿波羅)", Weak: "衰弱 (阿芙蘿黛蒂)", Scorch: "燒傷 (赫斯提亞)", Freeze: "凍結 (德密特)", Cyclone: "冷冽 (德密特)", Vent: "排氣 (赫菲斯托斯)" };
+    const zh = { Blitz: "雷霆 (宙斯)", Hitch: "繫結 (赫拉)", Slip: "受潮 (波賽頓)", Daze: "目眩 (阿波羅)", Weak: "衰弱 (阿芙蘿黛蒂)", Scorch: "灼燬 (赫斯提亞)", Freeze: "冰凍 (狄蜜特)", Cyclone: "冰旋風 (狄蜜特)", Vent: "回火 (赫菲斯托斯)" };
     return zh[curse] || curse;
   }
 
-  // 更新規劃器下方的雙重與傳奇祝福解鎖狀態檢測
-  function updatePlannerSynergies(activeCurses) {
-    const listEl = document.getElementById("planner-synergies-list");
-    listEl.innerHTML = "";
 
-    // 篩選出數據庫中所有的雙重與傳奇祝福
-    const specialBoons = hades2BoonsData.boons.filter(b => b.slot === "Duo" || b.slot === "Legendary");
-
-    specialBoons.forEach(boon => {
-      if (!boon.prerequisites) return;
-
-      const reqs = boon.prerequisites.requirements;
-      let matchedStepsCount = 0;
-      const progressDetails = [];
-
-      // 檢查是否滿足前置選項
-      reqs.forEach(req => {
-        // 檢查當前 activeBuild 中是否有裝配對應 options 裡的任何一個祝福
-        const hasOption = slots.some(slot => {
-          const equipped = activeBuild[slot];
-          return equipped && req.options.includes(equipped.id);
-        });
-
-        if (hasOption) {
-          matchedStepsCount++;
-          progressDetails.push(`<span style="color:var(--green-glow)">已具備 ${hades2BoonsData.gods[req.god].name}</span>`);
-        } else {
-          progressDetails.push(`<span style="color:var(--text-muted)">尚缺 ${hades2BoonsData.gods[req.god].name}</span>`);
-        }
-      });
-
-      const totalSteps = reqs.length;
-      const isActive = matchedStepsCount === totalSteps;
-
-      const item = document.createElement("div");
-      item.className = `synergy-item ${isActive ? "active" : ""}`;
-      
-      // 生成進度圓點
-      let dotsHtml = "";
-      for (let i = 0; i < totalSteps; i++) {
-        dotsHtml += `<div class="progress-dot ${i < matchedStepsCount ? "active" : ""}"></div>`;
-      }
-
-      item.innerHTML = `
-        <div class="synergy-status-icon">${isActive ? "✨" : "🔒"}</div>
-        <div class="synergy-item-info">
-          <div class="synergy-item-name">
-            ${boon.name} 
-            <span class="boon-card-badge ${boon.slot.toLowerCase()}" style="font-size: 0.7rem; padding: 1px 4px; margin-left: 5px;">
-              ${boon.slot === "Duo" ? "雙重" : "傳奇"}
-            </span>
-          </div>
-          <div class="synergy-item-desc">${boon.desc} (${progressDetails.join(" / ")})</div>
-        </div>
-        <div class="synergy-progress-dots">
-          ${dotsHtml}
-        </div>
-      `;
-
-      listEl.appendChild(item);
-    });
-
-    if (listEl.children.length === 0) {
-      listEl.innerHTML = `<div class="slot-empty-text">無加載項目。</div>`;
-    }
-  }
 
 
   // ==========================================
@@ -551,7 +1154,7 @@ document.addEventListener("DOMContentLoaded", () => {
       card.style.setProperty("--god-glow-color", curGod.glowColor);
 
       // 槽位名稱中文化 (對齊 Xbox)
-      const slotsZh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "魔力", Passive: "被動效果", Duo: "雙重祝福", Legendary: "傳奇祝福" };
+      const slotsZh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "法能", Passive: "被動效果", Duo: "雙重祝福", Legendary: "傳奇祝福" };
       
       let badgeHtml = "";
       if (boon.slot === "Duo") {
@@ -623,7 +1226,7 @@ document.addEventListener("DOMContentLoaded", () => {
       { key: "apollo", name: "阿波羅 (Apollo)" },
       { key: "aphrodite", name: "阿芙蘿黛蒂 (Aphrodite)" },
       { key: "hestia", name: "赫斯提亞 (Hestia)" },
-      { key: "demeter", name: "德密特 (Demeter)" },
+      { key: "demeter", name: "狄蜜特 (Demeter)" },
       { key: "hephaestus", name: "赫菲斯托斯 (Hephaestus)" },
       { key: "hermes", name: "荷米斯 (Hermes)" }
     ];
@@ -652,9 +1255,9 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           // 非對角線：查找雙重祝福
           const duoBoon = hades2BoonsData.boons.find(b => 
-            b.slot === "Duo" && 
-            b.prerequisites.gods.includes(rowGod.key) && 
-            b.prerequisites.gods.includes(colGod.key)
+             b.slot === "Duo" && 
+             b.prerequisites.gods.includes(rowGod.key) && 
+             b.prerequisites.gods.includes(colGod.key)
           );
 
           if (duoBoon) {
@@ -766,7 +1369,7 @@ document.addEventListener("DOMContentLoaded", () => {
           pathObtainedBoons.delete(id);
           item.classList.remove("checked");
         } else {
-          // 檢查核心槽位衝突 (攻擊、特技、施法、衝刺、魔力)
+          // 檢查核心槽位衝突 (攻擊、特技、施法、衝刺、法能)
           const coreSlots = ["Attack", "Special", "Cast", "Dash", "Gain"];
           if (coreSlots.includes(boon.slot)) {
             // 尋找已勾選且同槽位的其他衝突祝福
@@ -797,7 +1400,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 對齊 Xbox 插槽中文
   function translateSlot(slot) {
-    const zh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "魔力", Passive: "被動" };
+    const zh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "法能", Passive: "被動" };
     return zh[slot] || slot;
   }
 
@@ -866,6 +1469,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // 綁定「直接裝配此被動到規劃器」
+  const btnEquipPathBoonDirectly = document.getElementById("btn-equip-path-boon-directly");
+  if (btnEquipPathBoonDirectly) {
+    btnEquipPathBoonDirectly.addEventListener("click", () => {
+      if (!currentPathBoon) {
+        alert("無效的祝福，無法裝配。");
+        return;
+      }
+      activeBuild.passives.add(currentPathBoon.id);
+      updatePlannerState();
+      alert(`🎉 已成功將被動/特殊祝福「${currentPathBoon.name}」直接裝配到您的被動清單中！`);
+      switchTab("planner");
+    });
+  }
+
+
 
   // ==========================================
   // --- 6. 阿卡納奧秘配置模擬器 (Arcana Cards) 邏輯 ---
@@ -887,13 +1506,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const boardEl = document.getElementById("arcana-interactive-board");
     boardEl.innerHTML = "";
 
-    // 奧秘牌對應圖示（隨意映射幾款精美文字或 Emoji 體現主題）
+    // 奧秘牌對應圖示（精美文字或 Emoji 體現主題，對齊最新 25 張牌）
     const cardIcons = {
-      1: "🔮", 2: "🧭", 3: "🌳", 4: "👑", 5: "👻",
-      6: "🌙", 7: "💧", 8: "✊", 9: "🛡️", 10: "💖",
-      11: "⚡", 12: "⏳", 13: "🐎", 14: "🦅", 15: "🔥",
-      16: "🎲", 17: "💰", 18: "🔱", 19: "✨", 20: "🎯",
-      21: "👁️", 22: "⚔️", 23: "⚖️", 24: "💎", 25: "🌀"
+      1: "🔮", 2: "🏃", 3: "🏹", 4: "⏳", 5: "🌙",
+      6: "🔱", 7: "🛡️", 8: "🕊️", 9: "👻", 10: "🌌",
+      11: "⚡", 12: "💀", 13: "🐎", 14: "🎯", 15: "💖",
+      16: "🃏", 17: "🛶", 18: "🛠️", 19: "✨", 20: "👑",
+      21: "🎲", 22: "🏆", 23: "💪", 24: "💎", 25: "⚖️"
     };
 
     arcanaCards.forEach(card => {
@@ -935,12 +1554,12 @@ document.addEventListener("DOMContentLoaded", () => {
     arcanaDetailPlaceholder.style.display = "none";
     arcanaDetailBody.style.display = "block";
     arcanaDetailName.textContent = card.name;
-    arcanaDetailCost.textContent = `消耗：${card.cost}`;
+    arcanaDetailCost.textContent = `掌握消耗：${card.cost}`;
     arcanaDetailDesc.textContent = card.desc;
   }
 
+  // 如果有選中的牌，可以保持顯示選中牌的詳情，否則放回 Placeholder
   function hideCardDetailsIfNoActive() {
-    // 如果有選中的牌，可以保持顯示選中牌的詳情，否則放回 Placeholder
     if (activeArcanaIds.size > 0) {
       const lastActiveId = Array.from(activeArcanaIds)[activeArcanaIds.size - 1];
       const card = arcanaCards.find(c => c.id === lastActiveId);
@@ -985,7 +1604,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // 更新悟性計量表
+    // 更新掌握值計量表
     graspCurrentNum.textContent = totalCost;
     const percent = Math.min((totalCost / maxGraspLimit) * 100, 100);
     graspMeter.style.width = `${percent}%`;
@@ -1014,13 +1633,65 @@ document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("presets-container");
     container.innerHTML = "";
 
+    const filterWeaponSelect = document.getElementById("select-guide-weapon");
+    const selectedWeapon = filterWeaponSelect ? filterWeaponSelect.value : "all";
+
     hades2BuildPresets.forEach(preset => {
+      // 根據選擇的武器篩選
+      if (selectedWeapon !== "all" && preset.weaponKey !== selectedWeapon) {
+        return;
+      }
+
       const card = document.createElement("article");
       card.className = "preset-card";
 
       // 產生標籤
       const tagsHtml = preset.features.map(f => `<span class="preset-tag">${f}</span>`).join("");
       
+      // 產生核心關鍵與建議配置 HTML
+      const essentialSlots = preset.essentialSlots || [];
+      let essentialHtml = "";
+      let optionalHtml = "";
+      
+      Object.keys(preset.coreBoons).forEach(slotKey => {
+        const boonId = preset.coreBoons[slotKey];
+        const boon = hades2BoonsData.boons.find(b => b.id === boonId);
+        if (!boon) return;
+        
+        const godInfo = hades2BoonsData.gods[boon.god] || { themeColor: "#fff", name: "" };
+        const slotZh = translateSlot(slotKey);
+        const isEssential = essentialSlots.includes(slotKey);
+        
+        const itemHtml = `
+          <div style="display: flex; flex-direction: column; font-size: 0.82rem; margin-bottom: 6px; padding: 6px 8px; background: rgba(255, 255, 255, 0.02); border: 1px dashed ${isEssential ? "rgba(255, 89, 42, 0.35)" : "rgba(69, 163, 255, 0.25)"}; border-radius: 6px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span>➡️ 【${slotZh}】：<span style="color: ${godInfo.themeColor}; font-weight: 700;">${boon.name}</span> (${godInfo.name.split(" ")[0]})</span>
+            </div>
+            <div style="color: var(--text-muted); font-size: 0.76rem; margin-top: 4px; line-height: 1.35;">${boon.desc}</div>
+          </div>
+        `;
+        
+        if (isEssential) {
+          essentialHtml += itemHtml;
+        } else {
+          optionalHtml += itemHtml;
+        }
+      });
+
+      let boonsDirectionsHtml = "";
+      if (essentialHtml) {
+        boonsDirectionsHtml += `
+          <div class="boon-group-title" style="font-family: var(--font-title); font-size: 0.85rem; color: #ff592a; margin-top: 10px; margin-bottom: 6px; display: flex; align-items: center; gap: 4px; font-weight: bold; border-left: 2px solid #ff592a; padding-left: 6px;">🔥 流派核心關鍵祝福 (必備)</div>
+          ${essentialHtml}
+        `;
+      }
+      if (optionalHtml) {
+        boonsDirectionsHtml += `
+          <div class="boon-group-title" style="font-family: var(--font-title); font-size: 0.85rem; color: #45a3ff; margin-top: 14px; margin-bottom: 6px; display: flex; align-items: center; gap: 4px; font-weight: bold; border-left: 2px solid #45a3ff; padding-left: 6px;">💡 其他建議配置 (加強)</div>
+          ${optionalHtml}
+        `;
+      }
+
       // 產生步驟指南 HTML
       let stepsHtml = "";
       if (preset.buildSteps && preset.buildSteps.length > 0) {
@@ -1037,17 +1708,31 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
       }
 
+      // 型態必要性標示
+      const aspectBadgeColor = preset.aspectEssential ? "#ff592a" : "#18f299";
+      const aspectBgColor = preset.aspectEssential ? "rgba(255, 89, 42, 0.15)" : "rgba(24, 242, 153, 0.15)";
+      const aspectBorder = preset.aspectEssential ? "1px solid #ff592a" : "1px solid #18f299";
+      const aspectStatusText = preset.aspectEssential ? "核心必須" : "任意 (建議)";
+
       card.innerHTML = `
         <div>
           <div class="preset-header">
             <h3 class="preset-title">${preset.title}</h3>
-            <div class="preset-weapon">🪓 推薦武器：${preset.weapon} (${preset.aspect})</div>
-            <div class="preset-tags">
+            <div class="preset-weapon">🪓 推薦武器：${preset.weapon}</div>
+            <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 6px; line-height: 1.45;">
+              <span style="color: var(--gold); font-weight: bold;">🔑 武器型態：</span>${preset.aspect} 
+              <span style="color: ${aspectBadgeColor}; font-weight: bold; background: ${aspectBgColor}; border: ${aspectBorder}; padding: 1px 6px; border-radius: 4px; font-size: 0.72rem; margin-left: 6px; display: inline-block;">${aspectStatusText}</span>
+              <div style="margin-top: 4px; font-size: 0.78rem; font-style: italic; color: rgba(255,255,255,0.55);">${preset.aspectNote}</div>
+            </div>
+            <div class="preset-tags" style="margin-top: 12px;">
               <span class="preset-tag highlight">難度：${preset.difficulty}</span>
               ${tagsHtml}
             </div>
           </div>
-          <p class="preset-desc">${preset.description}</p>
+          <p class="preset-desc" style="margin-top: 12px;">${preset.description}</p>
+          <div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px;">
+            ${boonsDirectionsHtml}
+          </div>
           ${stepsHtml}
         </div>
         <button class="preset-action-btn" data-apply-preset="${preset.id}">一鍵載入此套流派配置</button>
@@ -1068,7 +1753,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 1. 設置武器與基底
     if (preset.weaponKey) {
-      selectWeapon.value = preset.weaponKey;
+      const weapon = preset.weaponKey;
+      selectWeapon.value = weapon;
+      
+      // 動態更新型態下拉選單，以便正確回顯所屬型態
+      selectAspect.innerHTML = '<option value="" disabled selected>-- 請選擇型態 --</option>';
+      if (weaponAspectsMap[weapon]) {
+        weaponAspectsMap[weapon].forEach(aspect => {
+          const opt = document.createElement("option");
+          opt.value = aspect.value;
+          opt.textContent = aspect.text;
+          selectAspect.appendChild(opt);
+        });
+      }
     }
     if (preset.aspectKey) {
       selectAspect.value = preset.aspectKey;
@@ -1099,6 +1796,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // 4. 更新全局狀態
     activeBuild.passives.clear();
+    autoEquipSatisfiedSpecialBoons();
     updatePlannerState();
     
     // 5. 自動跳轉到首頁查看
@@ -1221,7 +1919,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderQuestsFilters() {
     const filters = document.querySelectorAll("#tutorial-quest-filters .filter-btn");
     filters.forEach(btn => {
-      // 確保只在初始化時綁定一次
       if (btn.dataset.bound) return;
       btn.dataset.bound = "true";
 
@@ -1314,6 +2011,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 初始化加載
+  const selectGuideWeapon = document.getElementById("select-guide-weapon");
+  if (selectGuideWeapon) {
+    selectGuideWeapon.addEventListener("change", () => {
+      renderPresets();
+    });
+  }
   renderPresets();
   renderDuoMatrix();
 });
