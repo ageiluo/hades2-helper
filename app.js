@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalGodFilter.value = "All";
     
     // 將 Modal 標題設定為對應的槽位名稱
-    const slotNamesZh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "法能" };
+    const slotNamesZh = { Attack: "攻擊", Special: "特技", Cast: "鑄造", Dash: "衝刺", Gain: "魔力" };
     document.getElementById("modal-title").textContent = `選擇 ${slotNamesZh[slot]} 祝福`;
     
     renderModalBoons();
@@ -273,7 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!boon) {
       slotEl.classList.remove("filled");
       slotEl.style.borderLeftColor = "";
-      const slotNamesZh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "法能" };
+      const slotNamesZh = { Attack: "攻擊", Special: "特技", Cast: "鑄造", Dash: "衝刺", Gain: "魔力" };
       contentEl.innerHTML = `<span class="slot-empty-text">點擊裝配${slotNamesZh[slot]}祝福...</span>`;
       return;
     }
@@ -583,13 +583,13 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       // 找出還缺少的狀態詛咒
       const allCursesInfo = [
-        { key: "Blitz", god: "zeus", name: "雷霆", godZh: "宙斯" },
-        { key: "Hitch", god: "hera", name: "繫結", godZh: "赫拉" },
-        { key: "Slip", god: "poseidon", name: "受潮", godZh: "波賽頓" },
+        { key: "Blitz", god: "zeus", name: "霹靂", godZh: "宙斯" },
+        { key: "Hitch", god: "hera", name: "株連", godZh: "赫拉" },
+        { key: "Slip", god: "poseidon", name: "打滑", godZh: "波塞頓" },
         { key: "Daze", god: "apollo", name: "目眩", godZh: "阿波羅" },
-        { key: "Weak", god: "aphrodite", name: "衰弱", godZh: "阿芙蘿黛蒂" },
-        { key: "Scorch", god: "hestia", name: "灼燬", godZh: "赫斯提亞" },
-        { key: "Freeze", god: "demeter", name: "冰凍", godZh: "狄蜜特" },
+        { key: "Weak", god: "aphrodite", name: "虛弱", godZh: "阿芙蘿黛蒂" },
+        { key: "Scorch", god: "hestia", name: "灼燒", godZh: "赫斯提亞" },
+        { key: "Freeze", god: "demeter", name: "冰封", godZh: "狄蜜特" },
         { key: "Vent", god: "hephaestus", name: "回火", godZh: "赫菲斯托斯" }
       ];
 
@@ -902,7 +902,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (selectedWeapon === "sister_blades") {
       weaponAdvise = "您已選擇【姊妹雙刃】。建議利用其高速近戰特點，搭配特技扇形飛刀或瞬移背擊，爆發增傷極限！";
     } else if (selectedWeapon === "witch_staff") {
-      weaponAdvise = "您已選擇【女巫之杖】。建議利用其中遠程安全距離進行 Omega 招式引導，搭配施法法陣控場！";
+      weaponAdvise = "您已選擇【女巫之杖】。建議利用其中遠程安全距離進行 Omega 招式引導，搭配鑄造控場！";
     } else if (selectedWeapon === "moonstone_axe") {
       weaponAdvise = "您已選擇【月石之斧】。重斧打擊面板極高但硬直大，建議利用衝刺起手或搭配高額爆震祝福！";
     } else if (selectedWeapon === "umbral_flames") {
@@ -915,16 +915,16 @@ document.addEventListener("DOMContentLoaded", () => {
       weaponAdvise = "根據當前武器型態，合理搭配對應的核心與被動祝福進行逃脫。";
     }
     
-    let arcanaAdvise = "【XIV. 起源】（狀態詛咒增傷）、【VI. 復仇三女神】（施法增傷）";
+    let arcanaAdvise = "【XIV. 起源】（狀態詛咒增傷）、【VI. 復仇三女神】（鑄造增傷）";
 
     if (equippedGods.has("poseidon") && equippedGods.has("hera")) {
-      weaponAdvise = "您已選擇【姊妹雙刃】。其特技扇形飛刀能完美觸發波賽頓特技擊退，配合赫拉攻擊掛繫結，分享全場傷害！";
+      weaponAdvise = "您已選擇【姊妹雙刃】。其特技扇形飛刀能完美觸發波塞頓特技擊退，配合赫拉攻擊掛株連，分享全場傷害！";
       arcanaAdvise = "極力推薦啟用【XIV. 起源】與【IX. 命運】（利於獲取所需祝福）。";
     } else if (equippedGods.has("apollo")) {
-      weaponAdvise = "您已選擇【女巫之杖】。利用其超長打擊距離配合阿波羅大範圍施法【烈陽之環】安全輸出。";
-      arcanaAdvise = "必點奧秘【VI. 復仇三女神】（法陣增傷）與【XIV. 起源】。";
+      weaponAdvise = "您已選擇【女巫之杖】。利用其超長打擊距離配合阿波羅大範圍鑄造【烈日之環】安全輸出。";
+      arcanaAdvise = "必點奧秘【VI. 復仇三女神】（鑄造增傷）與【XIV. 起源】。";
     } else if (equippedGods.has("hephaestus") && equippedGods.has("hestia")) {
-      weaponAdvise = "您已選擇【月石之斧】。利用重斧極高單次面板，完美搭配赫菲斯托斯火山之擊的冷卻大爆炸！";
+      weaponAdvise = "您已選擇【月石之斧】。利用重斧極高單次面板，完美搭配赫菲斯托斯火山打擊的冷卻大爆炸！";
       arcanaAdvise = "推薦啟用【XXIII. 力量】（低血高防護盾）與【X. 巨力】（增加打擊力度）。";
     }
 
@@ -1066,7 +1066,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function translateCurse(curse) {
-    const zh = { Blitz: "雷霆 (宙斯)", Hitch: "繫結 (赫拉)", Slip: "受潮 (波賽頓)", Daze: "目眩 (阿波羅)", Weak: "衰弱 (阿芙蘿黛蒂)", Scorch: "灼燬 (赫斯提亞)", Freeze: "冰凍 (狄蜜特)", Cyclone: "冰旋風 (狄蜜特)", Vent: "回火 (赫菲斯托斯)" };
+    const zh = { Blitz: "霹靂 (宙斯)", Hitch: "株連 (赫拉)", Slip: "打滑 (波塞頓)", Daze: "目眩 (阿波羅)", Weak: "虛弱 (阿芙蘿黛蒂)", Scorch: "灼燒 (赫斯提亞)", Freeze: "冰封 (狄蜜特)", Cyclone: "冰旋風 (狄蜜特)", Vent: "回火 (赫菲斯托斯)" };
     return zh[curse] || curse;
   }
 
@@ -1166,7 +1166,7 @@ document.addEventListener("DOMContentLoaded", () => {
       card.style.setProperty("--god-glow-color", curGod.glowColor);
 
       // 槽位名稱中文化 (對齊 Xbox)
-      const slotsZh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "法能", Passive: "被動效果", Duo: "雙重祝福", Legendary: "傳奇祝福" };
+      const slotsZh = { Attack: "攻擊", Special: "特技", Cast: "鑄造", Dash: "衝刺", Gain: "魔力", Passive: "被動效果", Duo: "雙重祝福", Legendary: "傳奇祝福" };
       
       let badgeHtml = "";
       if (boon.slot === "Duo") {
@@ -1234,7 +1234,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const matrixGods = [
       { key: "zeus", name: "宙斯 (Zeus)" },
       { key: "hera", name: "赫拉 (Hera)" },
-      { key: "poseidon", name: "波賽頓 (Poseidon)" },
+      { key: "poseidon", name: "波塞頓 (Poseidon)" },
       { key: "apollo", name: "阿波羅 (Apollo)" },
       { key: "aphrodite", name: "阿芙蘿黛蒂 (Aphrodite)" },
       { key: "hestia", name: "赫斯提亞 (Hestia)" },
@@ -1381,7 +1381,7 @@ document.addEventListener("DOMContentLoaded", () => {
           pathObtainedBoons.delete(id);
           item.classList.remove("checked");
         } else {
-          // 檢查核心槽位衝突 (攻擊、特技、施法、衝刺、法能)
+          // 檢查核心槽位衝突 (攻擊、特技、鑄造、衝刺、魔力)
           const coreSlots = ["Attack", "Special", "Cast", "Dash", "Gain"];
           if (coreSlots.includes(boon.slot)) {
             // 尋找已勾選且同槽位的其他衝突祝福
@@ -1412,7 +1412,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 對齊 Xbox 插槽中文
   function translateSlot(slot) {
-    const zh = { Attack: "攻擊", Special: "特技", Cast: "施法", Dash: "衝刺", Gain: "法能", Passive: "被動" };
+    const zh = { Attack: "攻擊", Special: "特技", Cast: "鑄造", Dash: "衝刺", Gain: "魔力", Passive: "被動" };
     return zh[slot] || slot;
   }
 

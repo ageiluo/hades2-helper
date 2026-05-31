@@ -1,25 +1,25 @@
-﻿/**
- * Hades II Arcana Cards Data (阿卡納奧秘卡牌數據 - 繁體中文官方對齊版)
+/**
+ * Hades II Arcana Cards Data (阿卡納奧秘卡牌數據 - 台灣官方對齊版)
  */
 const arcanaCards = [
   // 第一行 (Row 1)
   { id: 1, name: "I. 女巫 (The Sorceress)", cost: 1, row: 1, col: 1, desc: "引導 Ω 招式時，周遭時間流速變慢。" },
   { id: 2, name: "II. 逆子 (The Wayward Son)", cost: 1, row: 1, col: 2, desc: "離開一個地點後，回復生命值；若生命值低於 30% 回復量加倍。" },
-  { id: 3, name: "III. 獵士 (The Huntress)", cost: 2, row: 1, col: 3, desc: "當法能低於 100% 時，普通攻擊與特殊攻擊造成的傷害提升。" },
+  { id: 3, name: "III. 獵士 (The Huntress)", cost: 2, row: 1, col: 3, desc: "當魔力低於 100% 時，普通攻擊與特殊攻擊造成的傷害提升。" },
   { id: 4, name: "IV. 永恆 (Eternity)", cost: 3, row: 1, col: 4, desc: "每場挑戰開始時，獲得 1 次死亡反抗（復活）機會。" },
-  { id: 5, name: "V. 月亮 (The Moon)", cost: 0, row: 1, col: 5, desc: "啟動的 Ω 法陣會自動為月咒（Hex）充能。【啟用條件：啟用至少一張相鄰的卡牌】" },
+  { id: 5, name: "V. 月亮 (The Moon)", cost: 0, row: 1, col: 5, desc: "啟動的 Ω 鑄造會自動為月咒（Hex）充能。【啟用條件：啟用至少一張相鄰的卡牌】" },
 
   // 第二行 (Row 2)
-  { id: 6, name: "VI. 復仇三女神 (The Furies)", cost: 2, row: 2, col: 1, desc: "對身處法陣（Cast）中的敵人造成的傷害提升。" },
-  { id: 7, name: "VII. 毅力 (Persistence)", cost: 2, row: 2, col: 2, desc: "獲得最大生命值與最大法能上限加成。" },
+  { id: 6, name: "VI. 復仇三女神 (The Furies)", cost: 2, row: 2, col: 1, desc: "對身處鑄造（Cast）中的敵人造成的傷害提升。" },
+  { id: 7, name: "VII. 毅力 (Persistence)", cost: 2, row: 2, col: 2, desc: "獲得最大生命值與最大魔力上限加成。" },
   { id: 8, name: "VIII. 信使 (The Messenger)", cost: 0, row: 2, col: 3, desc: "獲得閃避機率加成。【啟用條件：啟用至少 3 張掌握值相同的卡牌】" },
-  { id: 9, name: "IX. 匿蹤者 (The Unseen)", cost: 5, row: 2, col: 4, desc: "每秒自動回復法能。" },
+  { id: 9, name: "IX. 匿蹤者 (The Unseen)", cost: 5, row: 2, col: 4, desc: "每秒自動回復魔力。" },
   { id: 10, name: "X. 黑夜 (Night)", cost: 2, row: 2, col: 5, desc: "Ω 招式連段有額外暴擊率加成。" },
 
   // 第三行 (Row 3)
   { id: 11, name: "XI. 迅疾者 (The Swift Runner)", cost: 1, row: 3, col: 1, desc: "衝刺速度提升，且衝刺時能直接穿過敵人。" },
   { id: 12, name: "XII. 死亡 (Death)", cost: 3, row: 3, col: 2, desc: "你的 Ω 招式有一定機率造成暴擊傷害。" },
-  { id: 13, name: "XIII. 半人馬 (The Centaur)", cost: 0, row: 3, col: 3, desc: "每清理 5 個地點，獲得生命與法能上限加成。【啟用條件：啟用至少一張掌握值為 1, 2, 3, 4, 5 的卡牌】" },
+  { id: 13, name: "XIII. 半人馬 (The Centaur)", cost: 0, row: 3, col: 3, desc: "每清理 5 個地點，獲得生命與魔力上限加成。【啟用條件：啟用至少一張掌握值為 1, 2, 3, 4, 5 的卡牌】" },
   { id: 14, name: "XIV. 起源 (Origination)", cost: 5, row: 3, col: 4, desc: "對受到至少兩種狀態詛咒（異常狀態）的敵人造成的傷害提升 50%。" },
   { id: 15, name: "XV. 戀人 (The Lovers)", cost: 3, row: 3, col: 5, desc: "在守護者（Boss）戰鬥中，免疫受到的第一次傷害。" },
 
