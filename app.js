@@ -367,24 +367,24 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // 判定奧秘卡牌「起源 (Origination)」雙重狀態 (+50%傷害) 是否啟用
+    // 判定奧秘卡牌「起源 (Origination)」雙重狀態 (+25%傷害) 是否啟用
     const origBox = document.getElementById("origination-box");
     const origStatus = document.getElementById("origination-status-label");
     const origDesc = document.getElementById("origination-desc-text");
 
     if (activeCurses.size >= 2) {
       origBox.classList.add("active");
-      origStatus.textContent = "已啟用 (+50% 全傷加成！)";
+      origStatus.textContent = "已啟用 (+25% 全傷加成！)";
       origStatus.style.color = "var(--green-glow)";
-      origDesc.innerHTML = `完美契合！您當前擁有的狀態詛咒有：<strong>${Array.from(activeCurses).map(c => translateCurse(c)).join("、")}</strong>，已滿足「至少兩種狀態詛咒」之條件，將觸發超強的 50% 乘算傷害加成！`;
+      origDesc.innerHTML = `完美契合！您當前擁有的狀態詛咒有：<strong>${Array.from(activeCurses).map(c => translateCurse(c)).join("、")}</strong>，已滿足「至少兩種狀態詛咒」之條件，將觸發超強的 25% 乘算傷害加成！`;
     } else {
       origBox.classList.remove("active");
       origStatus.textContent = "未啟用";
       origStatus.style.color = "var(--text-muted)";
       if (activeCurses.size === 1) {
-        origDesc.innerHTML = `尚缺一種狀態！目前僅有 <strong>${translateCurse(Array.from(activeCurses)[0])}</strong> 詛咒。請在其他空餘核心槽位補充附帶狀態詛咒的祝福以觸發 +50% 增傷！`;
+        origDesc.innerHTML = `尚缺一種狀態！目前僅有 <strong>${translateCurse(Array.from(activeCurses)[0])}</strong> 詛咒。請在其他空餘核心槽位補充附帶狀態詛咒的祝福以觸發 +25% 增傷！`;
       } else {
-        origDesc.textContent = `在裝配的核心祝福中，需要提供【至少兩種不同的狀態詛咒】，即可啟用奧秘卡牌「起源」獲得 +50% 的爆發全傷加成！`;
+        origDesc.textContent = `在裝配的核心祝福中，需要提供【至少兩種不同的狀態詛咒】，即可啟用奧秘卡牌「起源」獲得 +25% 的爆發全傷加成！`;
       }
     }
 
@@ -576,7 +576,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="origination-recommendation active">
           <div class="origination-rec-title">🎉 起源雙重增傷已成功啟動！</div>
           <div style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">
-            您當前擁有 <strong>${activeCurses.size}</strong> 種狀態詛咒（${Array.from(activeCurses).map(c => translateCurse(c)).join("、")}），已完美激活奧秘卡牌【XIV. 起源】的 <strong>+50% 全傷加成</strong>！
+            您當前擁有 <strong>${activeCurses.size}</strong> 種狀態詛咒（${Array.from(activeCurses).map(c => translateCurse(c)).join("、")}），已完美激活奧秘卡牌【XIV. 起源】的 <strong>+25% 全傷加成</strong>！
           </div>
         </div>
       `;
@@ -600,7 +600,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="origination-recommendation">
           <div class="origination-rec-title" style="color: #ff9d42;">⚠️ 尚缺一種狀態詛咒啟用增傷</div>
           <div style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 8px;">
-            當前已有狀態：<strong>${currentCurseName}</strong>。只要再補一個不同狀態，即可常駐增傷 +50%。後續推薦選擇：
+            當前已有狀態：<strong>${currentCurseName}</strong>。只要再補一個不同狀態，即可常駐增傷 +25%。後續推薦選擇：
           </div>
           <div class="origination-rec-list">
       `;

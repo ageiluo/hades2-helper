@@ -113,7 +113,7 @@ const hades2BoonsData = {
       englishName: "Ionic Gain",
       slot: "Gain",
       curse: "None",
-      desc: "使你的魔力值隨時間自動恢復，但魔力上限會降低 70%。"
+      desc: "使你的魔力隨時間自動恢復，但魔力上限降低 70%。"
     },
     {
       id: "zeus_double_strike",
@@ -169,7 +169,7 @@ const hades2BoonsData = {
       englishName: "Born Gain",
       slot: "Gain",
       curse: "None",
-      desc: "當你的魔力值歸零時，瞬間蓄銳以回滿魔力。有短暫冷卻時間。"
+      desc: "當你的魔力歸零時，立即將其全數補滿，但會預留一部分的最大魔力。"
     },
 
     // --- 波塞頓 Poseidon ---
@@ -216,7 +216,7 @@ const hades2BoonsData = {
       englishName: "Fluid Gain",
       slot: "Gain",
       curse: "None",
-      desc: "擊敗敵人時有機率掉落水球，撿起可恢復大量魔力。"
+      desc: "擊中敵人時，有機率掉落水珠，拾取可恢復魔力。"
     },
     {
       id: "poseidon_double_up",
@@ -272,7 +272,7 @@ const hades2BoonsData = {
       englishName: "Lucid Gain",
       slot: "Gain",
       curse: "None",
-      desc: "當你身處於你的鑄造範圍內時，魔力會獲得自動回復。"
+      desc: "當你站在你的鑄造範圍內時，魔力會逐漸恢復。"
     },
 
     // --- 阿芙蘿黛蒂 Aphrodite ---
@@ -319,7 +319,7 @@ const hades2BoonsData = {
       englishName: "Glamour Gain",
       slot: "Gain",
       curse: "None",
-      desc: "每場遭遇戰始終會有敵人被虛弱，你在虛弱敵人附近時會逐漸恢復魔力。"
+      desc: "當你身處於【虛弱】敵人附近時，魔力會逐漸恢復。此外，每場遭遇戰會有一名敵人自動被施加【虛弱】狀態。"
     },
 
     // --- 赫斯提亞 Hestia ---
@@ -366,7 +366,7 @@ const hades2BoonsData = {
       englishName: "Hearth Gain",
       slot: "Gain",
       curse: "None",
-      desc: "你的魔力值快速恢復，但最大生命值上限減少 20%。"
+      desc: "攻擊與特殊攻擊擊中敵人時可恢復魔力，但你的最大生命值上限會減少 20%。"
     },
 
     // --- 狄蜜特 Demeter ---
@@ -413,7 +413,7 @@ const hades2BoonsData = {
       englishName: "Tranquil Gain",
       slot: "Gain",
       curse: "None",
-      desc: "在停止行動 0.5 秒後，快速恢復魔力。"
+      desc: "當你停止行動 1 秒後，魔力會快速恢復。"
     },
 
     // --- 赫菲斯托斯 Hephaestus ---
@@ -460,7 +460,7 @@ const hades2BoonsData = {
       englishName: "Fixed Gain",
       slot: "Gain",
       curse: "None",
-      desc: "你的受傷減免提高，且每當受到傷害時，會恢復魔力。"
+      desc: "減少你受到的傷害，且每當你受到傷害時，會恢復魔力。"
     },
 
     // --- 荷米斯 Hermes ---
