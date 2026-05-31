@@ -497,12 +497,12 @@ const hades2BoonsData = {
     // ==========================================
     {
       id: "duo_golden_rule",
-      god: "zeus",
+      god: "poseidon",
       name: "黃金法則",
       englishName: "Golden Rule",
       slot: "Duo",
       curse: "None",
-      desc: "您造成的所有濺射或範圍傷害效果，會根據您現有的金幣數量獲得額外威力加成。",
+      desc: "你持有的金幣越多，造成的傷害越高（每 100 金幣約增加 +5% 全域傷害）。",
       prerequisites: {
         gods: ["poseidon", "hera"],
         requirements: [
@@ -546,7 +546,7 @@ const hades2BoonsData = {
       englishName: "Burning Desire",
       slot: "Duo",
       curse: "None",
-      desc: "對受有【虛弱】狀態的敵人施加【灼燒】時，會在其周圍產生追蹤的烈焰餘燼持續傷害之。",
+      desc: "對受有【虛弱】狀態的敵人，身上的【灼燒】堆疊在造成傷害時不會消減，使灼燒持續更長時間。",
       prerequisites: {
         gods: ["hestia", "aphrodite"],
         requirements: [
@@ -556,73 +556,73 @@ const hades2BoonsData = {
           },
           {
             god: "aphrodite",
-            options: ["aphrodite_attack", "aphrodite_special", "aphrodite_cast"]
+            options: ["aphrodite_attack", "aphrodite_special", "aphrodite_cast", "aphrodite_dash", "aphrodite_gain"]
           }
         ]
       }
     },
     {
-      id: "duo_freezing_rain",
+      id: "duo_hail_storm",
       god: "demeter",
-      name: "急凍雷雨",
-      englishName: "Freezing Rain",
+      name: "冰雹風暴",
+      englishName: "Hail Storm",
       slot: "Duo",
       curse: "None",
-      desc: "您的【打滑】效果現在也會附帶【冰封】狀態，且冰封累積速度提升 50%。",
+      desc: "你的【冰封】效果觸發後，會使被冰封的敵人反覆遭到閃電轟擊（每 0.5 秒造成 30 點閃電傷害）。",
       prerequisites: {
-        gods: ["demeter", "poseidon"],
+        gods: ["demeter", "zeus"],
         requirements: [
           {
             god: "demeter",
             options: ["demeter_attack", "demeter_special", "demeter_cast"]
           },
           {
-            god: "poseidon",
-            options: ["poseidon_attack", "poseidon_special", "poseidon_cast", "poseidon_dash"]
+            god: "zeus",
+            options: ["zeus_attack", "zeus_special", "zeus_cast", "zeus_gain"]
           }
         ]
       }
     },
     {
-      id: "duo_spiteful_glance",
+      id: "duo_aether",
       god: "hera",
-      name: "怨毒一瞥",
-      englishName: "Spiteful Glance",
+      name: "以太（Aether）",
+      englishName: "Aether",
       slot: "Duo",
       curse: "None",
-      desc: "受有【株連】狀態的敵人在受到【虛弱】影響時，會發射怨毒光線自動打擊附近的隊友。",
+      desc: "只要遭遇戰中有多名敵人存在，就會自動對其中一名敵人施加【魅惑】效果，使其暫時轉為友軍協助戰鬥。",
       prerequisites: {
         gods: ["hera", "aphrodite"],
         requirements: [
           {
             god: "hera",
-            options: ["hera_attack", "hera_special", "hera_cast"]
+            options: ["hera_attack", "hera_special", "hera_cast", "hera_dash", "hera_gain"]
           },
           {
             god: "aphrodite",
-            options: ["aphrodite_attack", "aphrodite_special", "aphrodite_cast"]
+            options: ["aphrodite_attack", "aphrodite_special", "aphrodite_cast", "aphrodite_dash", "aphrodite_gain"]
           }
         ]
       }
     },
     {
-      id: "duo_master_metal",
+      id: "duo_chain_reaction",
       god: "hephaestus",
-      name: "大師金屬",
-      englishName: "Master Metal",
+      name: "連鎖反應",
+      englishName: "Chain Reaction",
       slot: "Duo",
       curse: "None",
-      desc: "所有需要引導 Ω 的技能，引導速度提升 30% 且消耗的魔力額外引發微型火山爆震。",
+      desc: "若你的赫菲斯托斯爆震技能剛充能完成後的 2 秒內立即使用，會連續觸發 2 次爆震效果。",
       prerequisites: {
-        gods: ["hephaestus", "hermes"],
+        gods: ["hephaestus", "hestia"],
         requirements: [
           {
             god: "hephaestus",
             options: ["hephaestus_attack", "hephaestus_special", "hephaestus_cast"]
           },
           {
-            god: "hermes",
-            options: ["hermes_attack_speed", "hermes_special_speed", "hermes_dodge"]
+            god: "hestia",
+            options: ["hestia_attack", "hestia_special", "hestia_cast"]
           }
         ]
       }
