@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- 狀態宣告與初始化 ---
   // ==========================================
   let activeTab = "planner";
-  let currentPlannerSlot = null; // 用於紀錄點擊了哪個攻擊/特技槽位
+  let currentPlannerSlot = null; // 用於紀錄點擊了哪個攻擊/技能槽位
   
   // 核心構築狀態
   const activeBuild = {
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalGodFilter.value = "All";
     
     // 將 Modal 標題設定為對應的槽位名稱
-    const slotNamesZh = { Attack: "攻擊", Special: "特技", Cast: "鑄造", Dash: "衝刺", Gain: "魔力" };
+    const slotNamesZh = { Attack: "攻擊", Special: "技能", Cast: "法陣", Dash: "衝刺", Gain: "魔力" };
     document.getElementById("modal-title").textContent = `選擇 ${slotNamesZh[slot]} 祝福`;
     
     renderModalBoons();
@@ -273,7 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!boon) {
       slotEl.classList.remove("filled");
       slotEl.style.borderLeftColor = "";
-      const slotNamesZh = { Attack: "攻擊", Special: "特技", Cast: "鑄造", Dash: "衝刺", Gain: "魔力" };
+      const slotNamesZh = { Attack: "攻擊", Special: "技能", Cast: "法陣", Dash: "衝刺", Gain: "魔力" };
       contentEl.innerHTML = `<span class="slot-empty-text">點擊裝配${slotNamesZh[slot]}祝福...</span>`;
       return;
     }
@@ -900,29 +900,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectedWeapon = activeBuild.weapon;
     
     if (selectedWeapon === "sister_blades") {
-      weaponAdvise = "您已選擇【姊妹雙刃】。建議利用其高速近戰特點，搭配特技扇形飛刀或瞬移背擊，爆發增傷極限！";
+      weaponAdvise = "您已選擇【姊妹雙刃】。建議利用其高速近戰特點，搭配技能扇形飛刀或瞬移背擊，爆發增傷極限！";
     } else if (selectedWeapon === "witch_staff") {
-      weaponAdvise = "您已選擇【女巫之杖】。建議利用其中遠程安全距離進行 Omega 招式引導，搭配鑄造控場！";
+      weaponAdvise = "您已選擇【女巫之杖】。建議利用其中遠程安全距離進行 Omega 招式引導，搭配法陣控場！";
     } else if (selectedWeapon === "moonstone_axe") {
       weaponAdvise = "您已選擇【月石之斧】。重斧打擊面板極高但硬直大，建議利用衝刺起手或搭配高額爆震祝福！";
     } else if (selectedWeapon === "umbral_flames") {
-      weaponAdvise = "您已選擇【暗影之炬】。建議利用特技遠程彈幕環繞進行中距離拉扯，瘋狂多段疊加狀態傷害！";
+      weaponAdvise = "您已選擇【暗影之炬】。建議利用技能遠程彈幕環繞進行中距離拉扯，瘋狂多段疊加狀態傷害！";
     } else if (selectedWeapon === "argent_skull") {
-      weaponAdvise = "您已選擇【銀白之顱】。建議發射骷髏後使用特技前衝擊飛並快速回收骷髏，生存容錯極高！";
+      weaponAdvise = "您已選擇【銀白之顱】。建議發射骷髏後使用技能前衝擊飛並快速回收骷髏，生存容錯極高！";
     } else if (selectedWeapon === "black_coat") {
       weaponAdvise = "您已選擇【黑色戰甲】。戰甲防守與反擊能力強大，建議蓄力反彈飛行道具，並利用Omega招式施加高額單體核爆！";
     } else {
       weaponAdvise = "根據當前武器型態，合理搭配對應的核心與被動祝福進行逃脫。";
     }
     
-    let arcanaAdvise = "【XIV. 起源】（狀態詛咒增傷）、【VI. 復仇三女神】（鑄造增傷）";
+    let arcanaAdvise = "【XIV. 起源】（狀態詛咒增傷）、【VI. 復仇三女神】（法陣增傷）";
 
     if (equippedGods.has("poseidon") && equippedGods.has("hera")) {
-      weaponAdvise = "您已選擇【姊妹雙刃】。其特技扇形飛刀能完美觸發波賽頓特殊擊退，配合赫拉攻擊掛繫結，分享全場傷害！";
+      weaponAdvise = "您已選擇【姊妹雙刃】。其技能扇形飛刀能完美觸發波賽頓特殊擊退，配合赫拉攻擊掛繫結，分享全場傷害！";
       arcanaAdvise = "極力推薦啟用【XIV. 起源】與【IX. 命運】（利於獲取所需祝福）。";
     } else if (equippedGods.has("apollo")) {
-      weaponAdvise = "您已選擇【女巫之杖】。利用其超長打擊距離配合阿波羅大範圍鑄造【閃焰環發】安全輸出。";
-      arcanaAdvise = "必點奧秘【VI. 復仇三女神】（鑄造增傷）與【XIV. 起源】。";
+      weaponAdvise = "您已選擇【女巫之杖】。利用其超長打擊距離配合阿波羅大範圍法陣【閃焰環發】安全輸出。";
+      arcanaAdvise = "必點奧秘【VI. 復仇三女神】（法陣增傷）與【XIV. 起源】。";
     } else if (equippedGods.has("hephaestus") && equippedGods.has("hestia")) {
       weaponAdvise = "您已選擇【月石之斧】。利用重斧極高單次面板，完美搭配赫菲斯托斯【燄山痛擊】的冷卻大爆炸！";
       arcanaAdvise = "推薦啟用【XXIII. 力量】（低血高防護盾）與【X. 巨力】（增加打擊力度）。";
@@ -1166,7 +1166,7 @@ document.addEventListener("DOMContentLoaded", () => {
       card.style.setProperty("--god-glow-color", curGod.glowColor);
 
       // 槽位名稱中文化 (對齊 Xbox)
-      const slotsZh = { Attack: "攻擊", Special: "特技", Cast: "鑄造", Dash: "衝刺", Gain: "魔力", Passive: "被動效果", Duo: "雙重祝福", Legendary: "傳奇祝福" };
+      const slotsZh = { Attack: "攻擊", Special: "技能", Cast: "法陣", Dash: "衝刺", Gain: "魔力", Passive: "被動效果", Duo: "雙重祝福", Legendary: "傳奇祝福" };
       
       let badgeHtml = "";
       if (boon.slot === "Duo") {
@@ -1383,7 +1383,7 @@ document.addEventListener("DOMContentLoaded", () => {
           pathObtainedBoons.delete(id);
           item.classList.remove("checked");
         } else {
-          // 檢查核心槽位衝突 (攻擊、特技、鑄造、衝刺、魔力)
+          // 檢查核心槽位衝突 (攻擊、技能、法陣、衝刺、魔力)
           const coreSlots = ["Attack", "Special", "Cast", "Dash", "Gain"];
           if (coreSlots.includes(boon.slot)) {
             // 尋找已勾選且同槽位的其他衝突祝福
@@ -1414,7 +1414,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 對齊 Xbox 插槽中文
   function translateSlot(slot) {
-    const zh = { Attack: "攻擊", Special: "特技", Cast: "鑄造", Dash: "衝刺", Gain: "魔力", Passive: "被動" };
+    const zh = { Attack: "攻擊", Special: "技能", Cast: "法陣", Dash: "衝刺", Gain: "魔力", Passive: "被動" };
     return zh[slot] || slot;
   }
 

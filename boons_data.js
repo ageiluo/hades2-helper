@@ -86,7 +86,7 @@ const hades2BoonsData = {
       englishName: "Heaven Flourish",
       slot: "Special",
       curse: "Blitz",
-      desc: "特殊攻擊施加【雷霆】狀態。"
+      desc: "武器技能施加【雷霆】狀態。"
     },
     {
       id: "zeus_cast",
@@ -95,7 +95,7 @@ const hades2BoonsData = {
       englishName: "Storm Ring",
       slot: "Cast",
       curse: "None",
-      desc: "施展鑄造時在範圍內重複引來天雷劈擊，每次擊中 1 個敵人。"
+      desc: "施展法陣時在範圍內重複引來天雷劈擊，每次擊中 1 個敵人。"
     },
     {
       id: "zeus_dash",
@@ -104,7 +104,7 @@ const hades2BoonsData = {
       englishName: "Thunder Sprint",
       slot: "Dash",
       curse: "None",
-      desc: "奔行（衝刺）時引來天雷劈擊，對周圍敵人造成傷害。"
+      desc: "奔跑（衝刺）時引來天雷劈擊，對周圍敵人造成傷害。"
     },
     {
       id: "zeus_gain",
@@ -151,7 +151,7 @@ const hades2BoonsData = {
       englishName: "Sworn Flourish",
       slot: "Special",
       curse: "Hitch",
-      desc: "特殊攻擊能造成更高傷害，並施加【繫結】效果。"
+      desc: "武器技能能造成更高傷害，並施加【繫結】效果。"
     },
     {
       id: "hera_cast",
@@ -160,7 +160,7 @@ const hades2BoonsData = {
       englishName: "Engagement Ring",
       slot: "Cast",
       curse: "Hitch",
-      desc: "施展鑄造時施加【繫結】效果，並立即根據身處其中的敵人數量，對其造成傷害。"
+      desc: "施展法陣時施加【繫結】效果，並立即根據身處其中的敵人數量，對其造成傷害。"
     },
     {
       id: "hera_dash",
@@ -169,7 +169,7 @@ const hades2BoonsData = {
       englishName: "Nexus Sprint",
       slot: "Dash",
       curse: "Hitch",
-      desc: "奔行時對接觸之敵人施加【繫結】效果，並造成傷害。"
+      desc: "奔跑時對接觸之敵人施加【繫結】效果，並造成傷害。"
     },
     {
       id: "hera_gain",
@@ -225,7 +225,7 @@ const hades2BoonsData = {
       englishName: "Wave Flourish",
       slot: "Special",
       curse: "None",
-      desc: "使出特殊攻擊時能掀起波瀾，將敵人擊退。"
+      desc: "使出武器技能時能掀起波瀾，將敵人擊退。"
     },
     {
       id: "poseidon_cast",
@@ -234,7 +234,7 @@ const hades2BoonsData = {
       englishName: "Geyser Ring",
       slot: "Cast",
       curse: "Slip",
-      desc: "施展鑄造的同時將掀起強力波瀾，造成傷害並對敵人施加【浪沫】效果。"
+      desc: "施展法陣的同時將掀起強力波瀾，造成傷害並對敵人施加【浪沫】效果。"
     },
     {
       id: "poseidon_dash",
@@ -243,7 +243,7 @@ const hades2BoonsData = {
       englishName: "Breaker Sprint",
       slot: "Dash",
       curse: "None",
-      desc: "奔行時能夠對首位接觸到的敵人造成傷害，並將其擊退。"
+      desc: "奔跑時能夠對首位接觸到的敵人造成傷害，並將其擊退。"
     },
     {
       id: "poseidon_gain",
@@ -299,7 +299,7 @@ const hades2BoonsData = {
       englishName: "Nova Flourish",
       slot: "Special",
       curse: "None",
-      desc: "特殊攻擊能造成更高傷害，影響範圍也擴大。"
+      desc: "武器技能能造成更高傷害，影響範圍也擴大。"
     },
     {
       id: "apollo_cast",
@@ -308,7 +308,7 @@ const hades2BoonsData = {
       englishName: "Solar Ring",
       slot: "Cast",
       curse: "Daze",
-      desc: "鑄造施加【眩暈】效果，並在失效前造成爆發傷害。"
+      desc: "法陣施加【眩暈】效果，並在失效前造成爆發傷害。"
     },
     {
       id: "apollo_dash",
@@ -317,7 +317,7 @@ const hades2BoonsData = {
       englishName: "Blinding Sprint",
       slot: "Dash",
       curse: "Daze",
-      desc: "能奔行得更快，並對周圍敵人施加【眩暈】效果。"
+      desc: "能奔跑得更快，並對周圍敵人施加【眩暈】效果。"
     },
     {
       id: "apollo_gain",
@@ -326,7 +326,7 @@ const hades2BoonsData = {
       englishName: "Lucid Gain",
       slot: "Gain",
       curse: "None",
-      desc: "每當鑄造消散時，回復一些魔力。"
+      desc: "每當法陣消散時，回復一些魔力。"
     },
     {
       id: "apollo_blind",
@@ -335,7 +335,7 @@ const hades2BoonsData = {
       englishName: "Blind Chance",
       slot: "Passive",
       curse: "None",
-      desc: "你的攻擊與特技擊中敵人時，有機率對其施加【眩暈】狀態。"
+      desc: "你的攻擊與技能擊中敵人時，有機率對其施加【眩暈】狀態。"
     },
     {
       id: "apollo_area",
@@ -344,7 +344,7 @@ const hades2BoonsData = {
       englishName: "Solar Area",
       slot: "Passive",
       curse: "None",
-      desc: "你的法陣（鑄造）範圍更廣，影響面積大幅提升。"
+      desc: "你的法陣範圍更廣，影響面積大幅提升。"
     },
 
     // --- 阿芙蘿黛蒂 Aphrodite ---
@@ -364,7 +364,7 @@ const hades2BoonsData = {
       englishName: "Flutter Flourish",
       slot: "Special",
       curse: "Weak",
-      desc: "特殊攻擊對附近的敵人造成更高的傷害，並施加【虛弱】狀態。"
+      desc: "武器技能對附近的敵人造成更高的傷害，並施加【虛弱】狀態。"
     },
     {
       id: "aphrodite_cast",
@@ -373,7 +373,7 @@ const hades2BoonsData = {
       englishName: "Rapture Ring",
       slot: "Cast",
       curse: "Weak",
-      desc: "鑄造施加【虛弱】效果，將敵人拉向中心並造成傷害。"
+      desc: "法陣施加【虛弱】效果，將敵人拉向中心並造成傷害。"
     },
     {
       id: "aphrodite_dash",
@@ -382,7 +382,7 @@ const hades2BoonsData = {
       englishName: "Passion Sprint",
       slot: "Dash",
       curse: "Weak",
-      desc: "奔行時能於起點和終點炸擊周圍敵人，並施加【虛弱】效果。"
+      desc: "奔跑時能於起點和終點炸擊周圍敵人，並施加【虛弱】效果。"
     },
     {
       id: "aphrodite_gain",
@@ -429,7 +429,7 @@ const hades2BoonsData = {
       englishName: "Flame Flourish",
       slot: "Special",
       curse: "Scorch",
-      desc: "特殊攻擊施加【灼燬】效果。"
+      desc: "武器技能施加【灼燬】效果。"
     },
     {
       id: "hestia_cast",
@@ -438,7 +438,7 @@ const hades2BoonsData = {
       englishName: "Smolder Ring",
       slot: "Cast",
       curse: "Scorch",
-      desc: "施展鑄造時，對影響範圍內的敵人重複施加【灼燬】效果。"
+      desc: "施展法陣時，對影響範圍內的敵人重複施加【灼燬】效果。"
     },
     {
       id: "hestia_dash",
@@ -447,7 +447,7 @@ const hades2BoonsData = {
       englishName: "Soot Sprint",
       slot: "Dash",
       curse: "None",
-      desc: "在奔行時於身後留下一道餘燼的蹤跡，且每次受到的燒灼傷害上限為 15 點。"
+      desc: "在奔跑時於身後留下一道餘燼的蹤跡，且每次受到的燒灼傷害上限為 15 點。"
     },
     {
       id: "hestia_gain",
@@ -456,7 +456,7 @@ const hades2BoonsData = {
       englishName: "Hearth Gain",
       slot: "Gain",
       curse: "None",
-      desc: "普通攻擊或特殊攻擊造成傷害時，能夠回復魔力。"
+      desc: "普通攻擊或武器技能造成傷害時，能夠回復魔力。"
     },
     {
       id: "hestia_armor",
@@ -494,7 +494,7 @@ const hades2BoonsData = {
       englishName: "Frost Flourish",
       slot: "Special",
       curse: "Freeze",
-      desc: "特殊攻擊能造成更高傷害，並施加【凍結】效果。"
+      desc: "武器技能能造成更高傷害，並施加【凍結】效果。"
     },
     {
       id: "demeter_cast",
@@ -503,7 +503,7 @@ const hades2BoonsData = {
       englishName: "Arctic Ring",
       slot: "Cast",
       curse: "Cyclone",
-      desc: "鑄造能於有效範圍內持續對敵人造成傷害，並施加【凍結】效果。"
+      desc: "法陣能於有效範圍內持續對敵人造成傷害，並施加【凍結】效果。"
     },
     {
       id: "demeter_dash",
@@ -512,7 +512,7 @@ const hades2BoonsData = {
       englishName: "Frigid Sprint",
       slot: "Dash",
       curse: "Cyclone",
-      desc: "奔行結束時，在周圍形成一陣暫留於該處的緩速風暴。"
+      desc: "奔跑結束時，在周圍形成一陣暫留於該處的緩速風暴。"
     },
     {
       id: "demeter_gain",
@@ -559,7 +559,7 @@ const hades2BoonsData = {
       englishName: "Volcanic Flourish",
       slot: "Special",
       curse: "Vent",
-      desc: "使用特殊攻擊時能引發轟擊，造成巨大的範圍傷害（具有數秒冷卻時間）。"
+      desc: "使用武器技能時能引發轟擊，造成巨大的範圍傷害（具有數秒冷卻時間）。"
     },
     {
       id: "hephaestus_cast",
@@ -568,7 +568,7 @@ const hades2BoonsData = {
       englishName: "Anvil Ring",
       slot: "Cast",
       curse: "None",
-      desc: "鑄造能對影響範圍內的敵人連續造成多次傷害。"
+      desc: "法陣能對影響範圍內的敵人連續造成多次傷害。"
     },
     {
       id: "hephaestus_dash",
@@ -577,7 +577,7 @@ const hades2BoonsData = {
       englishName: "Smithy Sprint",
       slot: "Dash",
       curse: "None",
-      desc: "若奔行後有敵人在附近，能夠引發轟擊，造成大範圍傷害。"
+      desc: "若奔跑後有敵人在附近，能夠引發轟擊，造成大範圍傷害。"
     },
     {
       id: "hephaestus_gain",
@@ -615,7 +615,7 @@ const hades2BoonsData = {
       englishName: "Swift Strike",
       slot: "Passive",
       curse: "None",
-      desc: "使出普通攻擊、使用特殊攻擊和施展鑄造的速度更快。"
+      desc: "使出普通攻擊、使用武器技能和施展法陣的速度更快。"
     },
     {
       id: "hermes_special_speed",
@@ -668,7 +668,7 @@ const hades2BoonsData = {
       englishName: "Sunny Disposition",
       slot: "Duo",
       curse: "None",
-      desc: "引導施展 Ω 鑄造時能進一步消耗魔力，使法陣中的敵人重複受到天雷劈擊。",
+      desc: "引導施展 Ω 法陣時能進一步消耗魔力，使法陣中的敵人重複受到天雷劈擊。",
       prerequisites: {
         gods: ["apollo", "zeus"],
         requirements: [
