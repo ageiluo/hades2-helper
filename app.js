@@ -4,6 +4,35 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
+  // --- 全域小工具函數 ---
+  // ==========================================
+  function getGodIconPath(key) {
+    if (!key) return 'assets/gods/Pom.png';
+    // For non-god icons or special folders
+    const nameMap = {
+      zeus: "Zeus",
+      hera: "Hera",
+      poseidon: "Poseidon",
+      apollo: "Apollo",
+      aphrodite: "Aphrodite",
+      hestia: "Hestia",
+      demeter: "Demeter",
+      hephaestus: "Hephaestus",
+      hermes: "Hermes",
+      ares: "Ares",
+      artemis: "Artemis",
+      athena: "Athena",
+      dionysus: "Dionysus",
+      chaos: "Chaos",
+      hades: "Hades",
+      hammer: "Hammer",
+      pom: "Pom"
+    };
+    const mapped = nameMap[key.toLowerCase()] || "Pom";
+    return `assets/gods/${mapped}.png`;
+  }
+
+  // ==========================================
   // --- 狀態宣告與初始化 ---
   // ==========================================
   let activeTab = "planner";
@@ -239,12 +268,15 @@ document.addEventListener("DOMContentLoaded", () => {
       item.style.setProperty("--god-color", godInfo.themeColor);
       
       item.innerHTML = `
-        <div class="modal-boon-info">
-          <div class="modal-boon-header">
-            <span class="modal-boon-name">${boon.name}</span>
-            <span class="modal-boon-god-badge" style="border-color: ${godInfo.themeColor}; color: ${godInfo.themeColor};">${godInfo.name}</span>
+        <div style="display: flex; align-items: center; gap: 12px; width: 100%;">
+          <img src="${getGodIconPath(boon.god)}" style="width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid ${godInfo.themeColor}; box-shadow: 0 0 6px ${godInfo.themeColor}50; object-fit: cover;">
+          <div class="modal-boon-info" style="flex-grow: 1;">
+            <div class="modal-boon-header">
+              <span class="modal-boon-name">${boon.name}</span>
+              <span class="modal-boon-god-badge" style="border-color: ${godInfo.themeColor}; color: ${godInfo.themeColor};">${godInfo.name}</span>
+            </div>
+            <div class="modal-boon-desc">${boon.desc}</div>
           </div>
-          <div class="modal-boon-desc">${boon.desc}</div>
         </div>
       `;
 
@@ -281,10 +313,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const godInfo = hades2BoonsData.gods[boon.god] || { themeColor: "#fff", name: "未知" };
     slotEl.classList.add("filled");
     slotEl.style.borderLeftColor = godInfo.themeColor;
+    slotEl.style.setProperty("--god-color", godInfo.themeColor);
+    slotEl.style.setProperty("--god-glow-color", godInfo.glowColor);
 
     contentEl.innerHTML = `
-      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-        <div class="slot-boon-info">
+      <div style="display: flex; align-items: center; gap: 15px; width: 100%;">
+        <img src="${getGodIconPath(boon.god)}" class="slot-god-icon" alt="${boon.god}">
+        <div class="slot-boon-info" style="flex-grow: 1;">
           <div class="slot-boon-header">
             <span class="slot-boon-name" style="color: ${godInfo.themeColor};">${boon.name}</span>
             <span class="slot-boon-god" style="border-color: ${godInfo.themeColor}; color: ${godInfo.themeColor}; background: rgba(255,255,255,0.03);">${godInfo.name}</span>
@@ -1035,14 +1070,17 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       item.innerHTML = `
-        <div style="display: flex; flex-direction: column; gap: 2px;">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-weight: 700; font-size: 0.95rem; color: ${godInfo.themeColor};">${boon.name}</span>
-            <span class="boon-card-badge ${badgeClass}" style="font-size: 0.65rem; padding: 1px 4px;">${badgeText}</span>
+        <div style="display: flex; align-items: center; gap: 12px; flex-grow: 1;">
+          <img src="${getGodIconPath(boon.god)}" style="width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid ${godInfo.themeColor}; box-shadow: 0 0 5px ${godInfo.themeColor}50; object-fit: cover;">
+          <div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-weight: 700; font-size: 0.95rem; color: ${godInfo.themeColor};">${boon.name}</span>
+              <span class="boon-card-badge ${badgeClass}" style="font-size: 0.65rem; padding: 1px 4px;">${badgeText}</span>
+            </div>
+            <span style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">${boon.desc}</span>
           </div>
-          <span style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">${boon.desc}</span>
         </div>
-        <button class="passive-clear-btn" data-id="${boon.id}" title="清除裝配" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem; padding: 2px 8px; transition: var(--transition-smooth);">✕</button>
+        <button class="passive-clear-btn" data-id="${boon.id}" title="清除裝配" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem; padding: 2px 8px; transition: var(--transition-smooth); margin-left: 10px;">✕</button>
       `;
 
       // Clear passive button
@@ -1090,7 +1128,10 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.style.setProperty("--god-glow-color", god.glowColor);
       
       btn.innerHTML = `
-        <span>${god.name}</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <img src="${getGodIconPath(key)}" class="menu-god-icon" alt="${key}">
+          <span>${god.name}</span>
+        </div>
         <span class="god-menu-curse">${god.curse}</span>
       `;
 
@@ -1165,14 +1206,15 @@ document.addEventListener("DOMContentLoaded", () => {
       card.style.setProperty("--god-color", curGod.themeColor);
       card.style.setProperty("--god-glow-color", curGod.glowColor);
 
-      // 槽位名稱中文化 (對齊 Xbox)
+      // 槽位名稱與勳章樣式 (對齊 Xbox，雙重與傳奇顯示高級彩色勳章)
       const slotsZh = { Attack: "攻擊", Special: "技能", Cast: "法陣", Dash: "衝刺", Gain: "魔力", Passive: "被動效果", Duo: "雙重祝福", Legendary: "傳奇祝福" };
-      
-      let badgeHtml = "";
+      let slotBadgeHtml = "";
       if (boon.slot === "Duo") {
-        badgeHtml = `<span class="boon-card-badge duo">雙重祝福</span>`;
+        slotBadgeHtml = `<span class="boon-card-badge duo">雙重祝福</span>`;
       } else if (boon.slot === "Legendary") {
-        badgeHtml = `<span class="boon-card-badge legendary">傳奇祝福</span>`;
+        slotBadgeHtml = `<span class="boon-card-badge legendary">傳奇祝福</span>`;
+      } else {
+        slotBadgeHtml = `<span class="boon-card-slot">${slotsZh[boon.slot]}</span>`;
       }
 
       let curseHtml = "";
@@ -1185,18 +1227,39 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
       }
 
-      card.innerHTML = `
-        <div>
-          <div class="boon-card-header">
-            <span class="boon-card-title">${boon.name}</span>
-            <span class="boon-card-slot">${slotsZh[boon.slot]}</span>
+      // 產生頂部小頭標 (雙重祝福並列展示，不交疊以防視覺混淆)
+      let headerIconsHtml = "";
+      if (boon.slot === "Duo" && boon.prerequisites && boon.prerequisites.gods) {
+        headerIconsHtml = `
+          <div class="boon-card-header-icons" style="display: flex; gap: 6px; margin-right: 8px;">
+            ${boon.prerequisites.gods.map((g, idx) => `
+              <img src="${getGodIconPath(g)}" class="boon-card-duo-avatar" style="border: 1.5px solid ${hades2BoonsData.gods[g]?.themeColor || '#fff'}; z-index: ${5 - idx};">
+            `).join("")}
           </div>
-          <div class="boon-card-english">${boon.englishName}</div>
-          <div class="boon-card-desc">${boon.desc}</div>
-        </div>
-        <div class="boon-card-footer">
-          ${curseHtml}
-          ${badgeHtml}
+        `;
+      } else {
+        headerIconsHtml = `
+          <img src="${getGodIconPath(boon.god)}" class="boon-card-duo-avatar" style="border: 1.5px solid ${curGod.themeColor}; margin-right: 8px; z-index: 1;">
+        `;
+      }
+
+      card.innerHTML = `
+        <div class="boon-card-watermark" style="background-image: url('${getGodIconPath(boon.god)}');"></div>
+        <div class="boon-card-inner" style="position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; width: 100%;">
+          <div>
+            <div class="boon-card-header">
+              <div style="display: flex; align-items: center;">
+                ${headerIconsHtml}
+                <span class="boon-card-title">${boon.name}</span>
+              </div>
+              ${slotBadgeHtml}
+            </div>
+            <div class="boon-card-english">${boon.englishName}</div>
+            <div class="boon-card-desc">${boon.desc}</div>
+          </div>
+          <div class="boon-card-footer">
+            ${curseHtml}
+          </div>
         </div>
       `;
 
@@ -1243,15 +1306,30 @@ document.addEventListener("DOMContentLoaded", () => {
       { key: "hermes", name: "赫米斯 (Hermes)" }
     ];
 
-    let theadHtml = `<thead><tr><th>橫縱軸神明</th>`;
+    let theadHtml = `<thead><tr><th style="font-family: var(--font-title); font-size: 0.85rem; color: var(--gold);">橫縱軸神明</th>`;
     matrixGods.forEach(god => {
-      theadHtml += `<th>${god.name.split(" ")[0]}</th>`;
+      theadHtml += `
+        <th>
+          <div class="matrix-header-cell">
+            <img src="${getGodIconPath(god.key)}" class="matrix-god-icon" alt="${god.key}">
+            <span>${god.name.split(" ")[0]}</span>
+          </div>
+        </th>
+      `;
     });
     theadHtml += `</tr></thead>`;
 
     let tbodyHtml = "<tbody>";
     matrixGods.forEach(rowGod => {
-      tbodyHtml += `<tr><td class="matrix-row-header">${rowGod.name.split(" ")[0]}</td>`;
+      tbodyHtml += `
+        <tr>
+          <td class="matrix-row-header">
+            <div class="matrix-header-cell" style="flex-direction: row; justify-content: flex-start; gap: 8px; padding-left: 10px;">
+              <img src="${getGodIconPath(rowGod.key)}" class="matrix-god-icon" alt="${rowGod.key}">
+              <span>${rowGod.name.split(" ")[0]}</span>
+            </div>
+          </td>
+      `;
       matrixGods.forEach(colGod => {
         if (rowGod.key === colGod.key) {
           // 對角線：查找該神明的傳奇祝福
@@ -1348,7 +1426,13 @@ document.addEventListener("DOMContentLoaded", () => {
       
       const stepTitle = document.createElement("div");
       stepTitle.className = "step-title";
-      stepTitle.textContent = `${god.name.split(" ")[0]} 前置需求集 ${index + 1}（以下任選一項）`;
+      stepTitle.style.display = "flex";
+      stepTitle.style.alignItems = "center";
+      stepTitle.style.gap = "8px";
+      stepTitle.innerHTML = `
+        <img src="${getGodIconPath(req.god)}" style="width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid ${god.themeColor}; box-shadow: 0 0 5px ${god.themeColor}50; object-fit: cover;">
+        <span>${god.name.split(" ")[0]} 前置需求集 ${index + 1}（以下任選一項）</span>
+      `;
       
       const stepOptionsList = document.createElement("div");
       stepOptionsList.className = "step-options-list";
