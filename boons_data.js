@@ -7,64 +7,64 @@ const hades2BoonsData = {
       name: "宙斯 (Zeus)",
       themeColor: "#ecd544",
       glowColor: "rgba(236, 213, 68, 0.4)",
-      curse: "霹靂 (Blitz)",
-      curseDesc: "敵人受此狀態後，在受到後續傷害達到定額時會觸發天雷轟擊。"
+      curse: "雷霆 (Blitz)",
+      curseDesc: "身負效果的敵人在受到定額傷害後，或在特定時間後，引來天雷劈擊。"
     },
     hera: {
       name: "赫拉 (Hera)",
       themeColor: "#bd66ff",
       glowColor: "rgba(189, 102, 255, 0.4)",
-      curse: "株連 (Hitch)",
-      curseDesc: "受株連的敵人互相連結，其中一人受傷時，其他人亦會承受部分傷害。"
+      curse: "繫結 (Hitch)",
+      curseDesc: "身負效果的敵人將受到其他同受影響的敵人所受傷害的百分比傷害。"
     },
     poseidon: {
-      name: "波塞頓 (Poseidon)",
+      name: "波賽頓 (Poseidon)",
       themeColor: "#45a3ff",
       glowColor: "rgba(69, 163, 255, 0.4)",
-      curse: "打滑 (Slip)",
-      curseDesc: "受影響的敵人受到更多傷害且會被擊退得更遠。"
+      curse: "浪沫 (Slip)",
+      curseDesc: "身負該效果的敵人受擊時有機率受到額外傷害。"
     },
     apollo: {
       name: "阿波羅 (Apollo)",
       themeColor: "#ffca58",
       glowColor: "rgba(255, 202, 88, 0.4)",
-      curse: "目眩 (Daze)",
-      curseDesc: "敵人的攻擊有機率落空（打偏）。"
+      curse: "眩暈 (Daze)",
+      curseDesc: "有機率使身負效果的敵人攻擊無效。"
     },
     aphrodite: {
       name: "阿芙蘿黛蒂 (Aphrodite)",
       themeColor: "#ff7da4",
       glowColor: "rgba(255, 125, 164, 0.4)",
       curse: "虛弱 (Weak)",
-      curseDesc: "敵人造成的傷害降低。"
+      curseDesc: "身負效果的敵人所造成傷害降低。"
     },
     hestia: {
       name: "赫斯提亞 (Hestia)",
       themeColor: "#ff592a",
       glowColor: "rgba(255, 89, 42, 0.4)",
-      curse: "灼燒 (Scorch)",
-      curseDesc: "敵人承受持續燃燒的火焰傷害。"
+      curse: "灼燬 (Scorch)",
+      curseDesc: "身負效果的敵人受到每秒的累積傷害。"
     },
     demeter: {
-      name: "狄蜜特 (Demeter)",
+      name: "荻米特 (Demeter)",
       themeColor: "#a2fdf2",
       glowColor: "rgba(162, 253, 242, 0.4)",
-      curse: "冰封/冰旋風 (Freeze/Cyclone)",
-      curseDesc: "冰封可使敵人暫時無法行動；冰旋風可降低移動與攻擊速度並造成微量持續傷害。"
+      curse: "凍結 (Freeze)",
+      curseDesc: "使身負效果的敵人無法動彈。"
     },
     hephaestus: {
       name: "赫菲斯托斯 (Hephaestus)",
       themeColor: "#d27d2d",
       glowColor: "rgba(210, 125, 45, 0.4)",
-      curse: "回火 (Vent)",
-      curseDesc: "在轟擊觸發後對敵人附加回火，5秒後引爆延遲傷害。"
+      curse: "鑠金 (Vent)",
+      curseDesc: "轟擊效果觸發後對敵人施加，一定時間後引爆最高爆發傷害。"
     },
     hermes: {
-      name: "荷米斯 (Hermes)",
+      name: "赫米斯 (Hermes)",
       themeColor: "#3bf7a0",
       glowColor: "rgba(59, 247, 160, 0.4)",
       curse: "無",
-      curseDesc: "荷米斯提供速度與機動性增益，不直接附帶狀態詛咒。"
+      curseDesc: "赫米斯提供速度與機動性增益，不直接附帶狀態詛咒。"
     }
   },
 
@@ -73,94 +73,94 @@ const hades2BoonsData = {
     {
       id: "zeus_attack",
       god: "zeus",
-      name: "雷霆打擊",
+      name: "天雷劈擊",
       englishName: "Heaven Strike",
       slot: "Attack",
       curse: "Blitz",
-      desc: "攻擊召喚落雷，並對敵人施加【霹靂】狀態。"
+      desc: "普通攻擊施加【雷霆】狀態。"
     },
     {
       id: "zeus_special",
       god: "zeus",
-      name: "雷霆絕技",
+      name: "天雷絕技",
       englishName: "Heaven Flourish",
       slot: "Special",
       curse: "Blitz",
-      desc: "特殊攻擊召喚落雷，並對敵人施加【霹靂】狀態。"
+      desc: "特殊攻擊施加【雷霆】狀態。"
     },
     {
       id: "zeus_cast",
       god: "zeus",
-      name: "風暴之環",
+      name: "陰雲環頂",
       englishName: "Storm Ring",
       slot: "Cast",
       curse: "None",
-      desc: "你的鑄造會在指定區域內隨機召喚落雷打擊敵人。"
+      desc: "施展鑄造時在範圍內重複引來天雷劈擊，每次擊中 1 個敵人。"
     },
     {
       id: "zeus_dash",
       god: "zeus",
-      name: "電掣奔行",
+      name: "迅雷疾馳",
       englishName: "Thunder Sprint",
       slot: "Dash",
       curse: "None",
-      desc: "奔行時會不斷有落雷打擊附近的敵人，每次消耗魔力。"
+      desc: "奔行時引來天雷劈擊，對周圍敵人造成傷害，每次消耗魔力。"
     },
     {
       id: "zeus_gain",
       god: "zeus",
-      name: "離子匯流",
+      name: "電能滿沛",
       englishName: "Ionic Gain",
       slot: "Gain",
       curse: "None",
-      desc: "使你的魔力隨時間自動恢復，但魔力上限降低 70%。"
+      desc: "每場遭遇戰中出現一個能夠回復所有魔力的雷電球，但魔力上限降低 70%。"
     },
     {
       id: "zeus_double_strike",
       god: "zeus",
-      name: "雙重雷擊",
+      name: "雷電交加",
       englishName: "Double Strike",
       slot: "Passive",
       curse: "None",
-      desc: "你的天雷效果有機率額外轟擊 1 次。"
+      desc: "天雷效果有機率能劈擊 2 次。"
     },
 
     // --- 赫拉 Hera ---
     {
       id: "hera_attack",
       god: "hera",
-      name: "盟約打擊",
+      name: "許誓縛擊",
       englishName: "Sworn Strike",
       slot: "Attack",
       curse: "Hitch",
-      desc: "攻擊造成更高傷害，並施加【株連】狀態。"
+      desc: "普通攻擊能造成更高傷害，並施加【繫結】效果。"
     },
     {
       id: "hera_special",
       god: "hera",
-      name: "盟約絕技",
+      name: "許誓絕技",
       englishName: "Sworn Flourish",
       slot: "Special",
       curse: "Hitch",
-      desc: "特殊攻擊造成更高傷害，並施加【株連】狀態。"
+      desc: "特殊攻擊能造成更高傷害，並施加【繫結】效果。"
     },
     {
       id: "hera_cast",
       god: "hera",
-      name: "羈絆之環",
+      name: "結姻戒環",
       englishName: "Engagement Ring",
       slot: "Cast",
       curse: "Hitch",
-      desc: "你的鑄造持續時間延長，並會對所有進入遭遇戰的敵人造成傷害並施加【株連】。"
+      desc: "施展鑄造時施加【繫結】效果，並立即根據身處其中的敵人數量，對其造成傷害。"
     },
     {
       id: "hera_dash",
       god: "hera",
-      name: "結緣奔行",
+      name: "聯袂疾馳",
       englishName: "Nexus Sprint",
       slot: "Dash",
       curse: "Hitch",
-      desc: "奔行穿過敵人時會對其施加【株連】狀態，並向相鄰的其它敵人擴散。"
+      desc: "奔行時對接觸之敵人施加【繫結】效果，並造成傷害。"
     },
     {
       id: "hera_gain",
@@ -169,168 +169,168 @@ const hades2BoonsData = {
       englishName: "Born Gain",
       slot: "Gain",
       curse: "None",
-      desc: "當你的魔力歸零時，立即將其全數補滿，但會預留一部分的最大魔力。"
+      desc: "在魔力用罄時預留魔力，回復全部魔力，直到下一個遭遇戰地點。"
     },
 
-    // --- 波塞頓 Poseidon ---
+    // --- 波賽頓 Poseidon ---
     {
       id: "poseidon_attack",
       god: "poseidon",
-      name: "海浪打擊",
+      name: "震浪湧擊",
       englishName: "Wave Strike",
       slot: "Attack",
       curse: "Slip",
-      desc: "攻擊附帶水花濺射與擊退，並施加【打滑】狀態。"
+      desc: "使出普通攻擊時能掀起波瀾，將敵人擊退並施加【浪沫】狀態。"
     },
     {
       id: "poseidon_special",
       god: "poseidon",
-      name: "海浪絕技",
+      name: "震浪絕技",
       englishName: "Wave Flourish",
       slot: "Special",
       curse: "Slip",
-      desc: "特殊攻擊附帶水花濺射與擊退，並施加【打滑】狀態。"
+      desc: "使出特殊攻擊時能掀起波瀾，將敵人擊退並施加【浪沫】狀態。"
     },
     {
       id: "poseidon_cast",
       god: "poseidon",
-      name: "間歇泉鑄造",
+      name: "狂潮環湧",
       englishName: "Geyser Ring",
       slot: "Cast",
       curse: "None",
-      desc: "你的鑄造在釋放時會召喚巨大的噴泉擊飛並傷害敵人。"
+      desc: "施展鑄造的同時將掀起強力波瀾，造成傷害並對敵人施加【浪沫】效果。"
     },
     {
       id: "poseidon_dash",
       god: "poseidon",
-      name: "擊破奔行",
+      name: "澎湃疾馳",
       englishName: "Breaker Sprint",
       slot: "Dash",
       curse: "Slip",
-      desc: "奔行時撞擊敵人造成浪潮擊退傷害，並施加【打滑】狀態。"
+      desc: "奔行時能夠對首位接觸到的敵人造成傷害，並將其擊退且施加【浪沫】狀態。"
     },
     {
       id: "poseidon_gain",
       god: "poseidon",
-      name: "流水匯流",
+      name: "暴洪滿溢",
       englishName: "Fluid Gain",
       slot: "Gain",
       curse: "None",
-      desc: "擊中敵人時，有機率掉落水珠，拾取可恢復魔力。"
+      desc: "施展 Ω 招式後，短暫回復任何已使用的魔力。"
     },
     {
       id: "poseidon_double_up",
       god: "poseidon",
-      name: "雙重收益",
+      name: "海映雙輝",
       englishName: "Double Up",
       slot: "Passive",
       curse: "None",
-      desc: "所有撿起的資源（金幣、灰燼、生命等）有機會被複製成雙份。"
+      desc: "領取獎勵時，只要該獎勵並非祝福、代達羅斯之錘或稀有資源，有機率額外獲得一份。"
     },
 
     // --- 阿波羅 Apollo ---
     {
       id: "apollo_attack",
       god: "apollo",
-      name: "光耀打擊",
+      name: "新星強擊",
       englishName: "Nova Strike",
       slot: "Attack",
       curse: "Daze",
-      desc: "攻擊傷害增加，且判定範圍擴大，並施加【目眩】狀態。"
+      desc: "普通攻擊能造成更高傷害，影響範圍也擴大，並施加【眩暈】狀態。"
     },
     {
       id: "apollo_special",
       god: "apollo",
-      name: "光耀絕技",
+      name: "新星絕技",
       englishName: "Nova Flourish",
       slot: "Special",
       curse: "Daze",
-      desc: "特殊攻擊傷害增加，且判定範圍擴大，並施加【目眩】狀態。"
+      desc: "特殊攻擊能造成更高傷害，影響範圍也擴大，並施加【眩暈】狀態。"
     },
     {
       id: "apollo_cast",
       god: "apollo",
-      name: "烈日之環",
+      name: "閃焰環發",
       englishName: "Solar Ring",
       slot: "Cast",
       curse: "Daze",
-      desc: "你的鑄造會發射持續的日光脈衝，對範圍內敵人造成持續傷害並施加【目眩】。"
+      desc: "鑄造施加【眩暈】效果，並在失效前造成爆發傷害。"
     },
     {
       id: "apollo_dash",
       god: "apollo",
-      name: "炫目奔行",
+      name: "炫目疾馳",
       englishName: "Blinding Sprint",
       slot: "Dash",
       curse: "Daze",
-      desc: "奔行速度大幅提升，並會對附近的敵人施加【目眩】。"
+      desc: "能奔行得更快，並對周圍敵人施加【眩暈】效果。"
     },
     {
       id: "apollo_gain",
       god: "apollo",
-      name: "明光匯流",
+      name: "澄光滿盈",
       englishName: "Lucid Gain",
       slot: "Gain",
       curse: "None",
-      desc: "當你站在你的鑄造範圍內時，魔力會逐漸恢復。"
+      desc: "每當鑄造消散時，回復一些魔力。"
     },
 
     // --- 阿芙蘿黛蒂 Aphrodite ---
     {
       id: "aphrodite_attack",
       god: "aphrodite",
-      name: "心動打擊",
+      name: "愛戀重擊",
       englishName: "Flutter Strike",
       slot: "Attack",
       curse: "Weak",
-      desc: "攻擊對貼身近距離敵人造成極高的爆發傷害，並施加【虛弱】狀態。"
+      desc: "普通攻擊對附近的敵人造成更高的傷害，並施加【虛弱】狀態。"
     },
     {
       id: "aphrodite_special",
       god: "aphrodite",
-      name: "心動絕技",
+      name: "愛戀絕技",
       englishName: "Flutter Flourish",
       slot: "Special",
       curse: "Weak",
-      desc: "特殊攻擊對貼身近距離敵人造成極高的爆發傷害，並施加【虛弱】狀態。"
+      desc: "特殊攻擊對附近的敵人造成更高的傷害，並施加【虛弱】狀態。"
     },
     {
       id: "aphrodite_cast",
       god: "aphrodite",
-      name: "淪陷之環",
+      name: "深情環抱",
       englishName: "Rapture Ring",
       slot: "Cast",
       curse: "Weak",
-      desc: "你的鑄造在釋放時會將附近的敵人吸向中心，並施加【虛弱】。"
+      desc: "鑄造施加【虛弱】效果，將敵人拉向中心並造成傷害。"
     },
     {
       id: "aphrodite_dash",
       god: "aphrodite",
-      name: "激情衝刺",
+      name: "激情疾馳",
       englishName: "Passion Sprint",
       slot: "Dash",
       curse: "Weak",
-      desc: "衝刺在起點和終點對附近的敵人造成傷害並施加【虛弱】。"
+      desc: "奔行時能於起點和終點炸擊周圍敵人，並施加【虛弱】效果。"
     },
     {
       id: "aphrodite_gain",
       god: "aphrodite",
-      name: "翩翩匯流",
+      name: "愛慾滿懷",
       englishName: "Glamour Gain",
       slot: "Gain",
       curse: "None",
-      desc: "當你身處於【虛弱】敵人附近時，魔力會逐漸恢復。此外，每場遭遇戰會有一名敵人自動被施加【虛弱】狀態。"
+      desc: "自動對附近敵人施加【虛弱】效果，在【虛弱】敵人附近時能夠回復魔力。"
     },
 
     // --- 赫斯提亞 Hestia ---
     {
       id: "hestia_attack",
       god: "hestia",
-      name: "烈焰打擊",
+      name: "烈焰灼擊",
       englishName: "Flame Strike",
       slot: "Attack",
       curse: "Scorch",
-      desc: "攻擊使敵人附帶【灼燒】狀態，造成持續燃燒傷害。"
+      desc: "普通攻擊施加【灼燬】效果。"
     },
     {
       id: "hestia_special",
@@ -339,25 +339,25 @@ const hades2BoonsData = {
       englishName: "Flame Flourish",
       slot: "Special",
       curse: "Scorch",
-      desc: "特殊攻擊使敵人附帶【灼燒】狀態，造成持續燃燒傷害。"
+      desc: "特殊攻擊施加【灼燬】效果。"
     },
     {
       id: "hestia_cast",
       god: "hestia",
-      name: "炙烤之環",
+      name: "燻燒火環",
       englishName: "Smolder Ring",
       slot: "Cast",
       curse: "Scorch",
-      desc: "你的鑄造會持續朝中心噴射火花，對範圍內敵人造成超高速的【灼燒】堆疊。"
+      desc: "施展鑄造時，對影響範圍內的敵人重複施加【灼燬】效果。"
     },
     {
       id: "hestia_dash",
       god: "hestia",
-      name: "煤煙奔行",
+      name: "煤焰疾馳",
       englishName: "Soot Sprint",
       slot: "Dash",
       curse: "None",
-      desc: "奔行時消除附近敵方的遠端投射物，並對發射該攻擊的敵人施加【灼燒】。"
+      desc: "在奔行時於身後留下一道餘燼的蹤跡，且每次受到的燒灼傷害上限大幅降低。"
     },
     {
       id: "hestia_gain",
@@ -366,18 +366,18 @@ const hades2BoonsData = {
       englishName: "Hearth Gain",
       slot: "Gain",
       curse: "None",
-      desc: "攻擊與特殊攻擊擊中敵人時可恢復魔力，但你的最大生命值上限會減少 20%。"
+      desc: "普通攻擊或特殊攻擊造成傷害時，能夠回復魔力。"
     },
 
-    // --- 狄蜜特 Demeter ---
+    // --- 荻米特 Demeter ---
     {
       id: "demeter_attack",
       god: "demeter",
-      name: "冰霜打擊",
+      name: "冰霜刺擊",
       englishName: "Frost Strike",
       slot: "Attack",
       curse: "Freeze",
-      desc: "攻擊造成傷害並累積【冰封】狀態。冰封可使敵人暫時無法行動。"
+      desc: "普通攻擊能造成更高傷害，並施加【凍結】效果。"
     },
     {
       id: "demeter_special",
@@ -386,72 +386,72 @@ const hades2BoonsData = {
       englishName: "Frost Flourish",
       slot: "Special",
       curse: "Freeze",
-      desc: "特殊攻擊造成傷害並累積【冰封】狀態。冰封可使敵人暫時無法行動。"
+      desc: "特殊攻擊能造成更高傷害，並施加【凍結】效果。"
     },
     {
       id: "demeter_cast",
       god: "demeter",
-      name: "北極之環",
+      name: "飛霜環旋",
       englishName: "Arctic Ring",
       slot: "Cast",
       curse: "Cyclone",
-      desc: "你的鑄造範圍內颳起【冰旋風】，對接觸的敵人造成減速與微量持續傷害。"
+      desc: "鑄造能於有效範圍內持續對敵人造成傷害，並施加【凍結】效果。"
     },
     {
       id: "demeter_dash",
       god: "demeter",
-      name: "凜風奔行",
+      name: "凜風疾馳",
       englishName: "Frigid Sprint",
       slot: "Dash",
       curse: "Cyclone",
-      desc: "奔行時在周圍形成一道旋風，停止後仍會持續存在並施加冰旋風。"
+      desc: "奔行結束時，在周圍形成一陣暫留於該處的緩速風暴。"
     },
     {
       id: "demeter_gain",
       god: "demeter",
-      name: "謐靜之利",
+      name: "謐靜滿庭",
       englishName: "Tranquil Gain",
       slot: "Gain",
       curse: "None",
-      desc: "當你停止行動 1 秒後，魔力會快速恢復。"
+      desc: "靜止不動時開始快速回復魔力，直到再次做出行動。"
     },
 
     // --- 赫菲斯托斯 Hephaestus ---
     {
       id: "hephaestus_attack",
       god: "hephaestus",
-      name: "火山打擊",
+      name: "燄山痛擊",
       englishName: "Volcanic Strike",
       slot: "Attack",
       curse: "Vent",
-      desc: "攻擊會觸發一場巨大的轟擊（有冷卻時間），爆發後對敵人附加【回火】狀態。"
+      desc: "使出普通攻擊時能引發轟擊，造成巨大的範圍傷害（具有數秒冷卻時間）。"
     },
     {
       id: "hephaestus_special",
       god: "hephaestus",
-      name: "火山絕技",
+      name: "燄山絕技",
       englishName: "Volcanic Flourish",
       slot: "Special",
       curse: "Vent",
-      desc: "特殊攻擊會觸發一場巨大的轟擊（有冷卻時間），爆發後對敵人附加【回火】狀態。"
+      desc: "使用特殊攻擊時能引發轟擊，造成巨大的範圍傷害（具有數秒冷卻時間）。"
     },
     {
       id: "hephaestus_cast",
       god: "hephaestus",
-      name: "鐵砧鑄造",
+      name: "錘砧環落",
       englishName: "Anvil Ring",
       slot: "Cast",
       curse: "None",
-      desc: "你的鑄造在啟動時會產生一次沉重打擊，使範圍內敵人受到重創，並提供防禦護甲。"
+      desc: "鑄造能對影響範圍內的敵人連續造成多次傷害。"
     },
     {
       id: "hephaestus_dash",
       god: "hephaestus",
-      name: "鍛造奔行",
+      name: "烙鐵疾馳",
       englishName: "Smithy Sprint",
       slot: "Dash",
       curse: "None",
-      desc: "奔行時產生震波擊飛敵人，且可擋下前方的投射物。"
+      desc: "若奔行後有敵人在附近，能夠引發轟擊，造成大範圍傷害。"
     },
     {
       id: "hephaestus_gain",
@@ -460,36 +460,36 @@ const hades2BoonsData = {
       englishName: "Fixed Gain",
       slot: "Gain",
       curse: "None",
-      desc: "減少你受到的傷害，且每當你受到傷害時，會恢復魔力。"
+      desc: "受到傷害時能抵擋部分傷害，並回復魔力。"
     },
 
-    // --- 荷米斯 Hermes ---
+    // --- 赫米斯 Hermes ---
     {
       id: "hermes_attack_speed",
       god: "hermes",
-      name: "迅捷打擊",
+      name: "身手矯健",
       englishName: "Swift Strike",
       slot: "Passive",
       curse: "None",
-      desc: "普通攻擊的速度大幅提升。"
+      desc: "使出普通攻擊、使用特殊攻擊和施展鑄造的速度更快。"
     },
     {
       id: "hermes_special_speed",
       god: "hermes",
-      name: "迅捷絕技",
+      name: "精力充沛",
       englishName: "Swift Flourish",
       slot: "Passive",
       curse: "None",
-      desc: "特殊攻擊的速度大幅提升。"
+      desc: "施展 Ω 招式的速度更快。"
     },
     {
       id: "hermes_dodge",
       god: "hermes",
-      name: "敏銳迴避",
+      name: "急速閃躲",
       englishName: "Greater Evasion",
       slot: "Passive",
       curse: "None",
-      desc: "提升閃避攻擊的機率。"
+      desc: "獲得閃避機率以及移動速度，擁有的祝福數量越多，機率與速度越高。"
     },
 
     // ==========================================
@@ -498,11 +498,11 @@ const hades2BoonsData = {
     {
       id: "duo_golden_rule",
       god: "poseidon",
-      name: "黃金法則",
+      name: "漣漪效應",
       englishName: "Golden Rule",
       slot: "Duo",
       curse: "None",
-      desc: "你持有的金幣越多，造成的傷害越高（每 100 金幣約增加 +5% 全域傷害）。",
+      desc: "來自赫拉和波賽頓的 Ω 招式效果有機率生效 2 次。",
       prerequisites: {
         gods: ["poseidon", "hera"],
         requirements: [
@@ -520,11 +520,11 @@ const hades2BoonsData = {
     {
       id: "duo_sunny_disposition",
       god: "apollo",
-      name: "輝耀天災",
+      name: "轟烈浩劫",
       englishName: "Sunny Disposition",
       slot: "Duo",
       curse: "None",
-      desc: "你的 Ω鑄造可額外引導+30魔力，使範圍內敵人反覆受到天雷轟擊。",
+      desc: "施展 Ω 鑄造時能進一步消耗額外魔力，使法陣中的敵人重複受到天雷劈擊。",
       prerequisites: {
         gods: ["apollo", "zeus"],
         requirements: [
@@ -542,11 +542,11 @@ const hades2BoonsData = {
     {
       id: "duo_burning_desire",
       god: "hestia",
-      name: "燃燒渴望",
+      name: "熱浪來襲",
       englishName: "Burning Desire",
       slot: "Duo",
       curse: "None",
-      desc: "對受有【虛弱】狀態的敵人，身上的【灼燒】堆疊在造成傷害時不會消減，使灼燒持續更長時間。",
+      desc: "灼燬效果對虛弱敵人造成傷害時，灼燬值不會消減。",
       prerequisites: {
         gods: ["hestia", "aphrodite"],
         requirements: [
@@ -564,11 +564,11 @@ const hades2BoonsData = {
     {
       id: "duo_hail_storm",
       god: "demeter",
-      name: "冰雹風暴",
+      name: "漫天落雹",
       englishName: "Hail Storm",
       slot: "Duo",
       curse: "None",
-      desc: "你的【冰封】效果觸發後，會使被冰封的敵人反覆遭到閃電轟擊（每 0.5 秒造成 30 點閃電傷害）。",
+      desc: "凍結效果將同時引來天雷劈擊，重複擊中無法動彈的敵人。",
       prerequisites: {
         gods: ["demeter", "zeus"],
         requirements: [
@@ -586,11 +586,11 @@ const hades2BoonsData = {
     {
       id: "duo_aether",
       god: "hera",
-      name: "以太（Aether）",
+      name: "魂牽夢縈",
       englishName: "Aether",
       slot: "Duo",
       curse: "None",
-      desc: "只要遭遇戰中有多名敵人存在，就會自動對其中一名敵人施加【魅惑】效果，使其暫時轉為友軍協助戰鬥。",
+      desc: "只要遭遇戰中有多個敵人，自動使其中 1 個身負魅惑效果協助戰鬥。",
       prerequisites: {
         gods: ["hera", "aphrodite"],
         requirements: [
@@ -608,11 +608,11 @@ const hades2BoonsData = {
     {
       id: "duo_chain_reaction",
       god: "hephaestus",
-      name: "連鎖反應",
+      name: "煉鎖反應",
       englishName: "Chain Reaction",
       slot: "Duo",
       curse: "None",
-      desc: "若你的赫菲斯托斯爆震技能剛充能完成後的 2 秒內立即使用，會連續觸發 2 次爆震效果。",
+      desc: "若在赫菲斯托斯的轟擊效果就緒時立即使用，將引發 2 次轟擊。",
       prerequisites: {
         gods: ["hephaestus", "hestia"],
         requirements: [
@@ -638,7 +638,7 @@ const hades2BoonsData = {
       englishName: "To The King",
       slot: "Legendary",
       curse: "None",
-      desc: "您的閃電技能會連續額外打擊一次，且霹靂起爆所需傷害減少 30 點。",
+      desc: "天雷效果有機率能劈擊多次，且雷霆引爆所需累計傷害更低。",
       prerequisites: {
         gods: ["zeus"],
         requirements: [
@@ -660,7 +660,7 @@ const hades2BoonsData = {
       englishName: "Greatest Bounty",
       slot: "Legendary",
       curse: "None",
-      desc: "戰鬥結束後掉落的所有基礎道具、金幣、最大生命與魔力均以雙倍結算。",
+      desc: "戰鬥結束後掉落的所有基礎道具、金幣均以雙倍結算（祝福與代達羅斯之錘除外）。",
       prerequisites: {
         gods: ["poseidon"],
         requirements: [
@@ -678,11 +678,11 @@ const hades2BoonsData = {
     {
       id: "legendary_demeter",
       god: "demeter",
-      name: "嚴冬降臨",
+      name: "冬令割獲",
       englishName: "Winter Harvest",
       slot: "Legendary",
       curse: "None",
-      desc: "受有【冰封】的敵人生命值低於 10%時會瞬間被粉碎秒殺，並對周圍引發冰碎擴散冰封。",
+      desc: "身負凍結效果的敵人的生命值在 10% 以下時立即粉碎秒殺，並對周圍引發範圍傷害與凍結。",
       prerequisites: {
         gods: ["demeter"],
         requirements: [

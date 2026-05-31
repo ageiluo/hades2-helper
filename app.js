@@ -583,14 +583,14 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       // 找出還缺少的狀態詛咒
       const allCursesInfo = [
-        { key: "Blitz", god: "zeus", name: "霹靂", godZh: "宙斯" },
-        { key: "Hitch", god: "hera", name: "株連", godZh: "赫拉" },
-        { key: "Slip", god: "poseidon", name: "打滑", godZh: "波塞頓" },
-        { key: "Daze", god: "apollo", name: "目眩", godZh: "阿波羅" },
+        { key: "Blitz", god: "zeus", name: "雷霆", godZh: "宙斯" },
+        { key: "Hitch", god: "hera", name: "繫結", godZh: "赫拉" },
+        { key: "Slip", god: "poseidon", name: "浪沫", godZh: "波賽頓" },
+        { key: "Daze", god: "apollo", name: "眩暈", godZh: "阿波羅" },
         { key: "Weak", god: "aphrodite", name: "虛弱", godZh: "阿芙蘿黛蒂" },
-        { key: "Scorch", god: "hestia", name: "灼燒", godZh: "赫斯提亞" },
-        { key: "Freeze", god: "demeter", name: "冰封", godZh: "狄蜜特" },
-        { key: "Vent", god: "hephaestus", name: "回火", godZh: "赫菲斯托斯" }
+        { key: "Scorch", god: "hestia", name: "灼燬", godZh: "赫斯提亞" },
+        { key: "Freeze", god: "demeter", name: "凍結", godZh: "荻米特" },
+        { key: "Vent", god: "hephaestus", name: "鑠金", godZh: "赫菲斯托斯" }
       ];
 
       const missingCurses = allCursesInfo.filter(c => !activeCurses.has(c.key));
@@ -918,13 +918,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let arcanaAdvise = "【XIV. 起源】（狀態詛咒增傷）、【VI. 復仇三女神】（鑄造增傷）";
 
     if (equippedGods.has("poseidon") && equippedGods.has("hera")) {
-      weaponAdvise = "您已選擇【姊妹雙刃】。其特技扇形飛刀能完美觸發波塞頓特技擊退，配合赫拉攻擊掛株連，分享全場傷害！";
+      weaponAdvise = "您已選擇【姊妹雙刃】。其特技扇形飛刀能完美觸發波賽頓特殊擊退，配合赫拉攻擊掛繫結，分享全場傷害！";
       arcanaAdvise = "極力推薦啟用【XIV. 起源】與【IX. 命運】（利於獲取所需祝福）。";
     } else if (equippedGods.has("apollo")) {
-      weaponAdvise = "您已選擇【女巫之杖】。利用其超長打擊距離配合阿波羅大範圍鑄造【烈日之環】安全輸出。";
+      weaponAdvise = "您已選擇【女巫之杖】。利用其超長打擊距離配合阿波羅大範圍鑄造【閃焰環發】安全輸出。";
       arcanaAdvise = "必點奧秘【VI. 復仇三女神】（鑄造增傷）與【XIV. 起源】。";
     } else if (equippedGods.has("hephaestus") && equippedGods.has("hestia")) {
-      weaponAdvise = "您已選擇【月石之斧】。利用重斧極高單次面板，完美搭配赫菲斯托斯火山打擊的冷卻大爆炸！";
+      weaponAdvise = "您已選擇【月石之斧】。利用重斧極高單次面板，完美搭配赫菲斯托斯【燄山痛擊】的冷卻大爆炸！";
       arcanaAdvise = "推薦啟用【XXIII. 力量】（低血高防護盾）與【X. 巨力】（增加打擊力度）。";
     }
 
@@ -1066,7 +1066,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function translateCurse(curse) {
-    const zh = { Blitz: "霹靂 (宙斯)", Hitch: "株連 (赫拉)", Slip: "打滑 (波塞頓)", Daze: "目眩 (阿波羅)", Weak: "虛弱 (阿芙蘿黛蒂)", Scorch: "灼燒 (赫斯提亞)", Freeze: "冰封 (狄蜜特)", Cyclone: "冰旋風 (狄蜜特)", Vent: "回火 (赫菲斯托斯)" };
+    const zh = { Blitz: "雷霆 (宙斯)", Hitch: "繫結 (赫拉)", Slip: "浪沫 (波賽頓)", Daze: "眩暈 (阿波羅)", Weak: "虛弱 (阿芙蘿黛蒂)", Scorch: "灼燬 (赫斯提亞)", Freeze: "凍結 (荻米特)", Cyclone: "冰旋風 (荻米特)", Vent: "鑠金 (赫菲斯托斯)" };
     return zh[curse] || curse;
   }
 
@@ -1234,13 +1234,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const matrixGods = [
       { key: "zeus", name: "宙斯 (Zeus)" },
       { key: "hera", name: "赫拉 (Hera)" },
-      { key: "poseidon", name: "波塞頓 (Poseidon)" },
+      { key: "poseidon", name: "波賽頓 (Poseidon)" },
       { key: "apollo", name: "阿波羅 (Apollo)" },
       { key: "aphrodite", name: "阿芙蘿黛蒂 (Aphrodite)" },
       { key: "hestia", name: "赫斯提亞 (Hestia)" },
-      { key: "demeter", name: "狄蜜特 (Demeter)" },
+      { key: "demeter", name: "荻米特 (Demeter)" },
       { key: "hephaestus", name: "赫菲斯托斯 (Hephaestus)" },
-      { key: "hermes", name: "荷米斯 (Hermes)" }
+      { key: "hermes", name: "赫米斯 (Hermes)" }
     ];
 
     let theadHtml = `<thead><tr><th>橫縱軸神明</th>`;
