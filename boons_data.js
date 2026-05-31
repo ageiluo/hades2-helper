@@ -104,7 +104,7 @@ const hades2BoonsData = {
       englishName: "Thunder Sprint",
       slot: "Dash",
       curse: "None",
-      desc: "奔行時引來天雷劈擊，對周圍敵人造成傷害，每次消耗魔力。"
+      desc: "奔行（衝刺）時引來天雷劈擊，對周圍敵人造成傷害。"
     },
     {
       id: "zeus_gain",
@@ -179,8 +179,8 @@ const hades2BoonsData = {
       name: "震浪湧擊",
       englishName: "Wave Strike",
       slot: "Attack",
-      curse: "Slip",
-      desc: "使出普通攻擊時能掀起波瀾，將敵人擊退並施加【浪沫】狀態。"
+      curse: "None",
+      desc: "使出普通攻擊時能掀起波瀾，將敵人擊退。"
     },
     {
       id: "poseidon_special",
@@ -188,8 +188,8 @@ const hades2BoonsData = {
       name: "震浪絕技",
       englishName: "Wave Flourish",
       slot: "Special",
-      curse: "Slip",
-      desc: "使出特殊攻擊時能掀起波瀾，將敵人擊退並施加【浪沫】狀態。"
+      curse: "None",
+      desc: "使出特殊攻擊時能掀起波瀾，將敵人擊退。"
     },
     {
       id: "poseidon_cast",
@@ -197,7 +197,7 @@ const hades2BoonsData = {
       name: "狂潮環湧",
       englishName: "Geyser Ring",
       slot: "Cast",
-      curse: "None",
+      curse: "Slip",
       desc: "施展鑄造的同時將掀起強力波瀾，造成傷害並對敵人施加【浪沫】效果。"
     },
     {
@@ -206,8 +206,8 @@ const hades2BoonsData = {
       name: "澎湃疾馳",
       englishName: "Breaker Sprint",
       slot: "Dash",
-      curse: "Slip",
-      desc: "奔行時能夠對首位接觸到的敵人造成傷害，並將其擊退且施加【浪沫】狀態。"
+      curse: "None",
+      desc: "奔行時能夠對首位接觸到的敵人造成傷害，並將其擊退。"
     },
     {
       id: "poseidon_gain",
@@ -235,8 +235,8 @@ const hades2BoonsData = {
       name: "新星強擊",
       englishName: "Nova Strike",
       slot: "Attack",
-      curse: "Daze",
-      desc: "普通攻擊能造成更高傷害，影響範圍也擴大，並施加【眩暈】狀態。"
+      curse: "None",
+      desc: "普通攻擊能造成更高傷害，影響範圍也擴大。"
     },
     {
       id: "apollo_special",
@@ -244,8 +244,8 @@ const hades2BoonsData = {
       name: "新星絕技",
       englishName: "Nova Flourish",
       slot: "Special",
-      curse: "Daze",
-      desc: "特殊攻擊能造成更高傷害，影響範圍也擴大，並施加【眩暈】狀態。"
+      curse: "None",
+      desc: "特殊攻擊能造成更高傷害，影響範圍也擴大。"
     },
     {
       id: "apollo_cast",
@@ -357,7 +357,7 @@ const hades2BoonsData = {
       englishName: "Soot Sprint",
       slot: "Dash",
       curse: "None",
-      desc: "在奔行時於身後留下一道餘燼的蹤跡，且每次受到的燒灼傷害上限大幅降低。"
+      desc: "在奔行時於身後留下一道餘燼的蹤跡，且每次受到的燒灼傷害上限為 15 點。"
     },
     {
       id: "hestia_gain",
@@ -413,7 +413,7 @@ const hades2BoonsData = {
       englishName: "Tranquil Gain",
       slot: "Gain",
       curse: "None",
-      desc: "靜止不動時開始快速回復魔力，直到再次做出行動。"
+      desc: "靜止不動 1 秒後開始快速回復魔力，直到再次做出行動。"
     },
 
     // --- 赫菲斯托斯 Hephaestus ---
@@ -634,11 +634,11 @@ const hades2BoonsData = {
     {
       id: "legendary_zeus",
       god: "zeus",
-      name: "眾神之王",
-      englishName: "To The King",
+      name: "神雷轟頂",
+      englishName: "Divine Lightning",
       slot: "Legendary",
       curse: "None",
-      desc: "天雷效果有機率能劈擊多次，且雷霆引爆所需累計傷害更低。",
+      desc: "大部分敵人在首度受到傷害時，有機率直接被天雷劈中秒殺。",
       prerequisites: {
         gods: ["zeus"],
         requirements: [
@@ -656,11 +656,11 @@ const hades2BoonsData = {
     {
       id: "legendary_poseidon",
       god: "poseidon",
-      name: "深海恩賜",
+      name: "深海恩澤",
       englishName: "Greatest Bounty",
       slot: "Legendary",
       curse: "None",
-      desc: "戰鬥結束後掉落的所有基礎道具、金幣均以雙倍結算（祝福與代達羅斯之錘除外）。",
+      desc: "任何冒險與金幣獎勵都更加豐厚，並立即獲得金幣、生命值與冥府獎勵。",
       prerequisites: {
         gods: ["poseidon"],
         requirements: [
