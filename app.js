@@ -1310,12 +1310,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pathBoonName = document.getElementById("path-boon-name");
   const pathTypeBadge = document.getElementById("path-type-badge");
   const pathDescText = document.getElementById("path-desc-text");
-  
-  const pathStep1Title = document.getElementById("path-step1-title");
-  const pathStep1Options = document.getElementById("path-step1-options");
-  const pathStep2Box = document.getElementById("path-step2-box");
-  const pathStep2Title = document.getElementById("path-step2-title");
-  const pathStep2Options = document.getElementById("path-step2-options");
+  const pathFlowchart = document.getElementById("path-flowchart");
   
   const pathGauge = document.getElementById("path-progress-gauge");
   const pathPercentNum = document.getElementById("path-percent-num");
@@ -1341,22 +1336,29 @@ document.addEventListener("DOMContentLoaded", () => {
     // 渲染前置條件選項
     const reqs = boon.prerequisites.requirements;
     
-    // 渲染第一步 (God A)
-    const req1 = reqs[0];
-    const god1 = hades2BoonsData.gods[req1.god];
-    pathStep1Title.textContent = `${god1.name} 前置祝福需求（以下任選一項）`;
-    renderPathOptions(pathStep1Options, req1.options);
-
-    // 渲染第二步 (God B) - 傳奇祝福通常只有一步，雙重祝福有兩步
-    if (reqs.length > 1) {
-      pathStep2Box.style.display = "block";
-      const req2 = reqs[1];
-      const god2 = hades2BoonsData.gods[req2.god];
-      pathStep2Title.textContent = `${god2.name} 前置祝福需求（以下任選一項）`;
-      renderPathOptions(pathStep2Options, req2.options);
-    } else {
-      pathStep2Box.style.display = "none";
-    }
+    // 清空動態步驟容器
+    pathFlowchart.innerHTML = "";
+    
+    reqs.forEach((req, index) => {
+      const god = hades2BoonsData.gods[req.god];
+      if (!god) return;
+      
+      const stepBox = document.createElement("div");
+      stepBox.className = "flowchart-step";
+      
+      const stepTitle = document.createElement("div");
+      stepTitle.className = "step-title";
+      stepTitle.textContent = `${god.name.split(" ")[0]} 前置需求集 ${index + 1}（以下任選一項）`;
+      
+      const stepOptionsList = document.createElement("div");
+      stepOptionsList.className = "step-options-list";
+      
+      stepBox.appendChild(stepTitle);
+      stepBox.appendChild(stepOptionsList);
+      pathFlowchart.appendChild(stepBox);
+      
+      renderPathOptions(stepOptionsList, req.options);
+    });
 
     updatePathProgress();
   }

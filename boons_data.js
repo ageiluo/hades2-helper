@@ -124,6 +124,15 @@ const hades2BoonsData = {
       curse: "None",
       desc: "天雷效果有機率能劈擊 2 次。"
     },
+    {
+      id: "zeus_focus_lightning",
+      god: "zeus",
+      name: "靜電釋放",
+      englishName: "Static Discharge / Focus Lightning",
+      slot: "Passive",
+      curse: "None",
+      desc: "你的雷霆（Blitz）效果觸發時，會對周圍其他敵人造成連鎖電擊。"
+    },
 
     // --- 赫拉 Hera ---
     {
@@ -170,6 +179,33 @@ const hades2BoonsData = {
       slot: "Gain",
       curse: "None",
       desc: "在魔力用罄時預留魔力，回復全部魔力，直到下一個遭遇戰地點。"
+    },
+    {
+      id: "hera_decay",
+      god: "hera",
+      name: "元素凋零",
+      englishName: "Boon Decay",
+      slot: "Passive",
+      curse: "None",
+      desc: "你所擁有的力量等級（Pom Level）最低的祝福，其等級提升。"
+    },
+    {
+      id: "hera_global",
+      god: "hera",
+      name: "萬象更新",
+      englishName: "Common Global Damage",
+      slot: "Passive",
+      curse: "None",
+      desc: "擁有的每種元素（火、風、土、水、以太）使你造成的傷害提升。"
+    },
+    {
+      id: "hera_share",
+      god: "hera",
+      name: "繫結強化",
+      englishName: "Damage Share Potency",
+      slot: "Passive",
+      curse: "None",
+      desc: "身負【繫結】效果的敵人受到的分享傷害比例提升。"
     },
 
     // --- 波賽頓 Poseidon ---
@@ -227,6 +263,24 @@ const hades2BoonsData = {
       curse: "None",
       desc: "領取獎勵時，只要該獎勵並非祝福、代達羅斯之錘或稀有資源，有機率額外獲得一份。"
     },
+    {
+      id: "poseidon_room_reward",
+      god: "poseidon",
+      name: "深海恩澤",
+      englishName: "Room Reward Bonus",
+      slot: "Passive",
+      curse: "None",
+      desc: "任何冒險與金幣獎勵都更加豐厚，並立即獲得金幣、生命值與冥府獎勵。"
+    },
+    {
+      id: "poseidon_status",
+      god: "poseidon",
+      name: "浪打路滑",
+      englishName: "Poseidon Status",
+      slot: "Passive",
+      curse: "None",
+      desc: "波賽頓賦予之波瀾效果同時對敵人施加【浪沫】效果，且受擊傷害提升。"
+    },
 
     // --- 阿波羅 Apollo ---
     {
@@ -273,6 +327,24 @@ const hades2BoonsData = {
       slot: "Gain",
       curse: "None",
       desc: "每當鑄造消散時，回復一些魔力。"
+    },
+    {
+      id: "apollo_blind",
+      god: "apollo",
+      name: "眩暈機率",
+      englishName: "Blind Chance",
+      slot: "Passive",
+      curse: "None",
+      desc: "你的攻擊與特技擊中敵人時，有機率對其施加【眩暈】狀態。"
+    },
+    {
+      id: "apollo_area",
+      god: "apollo",
+      name: "法陣擴大",
+      englishName: "Solar Area",
+      slot: "Passive",
+      curse: "None",
+      desc: "你的法陣（鑄造）範圍更廣，影響面積大幅提升。"
     },
 
     // --- 阿芙蘿黛蒂 Aphrodite ---
@@ -321,6 +393,24 @@ const hades2BoonsData = {
       curse: "None",
       desc: "自動對附近敵人施加【虛弱】效果，在【虛弱】敵人附近時能夠回復魔力。"
     },
+    {
+      id: "aphrodite_vulnerability",
+      god: "aphrodite",
+      name: "弱不禁風",
+      englishName: "Empty Inside / Weak Vulnerability",
+      slot: "Passive",
+      curse: "None",
+      desc: "【虛弱】狀態的持續時間延長，且受影響的敵人受到的傷害增加。"
+    },
+    {
+      id: "aphrodite_high_health",
+      god: "aphrodite",
+      name: "恃強凌弱",
+      englishName: "High Health Offense",
+      slot: "Passive",
+      curse: "None",
+      desc: "當你的生命值在 80% 以上時，造成的傷害提升。"
+    },
 
     // --- 赫斯提亞 Hestia ---
     {
@@ -367,6 +457,24 @@ const hades2BoonsData = {
       slot: "Gain",
       curse: "None",
       desc: "普通攻擊或特殊攻擊造成傷害時，能夠回復魔力。"
+    },
+    {
+      id: "hestia_armor",
+      god: "hestia",
+      name: "灼燬破甲",
+      englishName: "Burn Armor",
+      slot: "Passive",
+      curse: "None",
+      desc: "你的【灼燬】效果對護甲造成的傷害提升。"
+    },
+    {
+      id: "hestia_stack",
+      god: "hestia",
+      name: "火上澆油",
+      englishName: "Burn Stack",
+      slot: "Passive",
+      curse: "None",
+      desc: "你的【灼燬】效果在敵人身上疊加的速度加快。"
     },
 
     // --- 荻米特 Demeter ---
@@ -415,6 +523,24 @@ const hades2BoonsData = {
       curse: "None",
       desc: "靜止不動 1 秒後開始快速回復魔力，直到再次做出行動。"
     },
+    {
+      id: "demeter_growth",
+      god: "demeter",
+      name: "枝梢展翠",
+      englishName: "Boon Growth",
+      slot: "Passive",
+      curse: "None",
+      desc: "每隔幾場遭遇戰，將會為一個隨機的祝福提升稀有度。"
+    },
+    {
+      id: "demeter_shield",
+      god: "demeter",
+      name: "珍存護盾",
+      englishName: "Reserve Mana Hit Shield",
+      slot: "Passive",
+      curse: "None",
+      desc: "預留部分最大魔力，獲得一層能抵擋一次傷害的護盾（每場遭遇戰重新整理）。"
+    },
 
     // --- 赫菲斯托斯 Hephaestus ---
     {
@@ -461,6 +587,24 @@ const hades2BoonsData = {
       slot: "Gain",
       curse: "None",
       desc: "受到傷害時能抵擋部分傷害，並回復魔力。"
+    },
+    {
+      id: "hephaestus_heavy_armor",
+      god: "hephaestus",
+      name: "重裝防護",
+      englishName: "Heavy Armor",
+      slot: "Passive",
+      curse: "None",
+      desc: "受到的傷害減少，且你在戰鬥中能獲得額外的護甲上限。"
+    },
+    {
+      id: "hephaestus_massive_damage",
+      god: "hephaestus",
+      name: "巨量傷害",
+      englishName: "Massive Damage",
+      slot: "Passive",
+      curse: "None",
+      desc: "當你的【鑠金】（Vent）冷卻完畢並觸發時，對主要目標造成額外巨量傷害。"
     },
 
     // --- 赫米斯 Hermes ---
@@ -524,17 +668,17 @@ const hades2BoonsData = {
       englishName: "Sunny Disposition",
       slot: "Duo",
       curse: "None",
-      desc: "施展 Ω 鑄造時能進一步消耗額外魔力，使法陣中的敵人重複受到天雷劈擊。",
+      desc: "引導施展 Ω 鑄造時能進一步消耗魔力，使法陣中的敵人重複受到天雷劈擊。",
       prerequisites: {
         gods: ["apollo", "zeus"],
         requirements: [
           {
             god: "apollo",
-            options: ["apollo_attack", "apollo_special", "apollo_cast"]
+            options: ["apollo_cast"]
           },
           {
             god: "zeus",
-            options: ["zeus_attack", "zeus_special", "zeus_cast"]
+            options: ["zeus_attack", "zeus_special", "zeus_cast", "zeus_dash", "zeus_gain"]
           }
         ]
       }
@@ -644,11 +788,41 @@ const hades2BoonsData = {
         requirements: [
           {
             god: "zeus",
-            options: ["zeus_double_strike"]
+            options: ["zeus_attack", "zeus_special", "zeus_cast", "zeus_dash", "zeus_gain"]
           },
           {
             god: "zeus",
-            options: ["zeus_attack", "zeus_special", "zeus_cast"]
+            options: ["zeus_focus_lightning"]
+          },
+          {
+            god: "zeus",
+            options: ["zeus_double_strike"]
+          }
+        ]
+      }
+    },
+    {
+      id: "legendary_hera",
+      god: "hera",
+      name: "萬素具備",
+      englishName: "King of Kings / Queen's Bounty",
+      slot: "Legendary",
+      curse: "None",
+      desc: "獲得所有元素，且每種元素使你的祝福力量等級 +1。",
+      prerequisites: {
+        gods: ["hera"],
+        requirements: [
+          {
+            god: "hera",
+            options: ["hera_attack", "hera_special", "hera_cast", "hera_dash"]
+          },
+          {
+            god: "hera",
+            options: ["hera_decay", "hera_global"]
+          },
+          {
+            god: "hera",
+            options: ["hera_share"]
           }
         ]
       }
@@ -656,21 +830,103 @@ const hades2BoonsData = {
     {
       id: "legendary_poseidon",
       god: "poseidon",
-      name: "深海恩澤",
-      englishName: "Greatest Bounty",
+      name: "巨浪濤天",
+      englishName: "Amplify Cone / Greatest Bounty",
       slot: "Legendary",
       curse: "None",
-      desc: "任何冒險與金幣獎勵都更加豐厚，並立即獲得金幣、生命值與冥府獎勵。",
+      desc: "波賽頓賦予之波瀾效果影響範圍更大，且對首領造成更高傷害。",
       prerequisites: {
         gods: ["poseidon"],
         requirements: [
           {
             god: "poseidon",
-            options: ["poseidon_double_up"]
+            options: ["poseidon_attack", "poseidon_special"]
           },
           {
             god: "poseidon",
-            options: ["poseidon_attack", "poseidon_special", "poseidon_cast"]
+            options: ["poseidon_cast", "poseidon_dash", "poseidon_gain"]
+          },
+          {
+            god: "poseidon",
+            options: ["poseidon_status", "poseidon_double_up"]
+          }
+        ]
+      }
+    },
+    {
+      id: "legendary_apollo",
+      god: "apollo",
+      name: "才華洋溢",
+      englishName: "Exceptionally Talented",
+      slot: "Legendary",
+      curse: "None",
+      desc: "你的 Ω 招式造成 2 次傷害，但需要消耗更多魔力。",
+      prerequisites: {
+        gods: ["apollo"],
+        requirements: [
+          {
+            god: "apollo",
+            options: ["apollo_attack", "apollo_special"]
+          },
+          {
+            god: "apollo",
+            options: ["apollo_cast", "apollo_dash", "apollo_gain"]
+          },
+          {
+            god: "apollo",
+            options: ["apollo_blind", "apollo_area"]
+          }
+        ]
+      }
+    },
+    {
+      id: "legendary_aphrodite",
+      god: "aphrodite",
+      name: "楚楚可憐",
+      englishName: "Pure Beauty",
+      slot: "Legendary",
+      curse: "None",
+      desc: "施加【虛弱】效果時，同時隨機施加其他奧林帕斯眾神的狀態詛咒。",
+      prerequisites: {
+        gods: ["aphrodite"],
+        requirements: [
+          {
+            god: "aphrodite",
+            options: ["aphrodite_cast", "aphrodite_dash", "aphrodite_gain"]
+          },
+          {
+            god: "aphrodite",
+            options: ["aphrodite_attack", "aphrodite_special"]
+          },
+          {
+            god: "aphrodite",
+            options: ["aphrodite_vulnerability", "aphrodite_high_health"]
+          }
+        ]
+      }
+    },
+    {
+      id: "legendary_hestia",
+      god: "hestia",
+      name: "破陣惹火",
+      englishName: "Pyrotechnics",
+      slot: "Legendary",
+      curse: "None",
+      desc: "你的法陣能摧毀敵人的遠程投彈，並對開火的敵人施加【灼燬】效果。",
+      prerequisites: {
+        gods: ["hestia"],
+        requirements: [
+          {
+            god: "hestia",
+            options: ["hestia_attack", "hestia_special", "hestia_cast"]
+          },
+          {
+            god: "hestia",
+            options: ["hestia_armor", "hestia_stack"]
+          },
+          {
+            god: "hestia",
+            options: ["hestia_dash", "hestia_gain"]
           }
         ]
       }
@@ -689,6 +945,40 @@ const hades2BoonsData = {
           {
             god: "demeter",
             options: ["demeter_attack", "demeter_special", "demeter_cast"]
+          },
+          {
+            god: "demeter",
+            options: ["demeter_growth", "demeter_shield"]
+          },
+          {
+            god: "demeter",
+            options: ["demeter_dash", "demeter_gain"]
+          }
+        ]
+      }
+    },
+    {
+      id: "legendary_hephaestus",
+      god: "hephaestus",
+      name: "巧奪天工",
+      englishName: "Master Artificer",
+      slot: "Legendary",
+      curse: "None",
+      desc: "你的闇夜武器之隨選型態（Aspect）效果更加強大。",
+      prerequisites: {
+        gods: ["hephaestus"],
+        requirements: [
+          {
+            god: "hephaestus",
+            options: ["hephaestus_attack", "hephaestus_special", "hephaestus_dash"]
+          },
+          {
+            god: "hephaestus",
+            options: ["hephaestus_heavy_armor"]
+          },
+          {
+            god: "hephaestus",
+            options: ["hephaestus_massive_damage"]
           }
         ]
       }
